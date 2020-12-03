@@ -2,6 +2,8 @@ import { useEffect, useContext, useState } from "react";
 import Router from "next/router";
 import { globalUser, userContext } from "../contexts/userContext";
 import { silentRefresh } from "../util/functions";
+import client from "../graphql/client";
+import userQuery from "../graphql/userQuery";
 
 interface userOptions {
 	redirectTo: string;
@@ -21,17 +23,20 @@ const useUser = (options: userOptions): User => {
 
 	useEffect(() => {
 		setLoading(true);
-		if (!accessToken) {
-			// silent refresh
-			(async () => {
+		(async () => {
+			if (!accessToken) {
 				const token = await silentRefresh();
+				console.log(token);
 				if (!token) {
 					// Router.push(options.redirectTo, options.as)
 				} else {
 					setAccessToken(token);
 				}
-			})();
-		}
+			} else {
+				const userData = await client.query({ query: userQuery, context: { headers: {} } });
+				console.log(userData);
+			}
+		})();
 	}, [accessToken]);
 
 	return { ...context, loading };
