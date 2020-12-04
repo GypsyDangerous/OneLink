@@ -1,8 +1,6 @@
-import useUser from "../hooks/useUser";
 import { useEffect, useState } from "react";
-import loginMutation from "../graphql/loginMutation";
-import client from "../graphql/client";
 import { setAccessToken } from "../auth/accessToken";
+import Router from "next/router"
 
 export default function Home() {
 	const [loading, setLoading] = useState<boolean>(true);
@@ -14,6 +12,7 @@ export default function Home() {
 		}).then(async x => {
 			const { accessToken } = await x.json();
 			setAccessToken(accessToken);
+			if(!accessToken) Router.push("/landing", "/")
 			setLoading(false);
 		});
 	}, []);
