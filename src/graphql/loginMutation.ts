@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from "@apollo/client"
 
 export default gql`
 	mutation Login($email: String!, $password: String!) {
@@ -9,4 +9,4 @@ export default gql`
 			token
 		}
 	}
-`;
+`
