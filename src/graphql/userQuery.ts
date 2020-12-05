@@ -3,7 +3,7 @@ import { gql } from "@apollo/client";
 
 export default gql`
 	query User {
-		user {
+		me {
 			bio
 			email
 			photo
