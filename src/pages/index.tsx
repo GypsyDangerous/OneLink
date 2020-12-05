@@ -8,7 +8,7 @@ import useUser from "../hooks/useUser";
 export default function Home() {
 	// const [loading, setLoading] = useState<boolean>(true)
 
-	const { loading } = useUser({ redirectTo: "/landing", as: "/" });
+	const { loading } = useUser({ redirectTo: "/landing", as: "/", loggedInRedirect: "/admin" });
 
 	if (loading) {
 		return <h1>loading...</h1>;
