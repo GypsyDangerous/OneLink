@@ -10,13 +10,14 @@ interface userOptions {
 	redirectTo?: string;
 	as?: string;
 	refresh?: boolean;
+	redirectIfLoggedIn?: boolean;
 }
 
 interface User extends globalUser {
 	loading: boolean;
 }
 
-const useUser = ({ refresh, redirectTo, as }: userOptions = {}): User => {
+const useUser = ({ refresh, redirectTo, as, redirectIfLoggedIn }: userOptions = {}): User => {
 	const context = useContext(userContext);
 	const [loading, setLoading] = useState(true);
 	if (!context) throw new Error("useUser can only be used within a userContextProvider");
@@ -46,14 +47,16 @@ const useUser = ({ refresh, redirectTo, as }: userOptions = {}): User => {
 		(async () => {
 			if (accessToken) {
 				const userData = await client.query({ query: userQuery, context: { headers: {} } });
-				console.log(userData);
-
-				setLoading(false);
-			} else if (redirectTo) {
+				setUser(userData);
+				if (redirectIfLoggedIn) {
+					Router.push(redirectTo, as);
+				}
+			} else if (redirectTo && !redirectIfLoggedIn) {
 				Router.push(redirectTo, as);
 			}
+			setLoading(false);
 		})();
-	}, [accessToken]);
+	}, [accessToken, redirectTo, as, redirectIfLoggedIn]);
 
 	return { ...context, loading };
 };
