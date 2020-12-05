@@ -1,25 +1,26 @@
 import { useEffect, useState } from "react";
-import { setAccessToken } from "../auth/accessToken";
-import Router from "next/router"
+import { getAccessToken } from "../auth/accessToken";
+import Router from "next/router";
+import { useMutation } from "@apollo/client";
+import loginMutation from "../graphql/loginMutation";
+import useUser from "../hooks/useUser";
 
 export default function Home() {
-	const [loading, setLoading] = useState<boolean>(true);
+	// const [loading, setLoading] = useState<boolean>(true);
+
+	const { loading } = useUser();
 
 	useEffect(() => {
-		fetch(`${process.env.NEXT_PUBLIC_API_URL}/refresh_token`, {
-			method: "POST",
-			credentials: "include",
-		}).then(async x => {
-			const { accessToken } = await x.json();
-			setAccessToken(accessToken);
-			if(!accessToken) Router.push("/landing", "/")
-			setLoading(false);
-		});
-	}, []);
+		if (!loading) {
+			if (!getAccessToken()) {
+				Router.push("/landing");
+			}
+		}
+	}, [loading]);
 
-	if (loading) {
-		return <h1>loading...</h1>;
-	}
+	// if (loading) {
+	// 	return <h1>loading...</h1>;
+	// }
 
 	return (
 		<div>
