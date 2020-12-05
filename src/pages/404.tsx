@@ -1,4 +1,4 @@
-import Link from "next/link"
+import Link from "next/link";
 
 function CustomError() {
 	return (
@@ -13,7 +13,7 @@ function CustomError() {
 				<a href="#">Back to homepage</a>
 			</div>
 		</div>
-	)
+	);
 }
 
-export default CustomError
+export default CustomError;
