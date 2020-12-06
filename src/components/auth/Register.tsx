@@ -5,8 +5,12 @@ import TextField from "@material-ui/core/TextField";
 import FormButton from "./FormButton";
 import { H1, HR } from "../shared/Headers.styled";
 import GoogleButton from "./GoogleButton.styled";
+import { useForm } from "../../hooks/useForm";
+import Input from "../shared/Input";
 
 const Register = ({ ...props }) => {
+	const [formState, inputHandler, setFormData] = useForm({}, {});
+
 	return (
 		<RegisterComponent {...props}>
 			<H1>Register</H1>
@@ -15,21 +19,34 @@ const Register = ({ ...props }) => {
 					e.preventDefault();
 				}}
 			>
-				<TextField
+				<Input
+					validators={[]}
+					value=""
+					onInput={inputHandler}
 					id="username"
 					name="username"
-					label="Username"
-					variant="outlined"
+					placeholder="Username"
+					type="text"
 					required
 				/>
-				<TextField required id="email" name="username" label="Email" variant="outlined" />
-				<TextField
+				<Input
+					validators={[]}
+					value=""
+					onInput={inputHandler}
+					id="email"
+					name="email"
+					placeholder="Email"
 					required
-					type="password"
-					id="create-password"
+				/>
+				<Input
+					validators={[]}
+					value=""
+					onInput={inputHandler}
+					id="password"
 					name="create-password"
-					label="Password"
-					variant="outlined"
+					placeholder="Password"
+					type="password"
+					required
 				/>
 				<HR />
 				<GoogleButton type="button">

@@ -10,6 +10,7 @@ const GoogleButton = styled(FormButton)`
 		justify-self: flex-end;
 		margin-right: .5rem;
 	}
+	
 `
 
 export default GoogleButton

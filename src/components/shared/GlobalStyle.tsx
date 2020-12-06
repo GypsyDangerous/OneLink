@@ -29,19 +29,20 @@ const GlobalStyle = createGlobalStyle`
 	
 	::-webkit-scrollbar {
     width: 8px;
-}
+	}	
  
-::-webkit-scrollbar-track {
-	background: var(--clr-primary-300)
-}
+	::-webkit-scrollbar-track {
+		background: var(--clr-primary-300)
+	}
  
-::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-	background: #28BF7B;
-}
+	::-webkit-scrollbar-thumb {
+    	border-radius: 10px;
+		background: #28BF7B;
+	}
 
-
-	  
+	.MuiFormHelperText-contained{
+		margin-left: 0px !important;
+	}	  
 `;
 
 export default GlobalStyle;
