@@ -63,7 +63,7 @@ const useUser = ({ refresh, redirectTo, as, loggedInRedirect }: userOptions = {}
 				}, 100);
 			})();
 		}
-	}, [accessToken, loading, redirectTo, as, tokenRefreshed]);
+	}, [accessToken, redirectTo, as, tokenRefreshed]);
 
 	return { ...context, loading };
 };
