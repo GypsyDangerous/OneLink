@@ -1,9 +1,11 @@
-import { AnimateSharedLayout, motion } from "framer-motion";
+import { AnimateSharedLayout, useViewportScroll, motion } from "framer-motion";
 import Link from "next/link";
 import styled from "styled-components";
 import { useRouter } from "next/router";
+import { useWindowScroll } from "react-use";
+import { useRef } from "react";
 
-const HeaderComponent = styled.header`
+const HeaderComponent = styled(motion.header)`
 	height: 70px;
 	/* outline: solid; */
 	position: fixed;
@@ -43,16 +45,30 @@ const HeaderLink = styled.a`
 
 const Underline = styled(motion.div)`
 	position: absolute;
-	border-bottom: 3px solid black;
+	border-bottom: 3px solid;
 	width: 100%;
 	bottom: -3px;
 `;
 
+const headerVariants = {
+	top: {
+		background: "rgba(0, 0, 0, 0)",
+		color: "rgb(255, 255, 255)"
+	},
+	scrolled: {
+		color: "rgb(255, 255, 255)",
+		background: "rgba(0, 0, 0, 1)",
+	},
+};
+
 const Header = () => {
 	const router = useRouter();
 	const { type } = router.query;
+	const { scrollYProgress } = useViewportScroll();
+	const { y } = useWindowScroll();
+
 	return (
-		<HeaderComponent>
+		<HeaderComponent variants={headerVariants} transition={{duration: .5}} animate={y > 100 ? "scrolled" : "top"}>
 			<HeaderContent>
 				<Link href="/">
 					<a>

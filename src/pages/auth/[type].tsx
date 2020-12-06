@@ -9,6 +9,8 @@ import Link from "next/link";
 
 const AuthPage = styled.div`
 	min-height: 100vh;
+	background: var(--clr-primary-300);
+	color: var(--clr-neutral-100);
 	display: flex;
 	justify-content: center;
 	align-items: center;
