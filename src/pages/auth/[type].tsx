@@ -102,9 +102,6 @@ const registerBar = {
 const Auth = ({ type }) => {
 	useUser({ loggedInRedirect: "/admin" });
 
-	// if (type === "login") return <Login />;
-	// if (type === "register") return <Register />;
-	console.log(type);
 	return (
 		<AuthPage>
 			<AuthContainer>
