@@ -18,6 +18,7 @@
     "apollo-link-error": "^1.1.13",
     "apollo-link-http": "^1.5.17",
     "apollo-link-token-refresh": "^0.3.2",
+    "chroma-js": "^2.1.0",
     "fetch-cookie": "^0.11.0",
     "framer-motion": "^2.9.5",
     "graphql": "^15.4.0",
@@ -31,6 +32,7 @@
     "use-http": "^1.0.16"
   },
   "devDependencies": {
+    "@types/chroma-js": "^2.1.2",
     "@types/node": "^14.14.10",
     "babel-plugin-styled-components": "^1.12.0",
     "typescript": "^4.1.2"
