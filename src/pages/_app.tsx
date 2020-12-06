@@ -4,6 +4,8 @@ import { UserContextProvider } from "../contexts/userContext";
 import { ApolloProvider } from "@apollo/client";
 import client from "../graphql/client";
 import useUser from "../hooks/useUser";
+import Header from "../components/Header";
+import styled from "styled-components";
 
 // import FingerprintJS from '@fingerprintjs/fingerprintjs'
 
@@ -20,6 +22,7 @@ import useUser from "../hooks/useUser";
 //   console.log(visitorId)
 // })()
 
+
 function App({ children }) {
 	const { loading, ...userData } = useUser({ refresh: true });
 
@@ -27,7 +30,7 @@ function App({ children }) {
 		<>
 			<SEO title="OneLink | Get Started" />
 			<GlobalStyle />
-
+			<Header />
 			{children}
 		</>
 	);
