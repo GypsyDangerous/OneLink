@@ -53,7 +53,7 @@ const Underline = styled(motion.div)`
 const headerVariants = {
 	top: {
 		background: "rgba(0, 0, 0, 0)",
-		color: "rgb(255, 255, 255)"
+		color: "rgb(255, 255, 255)",
 	},
 	scrolled: {
 		color: "rgb(255, 255, 255)",
@@ -64,11 +64,14 @@ const headerVariants = {
 const Header = () => {
 	const router = useRouter();
 	const { type } = router.query;
-	const { scrollYProgress } = useViewportScroll();
 	const { y } = useWindowScroll();
 
 	return (
-		<HeaderComponent variants={headerVariants} transition={{duration: .5}} animate={y > 100 ? "scrolled" : "top"}>
+		<HeaderComponent
+			variants={headerVariants}
+			transition={{ duration: 0.5, ease: "easeInOut" }}
+			animate={y > 100 ? "scrolled" : "top"}
+		>
 			<HeaderContent>
 				<Link href="/">
 					<a>

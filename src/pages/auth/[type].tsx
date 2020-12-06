@@ -6,6 +6,7 @@ import useUser from "../../hooks/useUser";
 import { motion, AnimatePresence } from "framer-motion";
 import styled from "styled-components";
 import Link from "next/link";
+import FormButton, { FormLink } from "../../components/auth/FormButton";
 
 const AuthPage = styled.div`
 	min-height: 100vh;
@@ -17,6 +18,9 @@ const AuthPage = styled.div`
 `;
 
 const AuthContainer = styled(motion.div)`
+	box-sizing: content-box;
+	background: var(--clr-primary-400);
+	padding: 3rem 0;
 	width: 50%;
 	min-height: 400px;
 	box-shadow: 5px 5px 30px -7px rgba(0, 0, 0, 0.5);
@@ -30,15 +34,16 @@ const AuthContainer = styled(motion.div)`
 `;
 
 const AuthInfo = styled(motion.div)`
+	z-index: 5;
 	position: absolute;
 	top: 0;
 	width: 50%;
 	height: 100%;
-	background: linear-gradient(45deg, #28bf7b 1.69%, #4556df 100%);
+	background: var(--gradient-accent-200);
 	color: white;
 	overflow: hidden;
 	& > div {
-		padding: 0 1rem;
+		padding: 0 1.5rem;
 		text-align: center;
 		gap: 2rem;
 		position: absolute;
@@ -102,7 +107,7 @@ const Auth = ({ type }) => {
 								<h1>Hello, Friend!</h1>
 								<p>Enter your details and start your journey with us.</p>
 								<Link href="register">
-									<a>Register</a>
+									<FormLink>Register</FormLink>
 								</Link>
 							</motion.div>
 						) : (
@@ -119,19 +124,32 @@ const Auth = ({ type }) => {
 									details.
 								</p>
 								<Link href="login">
-									<a>Login</a>
+									<FormLink>Login</FormLink>
 								</Link>
 							</motion.div>
 						)}
 					</AnimatePresence>
 				</AuthInfo>
 				<AuthForms>
-					<div>
-						<Register />
-					</div>
-					<div>
-						<Login />
-					</div>
+					<AnimatePresence>
+						{type === "login" ? (
+							<Login
+								key="login"
+								transition={transition}
+								initial={{ x: "50%", opacity: 0 }}
+								animate={{ x: "100%", opacity: 1 }}
+								exit={{ x: "50%", opacity: 0 }}
+							/>
+						) : (
+							<Register
+								key="register"
+								transition={transition}
+								initial={{ x: "50%", opacity: 0 }}
+								animate={{ x: "0%", opacity: 1 }}
+								exit={{ x: "50%", opacity: 0 }}
+							/>
+						)}
+					</AnimatePresence>
 				</AuthForms>
 			</AuthContainer>
 		</AuthPage>

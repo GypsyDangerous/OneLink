@@ -6,7 +6,10 @@ import client from "../graphql/client";
 import useUser from "../hooks/useUser";
 import Header from "../components/Header";
 import styled from "styled-components";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { useMemo } from "react";
 // import FingerprintJS from '@fingerprintjs/fingerprintjs'
 
 // (async () => {
@@ -22,17 +25,28 @@ import styled from "styled-components";
 //   console.log(visitorId)
 // })()
 
-
 function App({ children }) {
 	const { loading, ...userData } = useUser({ refresh: true });
 
+	const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+
+	const theme = useMemo(
+		() =>
+			createMuiTheme({
+				palette: {
+					type: prefersDarkMode ? "dark" : "light",
+				},
+			}),
+		[prefersDarkMode]
+	);
+
 	return (
-		<>
+		<ThemeProvider theme={theme}>
 			<SEO title="OneLink | Get Started" />
 			<GlobalStyle />
 			<Header />
 			{children}
-		</>
+		</ThemeProvider>
 	);
 }
 
