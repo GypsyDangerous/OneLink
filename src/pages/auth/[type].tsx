@@ -81,24 +81,6 @@ const sidebar = {
 	},
 };
 
-const loginBar = {
-	register: {
-		x: "-100%",
-	},
-	login: {
-		x: "0%",
-	},
-};
-
-const registerBar = {
-	register: {
-		x: "0%",
-	},
-	login: {
-		x: "100%",
-	},
-};
-
 const Auth = ({ type }) => {
 	useUser({ loggedInRedirect: "/admin" });
 
