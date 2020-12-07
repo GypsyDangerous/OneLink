@@ -3,8 +3,8 @@ import Link from "next/link";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { useWindowScroll } from "react-use";
-import { useRef } from "react";
-import { getAccessToken } from "../auth/accessToken";
+import { useRef, useState } from "react";
+import { getAccessToken, setAccessToken } from "../auth/accessToken";
 
 const HeaderComponent = styled(motion.header)`
 	height: 70px;
@@ -69,6 +69,7 @@ const Header = () => {
 	const { type } = router.query;
 	const { y } = useWindowScroll();
 	const token = getAccessToken();
+	const [state, setState] = useState(null);
 
 	return (
 		<HeaderComponent
@@ -83,7 +84,7 @@ const Header = () => {
 					</a>
 				</Link>
 				<Buttons>
-					{!token && (
+					{!token ? (
 						<AnimateSharedLayout>
 							<HeaderLink>
 								<Link href="/auth/login">
@@ -106,6 +107,15 @@ const Header = () => {
 								</Link>
 							</HeaderLink>
 						</AnimateSharedLayout>
+					) : (
+						<button
+							onClick={() => {
+								setAccessToken("");
+								setState(Math.random());
+							}}
+						>
+							Logout
+						</button>
 					)}
 				</Buttons>
 			</HeaderContent>
