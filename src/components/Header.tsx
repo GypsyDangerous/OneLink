@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import { useWindowScroll } from "react-use";
 import { useRef } from "react";
+import { getAccessToken } from "../auth/accessToken";
 
 const HeaderComponent = styled(motion.header)`
 	height: 70px;
@@ -38,16 +39,18 @@ const Buttons = styled.div`
 	}
 `;
 
-const HeaderLink = styled.a`
-	position: relative;
-	cursor: pointer;
+const HeaderLink = styled.span`
+	a {
+		position: relative;
+		cursor: pointer;
+	}
 `;
 
 const Underline = styled(motion.div)`
 	position: absolute;
 	border-bottom: 3px solid;
 	width: 100%;
-	bottom: -3px;
+	left: 0;
 `;
 
 const headerVariants = {
@@ -65,6 +68,7 @@ const Header = () => {
 	const router = useRouter();
 	const { type } = router.query;
 	const { y } = useWindowScroll();
+	const token = getAccessToken();
 
 	return (
 		<HeaderComponent
@@ -79,24 +83,30 @@ const Header = () => {
 					</a>
 				</Link>
 				<Buttons>
-					<AnimateSharedLayout>
-						<Link href="/auth/login">
+					{!token && (
+						<AnimateSharedLayout>
 							<HeaderLink>
-								Login
-								{type === "login" && (
-									<Underline layoutId="active-button"></Underline>
-								)}
+								<Link href="/auth/login">
+									<a>
+										Login
+										{type === "login" && (
+											<Underline layoutId="active-button"></Underline>
+										)}
+									</a>
+								</Link>
 							</HeaderLink>
-						</Link>
-						<Link href="/auth/register">
 							<HeaderLink>
-								Register
-								{type === "register" && (
-									<Underline layoutId="active-button"></Underline>
-								)}
+								<Link href="/auth/register">
+									<a>
+										Register
+										{type === "register" && (
+											<Underline layoutId="active-button"></Underline>
+										)}
+									</a>
+								</Link>
 							</HeaderLink>
-						</Link>
-					</AnimateSharedLayout>
+						</AnimateSharedLayout>
+					)}
 				</Buttons>
 			</HeaderContent>
 		</HeaderComponent>
