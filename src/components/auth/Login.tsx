@@ -1,12 +1,14 @@
 import LoginComponent from "./Container.styled";
 import Form from "../shared/Form";
-import TextField from "@material-ui/core/TextField";
 import FormButton, { FormLink } from "./FormButton";
 import { H1, HR } from "../shared/Headers.styled";
 import GoogleButton from "./GoogleButton.styled";
 import Input from "../shared/Input";
 import { useForm } from "../../hooks/useForm";
 import { VALIDATOR_EMAIL } from "../../util/validators";
+import { useMutation } from "@apollo/client";
+import loginMutation from "../../graphql/loginMutation";
+import Router from "next/router";
 
 const Login = ({ ...props }) => {
 	const [formState, inputHandler, setFormData] = useForm(
@@ -23,14 +25,28 @@ const Login = ({ ...props }) => {
 		false
 	);
 
+	const [login, { data }] = useMutation(loginMutation);
+
+	console.log(data)
+
+	const handleSubmit = async e => {
+		// console.log(formState);
+		const variables = Object.fromEntries(
+			Object.entries(formState.inputs).map(([key, val]: any) => [key, val.value])
+		);
+		try {
+			await login({ variables });
+			Router.push("/admin")
+		} catch (err) {
+			console.log(err.message);
+		}
+	};
 
 	return (
 		<LoginComponent {...props}>
 			<H1>Login</H1>
 			<Form
-				onSubmit={e => {
-					e.preventDefault();
-				}}
+				onSubmit={handleSubmit}
 			>
 				<Input
 					validators={[VALIDATOR_EMAIL()]}

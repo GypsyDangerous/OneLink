@@ -10,6 +10,7 @@ import Input from "../shared/Input";
 import RegisterMutation from "../../graphql/registerMutation";
 import { useMutation } from "@apollo/client";
 import { useEffect } from "react";
+import Router from "next/router";
 
 const Register = ({ ...props }) => {
 	const [formState, inputHandler, setFormData] = useForm(
@@ -43,6 +44,7 @@ const Register = ({ ...props }) => {
 		);
 		try {
 			await register({ variables });
+			Router.push("/admin");
 		} catch (err) {
 			console.log(err.message);
 		}
