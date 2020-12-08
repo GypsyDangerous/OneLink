@@ -1,6 +1,5 @@
 import useUser from "../hooks/useUser";
 import styled from "styled-components";
-import Loading from "../components/shared/Loading";
 
 const AdminPage = styled.div`
 	min-height: 100vh;
