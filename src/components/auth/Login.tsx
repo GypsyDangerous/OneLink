@@ -6,10 +6,23 @@ import { H1, HR } from "../shared/Headers.styled";
 import GoogleButton from "./GoogleButton.styled";
 import Input from "../shared/Input";
 import { useForm } from "../../hooks/useForm";
-import {VALIDATOR_EMAIL} from "../../util/validators"
+import { VALIDATOR_EMAIL } from "../../util/validators";
 
 const Login = ({ ...props }) => {
-	const [formState, inputHandler, setFormData] = useForm({}, {});
+	const [formState, inputHandler, setFormData] = useForm(
+		{
+			password: {
+				value: "",
+				isValid: false,
+			},
+			email: {
+				value: "",
+				isValid: false,
+			},
+		},
+		false
+	);
+
 
 	return (
 		<LoginComponent {...props}>

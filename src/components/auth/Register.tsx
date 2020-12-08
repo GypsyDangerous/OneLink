@@ -7,18 +7,51 @@ import { H1, HR } from "../shared/Headers.styled";
 import GoogleButton from "./GoogleButton.styled";
 import { useForm } from "../../hooks/useForm";
 import Input from "../shared/Input";
+import RegisterMutation from "../../graphql/registerMutation";
+import { useMutation } from "@apollo/client";
+import { useEffect } from "react";
 
 const Register = ({ ...props }) => {
-	const [formState, inputHandler, setFormData] = useForm({}, {});
+	const [formState, inputHandler, setFormData] = useForm(
+		{
+			password: {
+				value: "",
+				isValid: false,
+			},
+			email: {
+				value: "",
+				isValid: false,
+			},
+			username: {
+				value: "",
+				isValid: false,
+			},
+		},
+		false
+	);
+
+	const [register, { data }] = useMutation(RegisterMutation);
+
+	useEffect(() => {
+		console.log(data);
+	}, [data]);
+
+	const handleSubmit = async e => {
+		// console.log(formState);
+		const variables = Object.fromEntries(
+			Object.entries(formState.inputs).map(([key, val]: any) => [key, val.value])
+		);
+		try {
+			await register({ variables });
+		} catch (err) {
+			console.log(err.message);
+		}
+	};
 
 	return (
 		<RegisterComponent {...props}>
 			<H1>Register</H1>
-			<Form
-				onSubmit={e => {
-					e.preventDefault();
-				}}
-			>
+			<Form onSubmit={handleSubmit}>
 				<Input
 					validators={[]}
 					value=""
