@@ -1,15 +1,18 @@
 import useUser from "../../hooks/useUser";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-// import {paddingPage} from 
+import { PaddingPage } from "../../components/shared/Page.styled";
 
-const AdminPage = styled.div`
-	min-height: 100vh;
-	background: var(--clr-primary-300);
-	color: var(--clr-neutral-100);
-	display: flex;
+const AdminPage = styled(PaddingPage)`
 	justify-content: center;
 	align-items: center;
+	height: 100%;
+`;
+
+const AdminSection = styled.div`
+	flex: 1 1 50%;
+	outline: solid;
+	align-self: stretch;
 `;
 
 export default function Admin() {
@@ -20,8 +23,8 @@ export default function Admin() {
 		<AdminPage>
 			{!loading && (
 				<>
-					<div></div>
-					<div></div>
+					<AdminSection></AdminSection>
+					<AdminSection></AdminSection>
 				</>
 			)}
 		</AdminPage>
