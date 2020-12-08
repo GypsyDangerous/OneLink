@@ -22,32 +22,20 @@ const useUser = ({ refresh, redirectTo, as, loggedInRedirect }: userOptions = {}
 
 	useEffect(() => {
 		setTokenRefreshed(false);
-		if (refresh) {
-			fetch(`${process.env.NEXT_PUBLIC_API_URL}/refresh_token`, {
-				method: "POST",
-				credentials: "include",
-			}).then(async response => {
-				setTokenRefreshed(true);
-				if (!response.ok) return;
-				const json = await response.json();
-				const { token } = json.data;
-				setAccessToken(token);
-			});
-		}
+		fetch(`${process.env.NEXT_PUBLIC_API_URL}/refresh_token`, {
+			method: "POST",
+			credentials: "include",
+		}).then(async response => {
+			if (!response.ok) return setTokenRefreshed(true);
+			const json = await response.json();
+			const { token } = json.data;
+			setAccessToken(token);
+			setTokenRefreshed(true);
+		});
 	}, []);
 
 	useEffect(() => {
-		if(!tokenRefreshed){
-
-			setLoading(true);
-			if (accessToken && user) {
-				setLoading(false);
-				if (loggedInRedirect) {
-					Router.push(loggedInRedirect);
-				}
-				return;
-			}
-		}
+		setLoading(true);
 		let id: NodeJS.Timeout;
 		let loadingId: NodeJS.Timeout;
 		if (tokenRefreshed) {
@@ -61,12 +49,12 @@ const useUser = ({ refresh, redirectTo, as, loggedInRedirect }: userOptions = {}
 						setUser(userData);
 					}
 					if (loggedInRedirect) {
-						await Router.push(loggedInRedirect);
 						setLoading(false);
+						await Router.push(loggedInRedirect);
 					}
 				} else if (redirectTo) {
-					await Router.push(redirectTo, as);
 					setLoading(false);
+					await Router.push(redirectTo, as);
 				}
 			}, 200);
 			loadingId = setTimeout(() => {
