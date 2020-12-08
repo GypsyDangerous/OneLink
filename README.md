@@ -1,30 +1,123 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<br />
+<p align="center">
+  <a href="#">
+    <h1 align="center">OneLink</h1>
+  </a>
 
-## Getting Started
+  <p align="center">
+    <img alt="License" src="https://img.shields.io/github/license/GypsyDangerous/onelink?style=for-the-badge" />
+    <img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/snyderling_?style=for-the-badge" />
+  </p>
 
-First, run the development server:
+  <p align="center">
+    <!-- <a href="https://bugvilla.herokuapp.com">View Demo</a> -->
+    ·
+    <a href="https://github.com/GypsyDangerous/onelink-server/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/GypsyDangerous/onelink-server/issues">Request Feature</a>
+  </p>
+</p>
 
-```bash
-npm run dev
-# or
-yarn dev
+<p align="center">The only Link you will ever need in your bio. Share all your socials and other links through OneLink.</p>
+
+## ✨ Features
+
+-   WIP
+
+## Tech Stack
+
+| Stack   | -                                                                                                | -                                                                                                 | -                                                                                                | -                                                                                                  | -                                                                                                  |
+| ------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| FrontEnd | <p align="center"><img src="./assets/nextjs-logo.png" width="100" height="100"> <br />Nextjs</p> | <p align="center"><img src="./assets/ts_logo.png" width="100" height="100"> <br />TypeScript</p> | <p align="center"><img src="./assets/styledcompo_logo.png" width="100" height="100"> <br />Styled Component</p> | <p align="center"><img src="./assets/motiuon.png" width="100" height="100"> <br />Framer Motion</p> | <p align="center"><img src="./assets/graphql-logo.png" width="100" height="100"> <br />Graphql</p> |
+
+## :rocket: Quick start
+
+Start developing locally.
+
+### Step 1: Clone the repo
+
+Fork the repository. then clone the repo locally by doing -
+
+```sh
+git clone https://github.com/GypsyDangerous/OneLink.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Step 2: Install Dependencies
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+cd into the directory
 
-## Learn More
+```sh
+cd OneLink
+```
 
-To learn more about Next.js, take a look at the following resources:
+In the root folder do npm install.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```sh
+npm install
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Step 3: Setup .env
 
-## Deploy on Vercel
+To run the server you will also need to provide the `.env` variables
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+-   create a new file .env in the root
+-   open [.env.sample](./.env.sample)
+-   copy the contents and paste it to the .env with valid keys
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### And you are good to go
+
+```sh
+npm run dev
+```
+<!-- 
+## :open_file_folder: What's inside?
+
+A quick look at the folder structure of this project.
+
+    .
+    ├── client
+    |   ├─cypress
+    |   ├─public
+    │   └─src
+    │     ├───@bug-ui
+    │     ├───assets
+    │     ├───components
+    │     ├───hooks
+    │     ├───pages
+    │     ├───store
+    │     ├───styles
+    │     ├───utils
+    │     └───__tests__
+    └── server
+        │
+        ├───controllers
+        ├───middleware
+        ├───models
+        ├───routes
+        ├───tests
+        └───utils
+
+ -->
+## :v: Contributing
+
+After cloning & setting up the local project you can push the changes to your github fork and make a pull request.
+
+> You can also run the tests locally to see if everything works fine with
+
+### Running tests
+
+```bash
+npm run test
+```
+
+### Pushing the changes
+
+```bash
+git add .
+git commit -m "feat: added new stuff"
+git push YOUR_REPO_URL develop
+```
+
+---
+
+Made with :heart: and javascript
