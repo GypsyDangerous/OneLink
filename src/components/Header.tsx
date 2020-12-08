@@ -5,6 +5,9 @@ import { useRouter } from "next/router";
 import { useWindowScroll } from "react-use";
 import { useRef, useState } from "react";
 import { getAccessToken, setAccessToken } from "../auth/accessToken";
+import {useMutation } from "@apollo/client"
+import logoutMutation from "../graphql/logoutMutation"
+import Router from "next/router"
 
 const HeaderComponent = styled(motion.header)`
 	height: 70px;
@@ -71,6 +74,8 @@ const Header = () => {
 	const token = getAccessToken();
 	const [state, setState] = useState(null);
 
+	const [logout, {data}] = useMutation(logoutMutation)
+
 	return (
 		<HeaderComponent
 			variants={headerVariants}
@@ -111,7 +116,9 @@ const Header = () => {
 						<button
 							onClick={() => {
 								setAccessToken("");
-								setState(Math.random());
+								logout()
+								Router.push("/auth/login")
+								// setState(Math.random());
 							}}
 						>
 							Logout
