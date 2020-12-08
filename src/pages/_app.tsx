@@ -10,6 +10,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { useMemo } from "react";
+import Loading from "../components/shared/Loading";
 // import FingerprintJS from '@fingerprintjs/fingerprintjs'
 
 // (async () => {
@@ -45,6 +46,7 @@ function App({ children }) {
 			<SEO title="OneLink | Get Started" />
 			<GlobalStyle />
 			<Header />
+			<Loading loading={loading}/>
 			{children}
 		</ThemeProvider>
 	);
