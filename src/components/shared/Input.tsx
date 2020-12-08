@@ -70,7 +70,7 @@ const CustomInput: FC<Props> = (props: Props) => {
 	};
 
 	const touchHandler = e => {
-		console.log(e.target.value.trim().length);
+		// console.log(e.target.value.trim().length);
 		dispatch({ type: "TOUCH", val: e.target.value, validators: props.validators || [] });
 	};
 
