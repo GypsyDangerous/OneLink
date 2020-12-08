@@ -1,11 +1,8 @@
 import useUser from "../hooks/useUser";
 import styled from "styled-components";
+import Page from "../components/shared/Page.styled"
 
-const AdminPage = styled.div`
-	min-height: 100vh;
-	background: var(--clr-primary-300);
-	color: var(--clr-neutral-100);
-	display: flex;
+const AdminPage = styled(Page)`
 	justify-content: center;
 	align-items: center;
 `;

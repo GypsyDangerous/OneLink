@@ -1,3 +1,5 @@
+import {PaddingPage} from "../components/shared/Page.styled"
+
 export default function Landing() {
-	return <div>Landing page</div>;
+	return <PaddingPage>Landing Page</PaddingPage>;
 }

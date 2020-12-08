@@ -1,14 +1,6 @@
 import useUser from "../hooks/useUser";
 import styled from "styled-components";
-
-const MainPage = styled.div`
-	min-height: 100vh;
-	background: var(--clr-primary-300);
-	color: var(--clr-neutral-100);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-`;
+import {PaddingPage as MainPage} from "../components/shared/Page.styled"
 
 export default function Home() {
 	const { loading } = useUser({ redirectTo: "/landing", as: "/", loggedInRedirect: "/admin" });
