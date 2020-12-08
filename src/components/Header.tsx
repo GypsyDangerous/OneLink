@@ -21,7 +21,7 @@ const HeaderComponent = styled(motion.header)`
 
 const HeaderContent = styled.div`
 	width: 100%;
-	height: 70px;
+	height: 75px;
 	padding: 0 1rem;
 	display: flex;
 	justify-content: space-between;

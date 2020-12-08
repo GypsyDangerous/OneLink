@@ -8,7 +8,7 @@ const Page = styled.div`
 `;
 
 export const PaddingPage = styled(Page)`
-    padding-top: 70px
+    padding-top: 80px
 `
 
 export default Page
