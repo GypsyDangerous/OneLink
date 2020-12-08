@@ -7,10 +7,10 @@ import useUser from "../hooks/useUser";
 import Header from "../components/Header";
 import styled from "styled-components";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import Loading from "../components/shared/Loading";
 // import FingerprintJS from '@fingerprintjs/fingerprintjs'
 
@@ -29,7 +29,7 @@ import Loading from "../components/shared/Loading";
 
 function App({ children }) {
 	const { loading, ...userData } = useUser({ refresh: true });
-	const router = useRouter()
+	const router = useRouter();
 
 	const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
@@ -48,7 +48,7 @@ function App({ children }) {
 			<SEO title="OneLink | Get Started" />
 			<GlobalStyle />
 			{!router?.query?.username && <Header />}
-			<Loading loading={loading}/>
+			<Loading loading={loading} />
 			{children}
 		</ThemeProvider>
 	);
