@@ -11,3 +11,13 @@ export default gql`
 		}
 	}
 `
+
+export const publicUserQuery = gql`
+	query getUser($name: String!) {
+		user(name: $name) {
+			bio
+			username
+			photo
+		}
+	}
+`;
