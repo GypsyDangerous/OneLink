@@ -2,7 +2,10 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 	:root{
-
+		--clr-neutral-100: white;
+		--clr-primary-300: #303030;
+		--clr-primary-400: #212121;
+		--gradient-accent-200: linear-gradient(45deg, #28bf7b 1.69%, #4556df 100%)
 	}
 
     html,
@@ -10,7 +13,7 @@ const GlobalStyle = createGlobalStyle`
     	padding: 0;
         margin: 0;
 		font-family: 'Poppins', sans-serif;
-        overflow: hidden;
+        /* overflow: hidden */
         box-sizing: border-box !important;
     }
 
@@ -25,9 +28,21 @@ const GlobalStyle = createGlobalStyle`
 	}
 	
 	::-webkit-scrollbar {
-		width: 8px;
-	  }
-	  
+    width: 8px;
+	}	
+ 
+	::-webkit-scrollbar-track {
+		background: var(--clr-primary-300)
+	}
+ 
+	::-webkit-scrollbar-thumb {
+    	border-radius: 10px;
+		background: #28BF7B;
+	}
+
+	.MuiFormHelperText-contained{
+		margin-left: 0px !important;
+	}	  
 `;
 
-export default GlobalStyle
+export default GlobalStyle;

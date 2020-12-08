@@ -1,40 +1,73 @@
 import { useEffect, useContext, useState } from "react";
 import Router from "next/router";
 import { globalUser, userContext } from "../contexts/userContext";
-import { silentRefresh } from "../util/functions";
-
+import client from "../graphql/client";
+import userQuery from "../graphql/userQuery";
+import { getAccessToken, setAccessToken } from "../auth/accessToken";
+import useUserContext from "./useUserContext";
 interface userOptions {
-	redirectTo: string;
+	redirectTo?: string;
 	as?: string;
+	refresh?: boolean;
+	loggedInRedirect?: string;
 }
 
-interface User extends globalUser {
-	loading: boolean;
-}
+const useUser = ({ refresh, redirectTo, as, loggedInRedirect }: userOptions = {}): globalUser => {
+	const context = useUserContext();
 
-const useUser = (options: userOptions): User => {
-	const context = useContext(userContext);
-	const [loading, setLoading] = useState(true);
-	if (!context) throw new Error("useUser can only be used within a userContextProvider");
+	const [tokenRefreshed, setTokenRefreshed] = useState(false);
+	const accessToken = getAccessToken();
 
-	const { setUser, accessToken, setAccessToken } = context;
+	const { setUser, user, setLoading, loading } = context;
+
+	useEffect(() => {
+		setTokenRefreshed(false);
+		fetch(`${process.env.NEXT_PUBLIC_API_URL}/refresh_token`, {
+			method: "POST",
+			credentials: "include",
+		}).then(async response => {
+			if (!response.ok) return setTokenRefreshed(true);
+			const json = await response.json();
+			const { token } = json.data;
+			setAccessToken(token);
+			setTokenRefreshed(true);
+		});
+	}, []);
 
 	useEffect(() => {
 		setLoading(true);
-		if (!accessToken) {
-			// silent refresh
-			(async () => {
-				const token = await silentRefresh();
-				if (!token) {
-					// Router.push(options.redirectTo, options.as)
-				} else {
-					setAccessToken(token);
+		let id: NodeJS.Timeout;
+		let loadingId: NodeJS.Timeout;
+		if (tokenRefreshed) {
+			id = setTimeout(async () => {
+				if (accessToken) {
+					if (!user) {
+						const userData = await client.query({
+							query: userQuery,
+							context: { headers: {} },
+						});
+						setUser(userData);
+					}
+					if (loggedInRedirect) {
+						setLoading(false);
+						await Router.push(loggedInRedirect);
+					}
+				} else if (redirectTo) {
+					setLoading(false);
+					await Router.push(redirectTo, as);
 				}
-			})();
+			}, 200);
+			loadingId = setTimeout(() => {
+				setLoading(false);
+			}, 100);
 		}
-	}, [accessToken]);
+		return () => {
+			clearTimeout(id);
+			clearTimeout(loadingId);
+		};
+	}, [accessToken, redirectTo, as, tokenRefreshed]);
 
-	return { ...context, loading };
+	return { ...context };
 };
 
 export default useUser;
