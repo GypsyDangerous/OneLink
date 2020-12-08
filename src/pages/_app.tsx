@@ -47,7 +47,7 @@ function App({ children }) {
 		<ThemeProvider theme={theme}>
 			<SEO title="OneLink | Get Started" />
 			<GlobalStyle />
-			{!router?.query?.username && <Header />}
+			{!router?.query?.username && router.pathname !== "/404" && <Header />}
 			<Loading loading={loading} />
 			{children}
 		</ThemeProvider>
