@@ -60,8 +60,9 @@ const PreviewSection = styled.div`
 const PreviewBody = styled.div`
 	width: 340px;
 	height: 650px;
-	background: black;
-	border-radius: 1.5rem;
+	border: 10px solid black;
+	background: #212121;
+	border-radius: 2rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -132,10 +133,10 @@ export default function Admin() {
 								<h1>Add New</h1>
 								<AddLinkBody>
 									<AddLinkSection>
-										<h2>Popular Links</h2>
+										<h2>Links</h2>
 									</AddLinkSection>
 									<AddLinkSection>
-										<h2>Embed</h2>
+										<h2>Embeds</h2>
 									</AddLinkSection>
 								</AddLinkBody>
 							</ContentSection>
