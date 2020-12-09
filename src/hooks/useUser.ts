@@ -36,18 +36,16 @@ const useUser = ({ refresh, redirectTo, as, loggedInRedirect }: userOptions = {}
 
 	useEffect(() => {
 		setLoading(true);
-		let id: NodeJS.Timeout;
-		let loadingId: NodeJS.Timeout;
+		let id: number;
+		let loadingId: number;
 		if (tokenRefreshed) {
 			id = setTimeout(async () => {
 				if (accessToken) {
-					if (!user) {
-						const userData = await client.query({
-							query: userQuery,
-							context: { headers: {} },
-						});
-						setUser(userData);
-					}
+					const userData = await client.query({
+						query: userQuery,
+						context: { headers: {} },
+					});
+					setUser(userData?.data?.me);
 					if (loggedInRedirect) {
 						setLoading(false);
 						await Router.push(loggedInRedirect);

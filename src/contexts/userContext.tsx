@@ -2,8 +2,14 @@ import { SetStateAction } from "react";
 import { Dispatch } from "react";
 import { createContext, useState } from "react";
 
+export interface User{
+	username?: string,
+	photo?: string,
+	email?: string,
+}
+
 export interface globalUser {
-	user: {};
+	user: User;
 	accessToken: string | null;
 	setUser: Dispatch<SetStateAction<{}>>;
 	setAccessToken: Dispatch<SetStateAction<{}>>;
