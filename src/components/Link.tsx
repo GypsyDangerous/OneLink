@@ -6,7 +6,7 @@ const LinkComponent = styled.li`
 		display: inline-block;
 	}
 	text-align: center;
-	margin: 2rem !important;
+	margin: 1rem !important;
 	border: 2px solid white;
 	display: block;
 	&:first-child {
