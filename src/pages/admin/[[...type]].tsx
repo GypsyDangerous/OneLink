@@ -4,20 +4,16 @@ import { useRouter } from "next/router";
 import { PaddingPage } from "../../components/shared/Page.styled";
 import { Avatar } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { useMemo, useState } from "react";
-import Reorder, {
-	reorder,
-	reorderImmutable,
-	reorderFromTo,
-	reorderFromToImmutable,
-} from "react-reorder";
+import { useState } from "react";
+import Reorder, { reorder } from "react-reorder";
 import LinkComponent from "../../components/Link";
 import Link from "next/link";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import LinkIcon from "@material-ui/icons/Link";
+import { motion, AnimateSharedLayout } from "framer-motion";
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
 	createStyles({
 		large: {
 			width: "100px",
@@ -61,6 +57,9 @@ const SectionHeader = styled.div`
 	background: var(--clr-primary-300);
 	a {
 		/* font-weight: bold; */
+		outline: none;
+		position: relative;
+		display: inline-block;
 		margin: 0 2rem;
 	}
 `;
@@ -143,13 +142,26 @@ const LinkItem = styled.div`
 	}
 `;
 
+const Underline = styled(motion.div)`
+	position: absolute;
+	border-bottom: 3px solid;
+	width: 100%;
+	left: 0;
+	bottom: -3px;
+`;
+
 export default function Admin() {
 	const {
 		loading,
 		user: { username },
 	} = useUser({ redirectTo: "/auth/login" });
 	const router = useRouter();
+	const {
+		query: { type },
+	} = router;
 	const classes = useStyles();
+
+	const section = type?.[0];
 
 	const [links, setLinks] = useState([]);
 
@@ -159,15 +171,30 @@ export default function Admin() {
 				<>
 					<AdminSection left>
 						<SectionHeader>
-							<Link href="/admin">
-								<a>Content</a>
-							</Link>
-							<Link href="/admin/customize">
-								<a>Customize</a>
-							</Link>
-							<Link href="/admin/analytics">
-								<a>Content</a>
-							</Link>
+							<AnimateSharedLayout>
+								<Link href="/admin">
+									<a>
+										Content
+										{!section && <Underline layoutId="section-header" />}
+									</a>
+								</Link>
+								<Link href="/admin/customize">
+									<a>
+										Customize
+										{section === "customize" && (
+											<Underline layoutId="section-header" />
+										)}
+									</a>
+								</Link>
+								<Link href="/admin/analytics">
+									<a>
+										Analytics
+										{section === "analytics" && (
+											<Underline layoutId="section-header" />
+										)}
+									</a>
+								</Link>
+							</AnimateSharedLayout>
 						</SectionHeader>
 						<ContentBody>
 							<ContentSection solid>
@@ -214,10 +241,10 @@ export default function Admin() {
 								</AddLinkBody>
 							</ContentSection>
 							<ContentSection>
-								<h1>Contact Info</h1>
+								<h1 style={{ color: "white" }}>Contact Info</h1>
 							</ContentSection>
 							<ContentSection>
-								<h1>Content</h1>
+								<h1 style={{ color: "white" }}>Content</h1>
 								<Reorder
 									reorderId="my-list" // Unique ID that is used internally to track this list (required)
 									reorderGroup="reorder-group" // A group ID that allows items to be dragged between lists of the same group (optional)
@@ -225,7 +252,7 @@ export default function Admin() {
 									placeholderClassName="placeholder" // Class name to be applied to placeholder elements (optional), defaults to 'placeholder'
 									draggedClassName="dragged" // Class name to be applied to dragged elements (optional), defaults to 'dragged'
 									lock="horizontal" // Lock the dragging direction (optional): vertical, horizontal (do not use with groups)
-									onReorder={(event, previousIndex, nextIndex, fromId, toId) => {
+									onReorder={(event, previousIndex, nextIndex) => {
 										setLinks(prev => {
 											const copy = [...prev];
 											const previous = copy[previousIndex];
