@@ -150,6 +150,90 @@ const Underline = styled(motion.div)`
 	bottom: -3px;
 `;
 
+const Content = ({ links, setLinks }) => (
+	<>
+		<ContentSection solid>
+			<h1>Add New</h1>
+			<AddLinkBody>
+				<AddLinkSection>
+					<h2>Link</h2>
+					<div>
+						<LinkItem>
+							<LinkIcon />
+						</LinkItem>
+						<LinkItem>
+							<img src="/twitter.svg" alt="" />
+						</LinkItem>
+						<LinkItem>
+							<img src="/tiktok.png" alt="" />
+						</LinkItem>
+						<LinkItem>
+							<img src="/instagram.svg" alt="" />
+						</LinkItem>
+						<LinkItem>
+							<img src="/snapchat.svg" alt="" />
+						</LinkItem>
+						<LinkItem>
+							<img src="/twitch.webp" alt="" />
+						</LinkItem>
+						<LinkItem>
+							<img src="/facebook.svg" alt="" />
+						</LinkItem>
+						<LinkItem>
+							<img src="/spotify.png" alt="" />
+						</LinkItem>
+						<LinkItem>
+							<img src="/discord-round.svg" alt="" />
+						</LinkItem>
+						<LinkItem>
+							<img src="/youtube.svg" alt="" />
+						</LinkItem>
+					</div>
+				</AddLinkSection>
+				<AddLinkSection>
+					<h2>Embed</h2>
+				</AddLinkSection>
+			</AddLinkBody>
+		</ContentSection>
+		<ContentSection>
+			<h1 style={{ color: "white" }}>Contact Info</h1>
+		</ContentSection>
+		<ContentSection>
+			<h1 style={{ color: "white" }}>Content</h1>
+			<Reorder
+				reorderId="my-list" // Unique ID that is used internally to track this list (required)
+				reorderGroup="reorder-group" // A group ID that allows items to be dragged between lists of the same group (optional)
+				component="ul" // Tag name or Component to be used for the wrapping element (optional), defaults to 'div'
+				placeholderClassName="placeholder" // Class name to be applied to placeholder elements (optional), defaults to 'placeholder'
+				draggedClassName="dragged" // Class name to be applied to dragged elements (optional), defaults to 'dragged'
+				lock="horizontal" // Lock the dragging direction (optional): vertical, horizontal (do not use with groups)
+				onReorder={(event, previousIndex, nextIndex) => {
+					setLinks(prev => {
+						const copy = [...prev];
+						const previous = copy[previousIndex];
+						const next = copy[nextIndex];
+						let temp = next.order;
+						next.order = previous.order;
+						previous.order = temp;
+						return reorder(copy, previousIndex, nextIndex);
+					});
+				}} // Callback when an item is dropped (you will need this to update your state)
+				autoScroll={true} // Enable auto-scrolling when the pointer is close to the edge of the Reorder component (optional), defaults to true
+				disableContextMenus={true} // Disable context menus when holding on touch devices (optional), defaults to true
+				placeholder={
+					<div style={{ height: "25px", background: "blue" }} /> // Custom placeholder element (optional), defaults to clone of dragged element
+				}
+			>
+				{links.map(link => (
+					<div key={link.order}>
+						{link.order}: {link.name}
+					</div>
+				))}
+			</Reorder>
+		</ContentSection>
+	</>
+);
+
 export default function Admin() {
 	const {
 		loading,
@@ -197,85 +281,7 @@ export default function Admin() {
 							</AnimateSharedLayout>
 						</SectionHeader>
 						<ContentBody>
-							<ContentSection solid>
-								<h1>Add New</h1>
-								<AddLinkBody>
-									<AddLinkSection>
-										<h2>Link</h2>
-										<div>
-											<LinkItem>
-												<LinkIcon />
-											</LinkItem>
-											<LinkItem>
-												<img src="/twitter.svg" alt="" />
-											</LinkItem>
-											<LinkItem>
-												<img src="/tiktok.png" alt="" />
-											</LinkItem>
-											<LinkItem>
-												<img src="/instagram.svg" alt="" />
-											</LinkItem>
-											<LinkItem>
-												<img src="/snapchat.svg" alt="" />
-											</LinkItem>
-											<LinkItem>
-												<img src="/twitch.webp" alt="" />
-											</LinkItem>
-											<LinkItem>
-												<img src="/facebook.svg" alt="" />
-											</LinkItem>
-											<LinkItem>
-												<img src="/spotify.png" alt="" />
-											</LinkItem>
-											<LinkItem>
-												<img src="/discord-round.svg" alt="" />
-											</LinkItem>
-											<LinkItem>
-												<img src="/youtube.svg" alt="" />
-											</LinkItem>
-										</div>
-									</AddLinkSection>
-									<AddLinkSection>
-										<h2>Embed</h2>
-									</AddLinkSection>
-								</AddLinkBody>
-							</ContentSection>
-							<ContentSection>
-								<h1 style={{ color: "white" }}>Contact Info</h1>
-							</ContentSection>
-							<ContentSection>
-								<h1 style={{ color: "white" }}>Content</h1>
-								<Reorder
-									reorderId="my-list" // Unique ID that is used internally to track this list (required)
-									reorderGroup="reorder-group" // A group ID that allows items to be dragged between lists of the same group (optional)
-									component="ul" // Tag name or Component to be used for the wrapping element (optional), defaults to 'div'
-									placeholderClassName="placeholder" // Class name to be applied to placeholder elements (optional), defaults to 'placeholder'
-									draggedClassName="dragged" // Class name to be applied to dragged elements (optional), defaults to 'dragged'
-									lock="horizontal" // Lock the dragging direction (optional): vertical, horizontal (do not use with groups)
-									onReorder={(event, previousIndex, nextIndex) => {
-										setLinks(prev => {
-											const copy = [...prev];
-											const previous = copy[previousIndex];
-											const next = copy[nextIndex];
-											let temp = next.order;
-											next.order = previous.order;
-											previous.order = temp;
-											return reorder(copy, previousIndex, nextIndex);
-										});
-									}} // Callback when an item is dropped (you will need this to update your state)
-									autoScroll={true} // Enable auto-scrolling when the pointer is close to the edge of the Reorder component (optional), defaults to true
-									disableContextMenus={true} // Disable context menus when holding on touch devices (optional), defaults to true
-									placeholder={
-										<div style={{ height: "25px", background: "blue" }} /> // Custom placeholder element (optional), defaults to clone of dragged element
-									}
-								>
-									{links.map(link => (
-										<div key={link.order}>
-											{link.order}: {link.name}
-										</div>
-									))}
-								</Reorder>
-							</ContentSection>
+							{!section ? <Content links={links} setLinks={setLinks} /> : section}
 						</ContentBody>
 					</AdminSection>
 					<AdminSection>
