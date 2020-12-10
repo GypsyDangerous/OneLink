@@ -73,7 +73,7 @@ export default function Page(props) {
 			<Name>@{props.ownerData.username}</Name>
 			<LinkSet>
 				{displayLinks.map((link: link) => (
-					<Link key={link.id} {...link} />
+					<Link key={link.order} {...link} />
 				))}
 			</LinkSet>
 		</UserPage>
