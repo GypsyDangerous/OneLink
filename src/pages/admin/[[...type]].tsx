@@ -12,6 +12,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import LinkIcon from "@material-ui/icons/Link";
 import { motion, AnimateSharedLayout } from "framer-motion";
+import Head from "next/head";
 
 const useStyles = makeStyles(() =>
 	createStyles({
@@ -251,6 +252,9 @@ export default function Admin() {
 
 	return (
 		<AdminPage>
+			<Head>
+				<title>OneLink | Admin</title>
+			</Head>
 			{!loading && (
 				<>
 					<AdminSection left>
