@@ -13,6 +13,9 @@ import Reorder, {
 } from "react-reorder";
 import LinkComponent from "../../components/Link";
 import Link from "next/link";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import FileCopyIcon from "@material-ui/icons/FileCopy";
+import LinkIcon from "@material-ui/icons/Link";
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -31,7 +34,7 @@ const AdminPage = styled(PaddingPage)`
 
 const AdminSection = styled.div`
 	flex: 1 1 50%;
-	outline: solid;
+	background: ${(props: { left?: boolean }) => (props.left ? "#2b2b2b" : "")};
 `;
 
 const SectionHeader = styled.div`
@@ -40,9 +43,22 @@ const SectionHeader = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: white;
-	color: black;
 	padding: 0 10rem;
+	&.link-section {
+		justify-content: flex-start;
+		padding-left: 0;
+		* {
+			cursor: pointer;
+		}
+		a {
+			color: var(--clr-accent-300);
+			margin-right: 0.5rem;
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+	background: var(--clr-primary-300);
 	a {
 		/* font-weight: bold; */
 		margin: 0 2rem;
@@ -96,10 +112,35 @@ const AddLinkBody = styled.div`
 
 const AddLinkSection = styled.div`
 	background: lightgrey;
-	flex: 1 1 50%;
+	flex: 1 1 63%;
+	&:first-child {
+		flex: 1 1 35%;
+	}
 	border-radius: 0.5rem;
 	margin: 0.5rem 0;
 	padding: 0.5rem;
+	& > div {
+		display: flex;
+		padding: 0.25rem 0 0.25rem 0;
+		flex-wrap: wrap;
+		gap: 0.6rem;
+	}
+`;
+
+const LinkItem = styled.div`
+	border-radius: 0.25rem;
+	border: 1px solid #3240a5;
+	padding: 0.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #e9e9e9;
+	color: #4556df;
+	width: 40px;
+	height: 40px;
+	img {
+		max-width: 100%;
+	}
 `;
 
 export default function Admin() {
@@ -116,7 +157,7 @@ export default function Admin() {
 		<AdminPage>
 			{!loading && (
 				<>
-					<AdminSection>
+					<AdminSection left>
 						<SectionHeader>
 							<Link href="/admin">
 								<a>Content</a>
@@ -133,10 +174,42 @@ export default function Admin() {
 								<h1>Add New</h1>
 								<AddLinkBody>
 									<AddLinkSection>
-										<h2>Links</h2>
+										<h2>Link</h2>
+										<div>
+											<LinkItem>
+												<LinkIcon />
+											</LinkItem>
+											<LinkItem>
+												<img src="/twitter.svg" alt="" />
+											</LinkItem>
+											<LinkItem>
+												<img src="/tiktok.png" alt="" />
+											</LinkItem>
+											<LinkItem>
+												<img src="/instagram.svg" alt="" />
+											</LinkItem>
+											<LinkItem>
+												<img src="/snapchat.svg" alt="" />
+											</LinkItem>
+											<LinkItem>
+												<img src="/twitch.webp" alt="" />
+											</LinkItem>
+											<LinkItem>
+												<img src="/facebook.svg" alt="" />
+											</LinkItem>
+											<LinkItem>
+												<img src="/spotify.png" alt="" />
+											</LinkItem>
+											<LinkItem>
+												<img src="/discord-round.svg" alt="" />
+											</LinkItem>
+											<LinkItem>
+												<img src="/youtube.svg" alt="" />
+											</LinkItem>
+										</div>
 									</AddLinkSection>
 									<AddLinkSection>
-										<h2>Embeds</h2>
+										<h2>Embed</h2>
 									</AddLinkSection>
 								</AddLinkBody>
 							</ContentSection>
@@ -144,7 +217,7 @@ export default function Admin() {
 								<h1>Contact Info</h1>
 							</ContentSection>
 							<ContentSection>
-								<h1>Content and Links</h1>
+								<h1>Content</h1>
 								<Reorder
 									reorderId="my-list" // Unique ID that is used internally to track this list (required)
 									reorderGroup="reorder-group" // A group ID that allows items to be dragged between lists of the same group (optional)
@@ -179,7 +252,18 @@ export default function Admin() {
 						</ContentBody>
 					</AdminSection>
 					<AdminSection>
-						<SectionHeader></SectionHeader>
+						<SectionHeader className="link-section">
+							<Link href={`${process.env.NEXT_PUBLIC_CLIENT_URL}/${username}`}>
+								<a>
+									{process.env.NEXT_PUBLIC_CLIENT_URL}/{username}
+								</a>
+							</Link>
+							<CopyToClipboard
+								text={`${process.env.NEXT_PUBLIC_CLIENT_URL}/${username}`}
+							>
+								<FileCopyIcon />
+							</CopyToClipboard>
+						</SectionHeader>
 						<PreviewSection>
 							<PreviewBody>
 								<AvatarContainer>
@@ -201,7 +285,7 @@ export default function Admin() {
 export async function getServerSideProps(ctx) {
 	const { type } = ctx.query;
 	if (type?.length > 1) return { notFound: true };
-	if (!type || ["Appearance", "customize", "analytics", "preview"].includes(type[0])) {
+	if (!type || ["customize", "analytics", "preview"].includes(type[0])) {
 		return { props: {} };
 	}
 	return { notFound: true };

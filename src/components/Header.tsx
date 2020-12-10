@@ -10,18 +10,19 @@ import logoutMutation from "../graphql/logoutMutation"
 import Router from "next/router"
 
 const HeaderComponent = styled(motion.header)`
-	height: 70px;
+	height: 80px;
 	/* outline: solid; */
 	position: fixed;
 	top: 0;
 	right: 0;
 	left: 0;
 	z-index: 10;
+	background: #212121;
 `;
 
 const HeaderContent = styled.div`
 	width: 100%;
-	height: 75px;
+	height: 100%;
 	padding: 0 1rem;
 	display: flex;
 	justify-content: space-between;
@@ -32,6 +33,7 @@ const Logo = styled.div`
 	width: 50px;
 	height: 50px;
 	outline: solid;
+	color: white;
 `;
 
 const Buttons = styled.div`
@@ -78,9 +80,9 @@ const Header = () => {
 
 	return (
 		<HeaderComponent
-			variants={headerVariants}
-			transition={{ duration: 0.5, ease: "easeInOut" }}
-			animate={y > 100 ? "scrolled" : "top"}
+			// variants={headerVariants}
+			// transition={{ duration: 0.5, ease: "easeInOut" }}
+			// animate={y > 100 ? "scrolled" : "top"}
 		>
 			<HeaderContent>
 				<Link href="/">

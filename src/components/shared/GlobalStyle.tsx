@@ -5,6 +5,7 @@ const GlobalStyle = createGlobalStyle`
 		--clr-neutral-100: white;
 		--clr-primary-300: #303030;
 		--clr-primary-400: #212121;
+		--clr-accent-300: #28BF7B;
 		--gradient-accent-200: linear-gradient(45deg, #28bf7b 1.69%, #4556df 100%)
 	}
 
