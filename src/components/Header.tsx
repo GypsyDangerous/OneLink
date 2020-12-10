@@ -3,11 +3,13 @@ import Link from "next/link";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { useWindowScroll } from "react-use";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { getAccessToken, setAccessToken } from "../auth/accessToken";
-import {useMutation } from "@apollo/client"
-import logoutMutation from "../graphql/logoutMutation"
-import Router from "next/router"
+import { useMutation } from "@apollo/client";
+import logoutMutation from "../graphql/logoutMutation";
+import Router from "next/router";
+import { Avatar } from "@material-ui/core";
+import { userContext } from "../contexts/userContext";
 
 const HeaderComponent = styled(motion.header)`
 	height: 80px;
@@ -39,6 +41,8 @@ const Logo = styled.div`
 const Buttons = styled.div`
 	display: flex;
 	align-items: center;
+	color: white;
+	gap: .5rem;
 	a {
 		margin: 0 0.5rem;
 	}
@@ -74,15 +78,16 @@ const Header = () => {
 	const { type } = router.query;
 	const { y } = useWindowScroll();
 	const token = getAccessToken();
-	const [state, setState] = useState(null);
 
-	const [logout, {data}] = useMutation(logoutMutation)
+	const { user } = useContext(userContext);
+
+	const [logout, { data }] = useMutation(logoutMutation);
 
 	return (
 		<HeaderComponent
-			// variants={headerVariants}
-			// transition={{ duration: 0.5, ease: "easeInOut" }}
-			// animate={y > 100 ? "scrolled" : "top"}
+		// variants={headerVariants}
+		// transition={{ duration: 0.5, ease: "easeInOut" }}
+		// animate={y > 100 ? "scrolled" : "top"}
 		>
 			<HeaderContent>
 				<Link href="/">
@@ -115,16 +120,18 @@ const Header = () => {
 							</HeaderLink>
 						</AnimateSharedLayout>
 					) : (
-						<button
-							onClick={() => {
-								setAccessToken("");
-								logout()
-								Router.push("/auth/login")
-								// setState(Math.random());
-							}}
-						>
-							Logout
-						</button>
+						<>
+							<button
+								onClick={() => {
+									setAccessToken("");
+									logout();
+									Router.push("/auth/login");
+									// setState(Math.random());
+								}}
+							></button>
+							<div>{user?.username}</div>
+							<Avatar src={`${process.env.NEXT_PUBLIC_API_URL}/${user?.photo}`} />
+						</>
 					)}
 				</Buttons>
 			</HeaderContent>
