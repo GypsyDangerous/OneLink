@@ -290,13 +290,13 @@ export default function Admin() {
 					</AdminSection>
 					<AdminSection>
 						<SectionHeader className="link-section">
-							<Link href={`${process.env.NEXT_PUBLIC_CLIENT_URL}/${username}`}>
+							<Link href={`${process.env.NEXT_PUBLIC_CLIENT_URL}${username}`}>
 								<a>
 									{process.env.NEXT_PUBLIC_CLIENT_URL}/{username}
 								</a>
 							</Link>
 							<CopyToClipboard
-								text={`${process.env.NEXT_PUBLIC_CLIENT_URL}/${username}`}
+								text={`${process.env.NEXT_PUBLIC_CLIENT_URL}${username}`}
 							>
 								<FileCopyIcon />
 							</CopyToClipboard>

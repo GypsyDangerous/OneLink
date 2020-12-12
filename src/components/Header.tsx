@@ -157,7 +157,7 @@ const Header = () => {
 								onClick={() => setProfileOpen(prev => !prev)}
 							>
 								<div style={{marginRight: "1rem"}}>{user?.username}</div>
-								<Avatar src={`${process.env.NEXT_PUBLIC_API_URL}/${user?.photo}`} />
+								<Avatar src={`${process.env.NEXT_PUBLIC_API_URL}${user?.photo}`} />
 							</div>
 							<AnimatePresence>
 								{profileOpen && (
