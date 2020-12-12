@@ -11,7 +11,7 @@ import Link from "next/link";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import LinkIcon from "@material-ui/icons/Link";
-import { motion, AnimateSharedLayout } from "framer-motion";
+import { motion, AnimateSharedLayout, AnimatePresence } from "framer-motion";
 import Head from "next/head";
 
 const useStyles = makeStyles(() =>
@@ -151,8 +151,8 @@ const Underline = styled(motion.div)`
 	bottom: -3px;
 `;
 
-const Content = ({ links, setLinks }) => (
-	<>
+const Content = ({ links, setLinks, ...props }) => (
+	<motion.div {...props}>
 		<ContentSection solid>
 			<h1>Add New</h1>
 			<AddLinkBody>
@@ -232,7 +232,7 @@ const Content = ({ links, setLinks }) => (
 				))}
 			</Reorder>
 		</ContentSection>
-	</>
+	</motion.div>
 );
 
 export default function Admin() {
@@ -285,12 +285,32 @@ export default function Admin() {
 							</AnimateSharedLayout>
 						</SectionHeader>
 						<ContentBody>
-							{!section ? <Content links={links} setLinks={setLinks} /> : section}
+							<AnimatePresence>
+								{!section ? (
+									<Content
+										key="content"
+										exit={{ x: -500, opacity: 0 }}
+										animate={{ x: 0, opacity: 1 }}
+										initial={{ x: -500, opactiy: 0 }}
+										links={links}
+										setLinks={setLinks}
+									/>
+								) : (
+									<motion.div
+										key={section}
+										initial={{ x: -500, opacity: 0 }}
+										exit={{ x: -500, opacity: 0 }}
+										animate={{ x: 0, opacity: 1 }}
+									>
+										{section}
+									</motion.div>
+								)}
+							</AnimatePresence>
 						</ContentBody>
 					</AdminSection>
 					<AdminSection>
 						<SectionHeader className="link-section">
-							<Link href={`${process.env.NEXT_PUBLIC_CLIENT_URL}${username}`}>
+							<Link href={`${process.env.NEXT_PUBLIC_CLIENT_URL}/${username}`}>
 								<a>
 									{process.env.NEXT_PUBLIC_CLIENT_URL}/{username}
 								</a>
