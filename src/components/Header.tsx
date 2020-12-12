@@ -1,4 +1,4 @@
-import { AnimateSharedLayout, useViewportScroll, motion } from "framer-motion";
+import { AnimateSharedLayout, useViewportScroll, motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import styled from "styled-components";
 import { useRouter } from "next/router";
@@ -42,7 +42,8 @@ const Buttons = styled.div`
 	display: flex;
 	align-items: center;
 	color: white;
-	gap: .5rem;
+	gap: 0.5rem;
+	position: relative;
 	a {
 		margin: 0 0.5rem;
 	}
@@ -62,6 +63,16 @@ const Underline = styled(motion.div)`
 	left: 0;
 `;
 
+const ProfileSection = styled(motion.div)`
+	position: absolute;
+	top: 100%;
+	right: 0;
+	width: 200px;
+	height: 400px;
+	background: black;
+	outline: solid;
+`;
+
 const headerVariants = {
 	top: {
 		background: "rgba(0, 0, 0, 0)",
@@ -73,6 +84,17 @@ const headerVariants = {
 	},
 };
 
+const userVariants = {
+	open: {
+		opacity: 1,
+		y: 100,
+	},
+	closed: {
+		opacity: 0,
+		y: 0,
+	},
+};
+
 const Header = () => {
 	const router = useRouter();
 	const { type } = router.query;
@@ -80,6 +102,7 @@ const Header = () => {
 	const token = getAccessToken();
 
 	const { user } = useContext(userContext);
+	const [profileOpen, setProfileOpen] = useState(false);
 
 	const [logout, { data }] = useMutation(logoutMutation);
 
@@ -121,16 +144,31 @@ const Header = () => {
 						</AnimateSharedLayout>
 					) : (
 						<>
-							<button
-								onClick={() => {
-									setAccessToken("");
-									logout();
-									Router.push("/auth/login");
-									// setState(Math.random());
-								}}
-							></button>
-							<div>{user?.username}</div>
-							<Avatar src={`${process.env.NEXT_PUBLIC_API_URL}/${user?.photo}`} />
+							{/* <button
+							onClick={() => {
+								setAccessToken("");
+								logout();
+								Router.push("/auth/login");
+								// setState(Math.random());
+							}}
+						></button> */}
+							<div
+								style={{ display: "flex", width: "100%", alignItems: "center" }}
+								onClick={() => setProfileOpen(prev => !prev)}
+							>
+								<div style={{marginRight: "1rem"}}>{user?.username}</div>
+								<Avatar src={`${process.env.NEXT_PUBLIC_API_URL}/${user?.photo}`} />
+							</div>
+							<AnimatePresence>
+								{profileOpen && (
+									<ProfileSection
+										exit={{ y: -50, opacity: 0 }}
+										initial={{ y: -50, opacity: 0 }}
+										animate={{ y: 25, opacity: 1 }}
+										transition={{duration: .25}}
+									></ProfileSection>
+								)}
+							</AnimatePresence>
 						</>
 					)}
 				</Buttons>
