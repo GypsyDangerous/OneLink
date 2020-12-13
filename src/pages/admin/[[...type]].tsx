@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { PaddingPage } from "../../components/shared/Page.styled";
 import { Avatar } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Reorder, { reorder } from "react-reorder";
 import LinkComponent from "../../components/Link";
 import Link from "next/link";
@@ -238,17 +238,21 @@ const Content = ({ links, setLinks, ...props }) => (
 export default function Admin() {
 	const {
 		loading,
-		user: { username },
+		user: { username, ...user },
 	} = useUser({ redirectTo: "/auth/login" });
 	const router = useRouter();
 	const {
 		query: { type },
 	} = router;
 	const classes = useStyles();
-
+	console.log(user);
 	const section = type?.[0];
 
 	const [links, setLinks] = useState([]);
+
+	useEffect(() => {
+		setLinks([...user.Page.links])
+	}, [user])
 
 	return (
 		<AdminPage>
@@ -327,9 +331,11 @@ export default function Admin() {
 									<Avatar className={classes.large} />
 								</AvatarContainer>
 								<div style={{ fontWeight: "bold" }}>@{username}</div>
-								{links.map(link => (
-									<LinkComponent {...link} />
-								))}
+								<ul>
+									{links.sort((a, b) => a.order - b.order).map(link => (
+										<LinkComponent {...link} />
+									))}
+								</ul>
 							</PreviewBody>
 						</PreviewSection>
 					</AdminSection>

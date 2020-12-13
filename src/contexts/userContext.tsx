@@ -2,10 +2,20 @@ import { SetStateAction } from "react";
 import { Dispatch } from "react";
 import { createContext, useState } from "react";
 
-export interface User{
-	username?: string,
-	photo?: string,
-	email?: string,
+interface link {
+	name: string;
+	path: string;
+	order: number;
+	color: string;
+	active: boolean;
+	id: string;
+}
+
+export interface User {
+	username?: string;
+	photo?: string;
+	email?: string;
+	Page?: { links: link[] };
 }
 
 export interface globalUser {
