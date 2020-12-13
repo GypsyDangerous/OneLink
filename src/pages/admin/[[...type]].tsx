@@ -210,7 +210,7 @@ const Content = ({ links, setLinks, ...props }) => (
 				lock="horizontal" // Lock the dragging direction (optional): vertical, horizontal (do not use with groups)
 				onReorder={(event, previousIndex, nextIndex) => {
 					setLinks(prev => {
-						const copy = [...prev];
+						const copy = [...prev].map(item => ({...item}));
 						const previous = copy[previousIndex];
 						const next = copy[nextIndex];
 						let temp = next.order;
@@ -245,14 +245,13 @@ export default function Admin() {
 		query: { type },
 	} = router;
 	const classes = useStyles();
-	console.log(user);
 	const section = type?.[0];
 
 	const [links, setLinks] = useState([]);
 
 	useEffect(() => {
 		setLinks([...(user?.Page?.links || [])]);
-	}, [user]);
+	}, []);
 
 	return (
 		<AdminPage>
