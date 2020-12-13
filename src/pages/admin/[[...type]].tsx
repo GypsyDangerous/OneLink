@@ -316,6 +316,22 @@ const Content = ({ links, setLinks, remove, ...props }) => (
 	</SectionContainer>
 );
 
+const SettingsActions = {
+	UPDATE: "update",
+	RESET: "reset",
+};
+
+const SettingsReducer = (action, state) => {
+	switch (action.type) {
+		case SettingsActions.UPDATE:
+			return;
+		case SettingsActions.RESET:
+			return;
+		default:
+			throw new Error("Bad Action");
+	}
+};
+
 const Customize = props => {
 	return (
 		<SectionContainer {...props}>
