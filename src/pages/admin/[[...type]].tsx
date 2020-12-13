@@ -17,6 +17,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ImageIcon from "@material-ui/icons/Image";
 import AppsIcon from "@material-ui/icons/Apps";
+import { PhotoshopPicker, CirclePicker } from "react-color";
 
 const useStyles = makeStyles(() =>
 	createStyles({
@@ -100,12 +101,15 @@ const ContentBody = styled.div`
 `;
 
 const ContentSection = styled.div`
-	width: 80%;
+	width: 100%;
 	background: ${(props: { solid?: boolean }) => (props.solid ? "white" : "")};
 	border-radius: 1rem;
 	margin-bottom: 1.5rem;
 	padding: 1rem;
 	color: black;
+	.circle-picker {
+		justify-content: center;
+	}
 `;
 
 const AddLinkBody = styled.div`
@@ -204,11 +208,17 @@ const SectionContainer = styled(motion.section)`
 	position: absolute;
 	min-width: 25%;
 	margin-top: 2.5rem;
+	display: flex;
+	width: 30%;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 `;
 
 const ContentHeader = styled.h2`
 	font-size: 1rem;
 	margin-bottom: 0.5rem;
+	align-self: flex-start;
 `;
 
 const Content = ({ links, setLinks, remove, ...props }) => (
@@ -310,9 +320,13 @@ const Customize = props => {
 	return (
 		<SectionContainer {...props}>
 			<ContentHeader>Background Color</ContentHeader>
-			<ContentSection solid></ContentSection>
+			<ContentSection solid>
+				<CirclePicker width="100%" />
+			</ContentSection>
 			<ContentHeader>Link Color</ContentHeader>
-			<ContentSection solid></ContentSection>
+			<ContentSection solid>
+				<CirclePicker width="100%" />
+			</ContentSection>
 			<ContentHeader>Hover animation</ContentHeader>
 			<ContentSection solid></ContentSection>
 			<ContentHeader>Style</ContentHeader>
@@ -389,24 +403,24 @@ export default function Admin() {
 									<Content
 										remove={remove}
 										key="content"
-										exit={{ x: -500, opacity: 0 }}
+										exit={{ x: -800, opacity: 0 }}
 										animate={{ x: 0, opacity: 1 }}
-										initial={{ x: -500, opactiy: 0 }}
+										initial={{ x: -800, opactiy: 0 }}
 										links={links}
 										setLinks={setLinks}
 									/>
 								) : section === "customize" ? (
 									<Customize
 										key={section}
-										initial={{ x: -500, opacity: 0 }}
-										exit={{ x: -500, opacity: 0 }}
+										initial={{ x: -800, opacity: 0 }}
+										exit={{ x: -800, opacity: 0 }}
 										animate={{ x: 0, opacity: 1 }}
 									/>
 								) : section === "analytics" ? (
 									<Analytics
 										key={section}
-										initial={{ x: -500, opacity: 0 }}
-										exit={{ x: -500, opacity: 0 }}
+										initial={{ x: -800, opacity: 0 }}
+										exit={{ x: -800, opacity: 0 }}
 										animate={{ x: 0, opacity: 1 }}
 									/>
 								) : (
@@ -434,7 +448,7 @@ export default function Admin() {
 									<Avatar className={classes.large} />
 								</AvatarContainer>
 								<div style={{ fontWeight: "bold" }}>@{username}</div>
-								<ul style={{padding: "1rem"}}>
+								<ul style={{ padding: "1rem" }}>
 									{links
 										.sort((a, b) => a.order - b.order)
 										.map(link => (
