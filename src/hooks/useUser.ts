@@ -43,7 +43,6 @@ const useUser = ({ refresh, redirectTo, as, loggedInRedirect }: userOptions = {}
 				if (accessToken) {
 					const userData = await client.query({
 						query: userQuery,
-						context: { headers: {} },
 					});
 					setUser(userData?.data?.me);
 					if (loggedInRedirect) {
