@@ -37,26 +37,47 @@ const LinkBackground = styled(motion.span)`
 	transform-origin: left center;
 `;
 
-const background = {
+const availableAnimations = {
+	radial: {
+		hovered: { clipPath: "circle(70.7% at 50% 50%)" },
+		unhovered: { clipPath: "circle(0% at 50% 50%)" },
+	},
+	slideLeftToRight: {
+		hovered: { clipPath: "inset(0 0% 0 0)" },
+		unhovered: { clipPath: "inset(0 100% 0 0)" },
+	},
+	slideRightToLeft: {
+		hovered: { clipPath: "inset(0 0 0 0%)" },
+		unhovered: { clipPath: "inset(0 0 0 100%)" },
+	},
+	slideTopToBottom: {
+		hovered: { clipPath: "inset(0 0 0% 0)" },
+		unhovered: { clipPath: "inset(0 0 100% 0)" },
+	},
+	slideBottomToTop: {
+		hovered: { clipPath: "inset(0% 0 00 0)" },
+		unhovered: { clipPath: "inset(100% 0 0 0)" },
+	},
+};
+
+const background = animationType => ({
 	hovered: {
-		// clipPath: "inset(0 0% 0 0)",
-		clipPath: "circle(70.7% at 50% 50%)",
-		// scaleX: 1,
+		...(availableAnimations[animationType]?.hovered || {}),
 		opacity: 1,
 		transition: {
 			duration: 0.5,
 		},
 	},
 	unhovered: {
+		...(availableAnimations[animationType]?.unhovered || {}),
 		// clipPath: "inset(0 100% 0 0)",
-		clipPath: "circle(0% at 50% 50%)",
 		// scaleX: 0,
 		opacity: 0,
 		transition: {
 			duration: 0.5,
 		},
 	},
-};
+});
 
 const Link = ({ name, path }) => {
 	const [hovered, setHovered] = useState(false);
@@ -66,7 +87,7 @@ const Link = ({ name, path }) => {
 			<a href={path}>{name}</a>
 			<LinkBackground
 				initial="unhovered"
-				variants={background}
+				variants={background("radial")}
 				animate={hovered ? "hovered" : "unhovered"}
 			/>
 		</LinkComponent>
