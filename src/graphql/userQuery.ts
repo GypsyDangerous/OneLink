@@ -1,5 +1,4 @@
-import { gql } from "@apollo/client"
-
+import { gql } from "@apollo/client";
 
 export default gql`
 	query User {
@@ -8,9 +7,20 @@ export default gql`
 			email
 			photo
 			username
+			Page {
+				links {
+					path
+					image
+					name
+					order
+					color
+					active
+					image
+				}
+			}
 		}
 	}
-`
+`;
 
 export const publicUserQuery = gql`
 	query getUser($name: String!) {
