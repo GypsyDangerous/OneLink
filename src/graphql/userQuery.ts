@@ -15,7 +15,7 @@ export default gql`
 					order
 					color
 					active
-					image
+					id
 				}
 			}
 		}
