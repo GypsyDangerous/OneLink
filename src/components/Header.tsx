@@ -10,6 +10,11 @@ import logoutMutation from "../graphql/logoutMutation";
 import Router from "next/router";
 import { Avatar } from "@material-ui/core";
 import { userContext } from "../contexts/userContext";
+import PersonIcon from "@material-ui/icons/Person";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import chroma from "chroma-js";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 const HeaderComponent = styled(motion.header)`
 	height: 80px;
@@ -45,6 +50,7 @@ const Buttons = styled.div`
 	gap: 0.5rem;
 	position: relative;
 	a {
+		/* cursor: pointer; */
 		margin: 0 0.5rem;
 	}
 `;
@@ -68,9 +74,12 @@ const ProfileSection = styled(motion.div)`
 	top: 100%;
 	right: 0;
 	width: 200px;
-	height: 400px;
-	background: black;
-	outline: solid;
+	background: #121212;
+	a {
+		outline: none;
+		margin: 0;
+		display: block;
+	}
 `;
 
 const headerVariants = {
@@ -84,16 +93,54 @@ const headerVariants = {
 	},
 };
 
+const userTransition = {
+	duration: 0.5,
+};
+
 const userVariants = {
 	open: {
 		opacity: 1,
-		y: 100,
+		y: -100,
+		transition: {
+			...userTransition,
+			when: "beforeChildren",
+			staggerChildren: 0.1,
+		},
 	},
 	closed: {
 		opacity: 0,
 		y: 0,
 	},
 };
+
+const ProfileItem = styled(motion.div)`
+	color: ${({ warn }: { warn?: boolean }): any =>
+		warn ? chroma("#bb3535").brighten().saturate(2) : "white"};
+	padding: 0.5rem;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	position: relative;
+	z-index: 100;
+	gap: 0.5rem;
+	&:hover::before {
+		opacity: 1;
+	}
+	&::before {
+		transition: opacity 0.25s;
+		z-index: -1;
+		position: absolute;
+		content: "";
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		opacity: 0;
+		background: rgba(226, 226, 226, 0.055);
+	}
+`;
+
+const profileVariants = {};
 
 const Header = () => {
 	const router = useRouter();
@@ -153,20 +200,50 @@ const Header = () => {
 							}}
 						></button> */}
 							<div
-								style={{ display: "flex", width: "100%", alignItems: "center" }}
+								style={{ display: "flex", alignItems: "center", gap: "1rem" }}
 								onClick={() => setProfileOpen(prev => !prev)}
 							>
-								<div style={{marginRight: "1rem"}}>{user?.username}</div>
 								<Avatar src={`${process.env.NEXT_PUBLIC_API_URL}${user?.photo}`} />
+								<div>{user?.username}</div>
+								<motion.div
+									style={{
+										transformOrigin: "center",
+										height: "24px",
+										width: "24px",
+									}}
+									animate={profileOpen ? { rotate: 180 } : { rotate: 0 }}
+								>
+									<KeyboardArrowDownIcon />
+								</motion.div>
 							</div>
 							<AnimatePresence>
 								{profileOpen && (
-									<ProfileSection
-										exit={{ y: -50, opacity: 0 }}
-										initial={{ y: -50, opacity: 0 }}
-										animate={{ y: 25, opacity: 1 }}
-										transition={{duration: .25}}
-									></ProfileSection>
+									<ClickAwayListener onClickAway={() => setProfileOpen(false)}>
+										<ProfileSection
+											exit={{ y: -50, opacity: 0 }}
+											initial={{ y: -50, opacity: 0 }}
+											animate={{ y: 15, opacity: 1 }}
+											transition={{
+												duration: 0.25,
+												staggerChildren: 0.1,
+												when: "beforeChildren",
+											}}
+										>
+											<Link href="/admin/account">
+												<a>
+													<ProfileItem>
+														{" "}
+														<PersonIcon /> My Account
+													</ProfileItem>
+												</a>
+											</Link>
+											<ProfileItem warn>
+												{" "}
+												<ExitToAppIcon />
+												Logout
+											</ProfileItem>
+										</ProfileSection>
+									</ClickAwayListener>
 								)}
 							</AnimatePresence>
 						</>
