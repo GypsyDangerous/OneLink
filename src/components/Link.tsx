@@ -39,6 +39,7 @@ const LinkBackground = styled(motion.span)`
 
 const background = {
 	hovered: {
+		// clipPath: "inset(0 0% 0 0)",
 		clipPath: "circle(70.7% at 50% 50%)",
 		// scaleX: 1,
 		opacity: 1,
@@ -47,6 +48,7 @@ const background = {
 		},
 	},
 	unhovered: {
+		// clipPath: "inset(0 100% 0 0)",
 		clipPath: "circle(0% at 50% 50%)",
 		// scaleX: 0,
 		opacity: 0,
