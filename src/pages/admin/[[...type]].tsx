@@ -13,13 +13,16 @@ import FileCopyIcon from "@material-ui/icons/FileCopy";
 import LinkIcon from "@material-ui/icons/Link";
 import { motion, AnimateSharedLayout, AnimatePresence } from "framer-motion";
 import Head from "next/head";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import ImageIcon from "@material-ui/icons/Image";
+import AppsIcon from "@material-ui/icons/Apps";
 
 const useStyles = makeStyles(() =>
 	createStyles({
 		large: {
 			width: "100px",
 			height: "100px",
-			marginBottom: "2rem",
 		},
 	})
 );
@@ -82,6 +85,7 @@ const PreviewBody = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	gap: 2rem;
 `;
 
 const AvatarContainer = styled.div`
@@ -99,7 +103,7 @@ const ContentSection = styled.div`
 	width: 80%;
 	background: ${(props: { solid?: boolean }) => (props.solid ? "white" : "")};
 	border-radius: 1rem;
-	margin: 1.5rem;
+	margin-bottom: 1.5rem;
 	padding: 1rem;
 	color: black;
 `;
@@ -151,8 +155,64 @@ const Underline = styled(motion.div)`
 	bottom: -3px;
 `;
 
-const Content = ({ links, setLinks, ...props }) => (
-	<motion.div {...props}>
+const GrabLink = styled.div`
+	padding: 0.5rem;
+	background: ${({ back }: { back?: boolean }) => (back ? "lightgray" : "white")};
+	opacity: ${({ back }: { back?: boolean }) => (back ? 0.5 : 1)};
+	z-index: ${({ back }: { back?: boolean }) => (back ? -1 : 1)};
+	margin: 1rem 0;
+	min-height: 60px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	cursor: grab;
+	:active {
+		cursor: grabbing;
+	}
+`;
+
+const LinkButtons = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+`;
+
+const ItemButton = styled.button`
+	border-radius: 0.25rem;
+	padding: 0.5rem;
+	border: none;
+	outline: none !important;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	border: 2px solid;
+`;
+
+const EditButton = styled(ItemButton)`
+	background: #2b658a;
+	border-color: #2b658a;
+	color: white;
+`;
+
+const DeleteButton = styled(ItemButton)`
+	background: #4e4e4e1a;
+	border-color: var(--warn-red);
+	color: var(--warn-red);
+`;
+
+const SectionContainer = styled(motion.section)`
+	position: absolute;
+	min-width: 25%;
+	margin-top: 2.5rem;
+`;
+
+const ContentHeader = styled.h2`
+	font-size: 1rem;
+	margin-bottom: 0.5rem;
+`;
+
+const Content = ({ links, setLinks, remove, ...props }) => (
+	<SectionContainer {...props}>
 		<ContentSection solid>
 			<h1>Add New</h1>
 			<AddLinkBody>
@@ -207,33 +267,65 @@ const Content = ({ links, setLinks, ...props }) => (
 				component="ul" // Tag name or Component to be used for the wrapping element (optional), defaults to 'div'
 				placeholderClassName="placeholder" // Class name to be applied to placeholder elements (optional), defaults to 'placeholder'
 				draggedClassName="dragged" // Class name to be applied to dragged elements (optional), defaults to 'dragged'
-				lock="horizontal" // Lock the dragging direction (optional): vertical, horizontal (do not use with groups)
+				// lock="horizontal" // Lock the dragging direction (optional): vertical, horizontal (do not use with groups)
+				holdTime={100} // Hold time before dragging begins with mouse (optional), defaults to holdTime
 				onReorder={(event, previousIndex, nextIndex) => {
 					setLinks(prev => {
-						const copy = [...prev].map(item => ({...item}));
-						const previous = copy[previousIndex];
-						const next = copy[nextIndex];
-						let temp = next.order;
-						next.order = previous.order;
-						previous.order = temp;
-						return reorder(copy, previousIndex, nextIndex);
+						return reorder(
+							[...prev].map(item => ({ ...item })),
+							previousIndex,
+							nextIndex
+						).map((item, index) => ({ ...item, order: index }));
 					});
 				}} // Callback when an item is dropped (you will need this to update your state)
-				autoScroll={true} // Enable auto-scrolling when the pointer is close to the edge of the Reorder component (optional), defaults to true
-				disableContextMenus={true} // Disable context menus when holding on touch devices (optional), defaults to true
 				placeholder={
-					<div style={{ height: "25px", background: "blue" }} /> // Custom placeholder element (optional), defaults to clone of dragged element
+					<GrabLink back={true} /> // Custom placeholder element (optional), defaults to clone of dragged element
 				}
 			>
 				{links.map(link => (
-					<div key={link.order}>
-						{link.order}: {link.name}
-					</div>
+					<GrabLink key={link.order}>
+						<LinkButtons>
+							<AppsIcon />
+							<Avatar variant="square" src={link.image}>
+								<ImageIcon />
+							</Avatar>
+							<h2>{link.name}</h2>
+						</LinkButtons>
+						<LinkButtons>
+							<EditButton>
+								<EditIcon /> Edit
+							</EditButton>
+							<DeleteButton onClick={() => remove(link.id)}>
+								<DeleteIcon /> Remove
+							</DeleteButton>
+						</LinkButtons>
+					</GrabLink>
 				))}
 			</Reorder>
 		</ContentSection>
-	</motion.div>
+	</SectionContainer>
 );
+
+const Customize = props => {
+	return (
+		<SectionContainer {...props}>
+			<ContentHeader>Background Color</ContentHeader>
+			<ContentSection solid></ContentSection>
+			<ContentHeader>Link Color</ContentHeader>
+			<ContentSection solid></ContentSection>
+			<ContentHeader>Hover animation</ContentHeader>
+			<ContentSection solid></ContentSection>
+			<ContentHeader>Style</ContentHeader>
+			<ContentSection solid></ContentSection>
+			<ContentHeader>background</ContentHeader>
+			<ContentSection solid></ContentSection>
+		</SectionContainer>
+	);
+};
+
+const Analytics = props => {
+	return <SectionContainer {...props}>analytics</SectionContainer>;
+};
 
 export default function Admin() {
 	const {
@@ -248,6 +340,10 @@ export default function Admin() {
 	const section = type?.[0];
 
 	const [links, setLinks] = useState([]);
+
+	const remove = id => {
+		setLinks(prev => prev.filter(item => item.id !== id));
+	};
 
 	useEffect(() => {
 		setLinks([...(user?.Page?.links || [])]);
@@ -291,6 +387,7 @@ export default function Admin() {
 							<AnimatePresence>
 								{!section ? (
 									<Content
+										remove={remove}
 										key="content"
 										exit={{ x: -500, opacity: 0 }}
 										animate={{ x: 0, opacity: 1 }}
@@ -298,15 +395,22 @@ export default function Admin() {
 										links={links}
 										setLinks={setLinks}
 									/>
-								) : (
-									<motion.div
+								) : section === "customize" ? (
+									<Customize
 										key={section}
 										initial={{ x: -500, opacity: 0 }}
 										exit={{ x: -500, opacity: 0 }}
 										animate={{ x: 0, opacity: 1 }}
-									>
-										{section}
-									</motion.div>
+									/>
+								) : section === "analytics" ? (
+									<Analytics
+										key={section}
+										initial={{ x: -500, opacity: 0 }}
+										exit={{ x: -500, opacity: 0 }}
+										animate={{ x: 0, opacity: 1 }}
+									/>
+								) : (
+									<></>
 								)}
 							</AnimatePresence>
 						</ContentBody>
@@ -330,7 +434,7 @@ export default function Admin() {
 									<Avatar className={classes.large} />
 								</AvatarContainer>
 								<div style={{ fontWeight: "bold" }}>@{username}</div>
-								<ul>
+								<ul style={{padding: "1rem"}}>
 									{links
 										.sort((a, b) => a.order - b.order)
 										.map(link => (
