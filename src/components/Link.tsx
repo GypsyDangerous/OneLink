@@ -70,8 +70,6 @@ const background = animationType => ({
 	},
 	unhovered: {
 		...(availableAnimations[animationType]?.unhovered || {}),
-		// clipPath: "inset(0 100% 0 0)",
-		// scaleX: 0,
 		opacity: 0,
 		transition: {
 			duration: 0.5,
