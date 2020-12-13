@@ -251,8 +251,8 @@ export default function Admin() {
 	const [links, setLinks] = useState([]);
 
 	useEffect(() => {
-		setLinks([...user.Page.links])
-	}, [user])
+		setLinks([...(user?.Page?.links || [])]);
+	}, [user]);
 
 	return (
 		<AdminPage>
@@ -332,9 +332,11 @@ export default function Admin() {
 								</AvatarContainer>
 								<div style={{ fontWeight: "bold" }}>@{username}</div>
 								<ul>
-									{links.sort((a, b) => a.order - b.order).map(link => (
-										<LinkComponent {...link} />
-									))}
+									{links
+										.sort((a, b) => a.order - b.order)
+										.map(link => (
+											<LinkComponent {...link} />
+										))}
 								</ul>
 							</PreviewBody>
 						</PreviewSection>
