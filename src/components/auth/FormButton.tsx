@@ -42,13 +42,13 @@ export const FormLink = styled.a`
 	display: inline-block;
 	padding: 0.5rem 2rem;
 	cursor: pointer;
-	border: 3px solid ${chroma("#4556DF").saturate(2)};
+	border: 3px solid ${chroma("#4556DF").saturate(2).hex()};
 	border-radius: 100vh;
 	transition: background 0.25s;
 	text-transform: uppercase;
 	box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.5);
 	&:hover {
-		background: ${chroma("#4556DF").darken().saturate(2)};
+		background: ${chroma("#4556DF").darken().saturate(2).hex()};
 	}
 `;
 
