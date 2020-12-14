@@ -358,14 +358,10 @@ const Analytics = props => {
 };
 
 export default function Admin() {
-	const {
-		loading,
-		user: { username, ...user },
-	} = useUser({ redirectTo: "/auth/login" });
-	const router = useRouter();
+	const { loading, user } = useUser({ redirectTo: "/auth/login" });
 	const {
 		query: { type },
-	} = router;
+	} = useRouter();
 	const classes = useStyles();
 	const section = type?.[0];
 
@@ -377,7 +373,7 @@ export default function Admin() {
 
 	useEffect(() => {
 		setLinks([...(user?.Page?.links || [])]);
-	}, []);
+	}, [user]);
 
 	return (
 		<AdminPage>
@@ -447,13 +443,13 @@ export default function Admin() {
 					</AdminSection>
 					<AdminSection>
 						<SectionHeader className="link-section">
-							<Link href={`/${username}`}>
+							<Link href={`/${user.username}`}>
 								<a>
-									{process.env.NEXT_PUBLIC_CLIENT_URL}/{username}
+									{process.env.NEXT_PUBLIC_CLIENT_URL}/{user.username}
 								</a>
 							</Link>
 							<CopyToClipboard
-								text={`${process.env.NEXT_PUBLIC_CLIENT_URL}/${username}`}
+								text={`${process.env.NEXT_PUBLIC_CLIENT_URL}/${user.username}`}
 							>
 								<FileCopyIcon />
 							</CopyToClipboard>
@@ -463,7 +459,7 @@ export default function Admin() {
 								<AvatarContainer>
 									<Avatar className={classes.large} />
 								</AvatarContainer>
-								<div style={{ fontWeight: "bold" }}>@{username}</div>
+								<div style={{ fontWeight: "bold" }}>@{user.username}</div>
 								<ul style={{ padding: "1rem" }}>
 									{links
 										.sort((a, b) => a.order - b.order)
