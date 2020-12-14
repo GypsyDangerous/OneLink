@@ -1,4 +1,4 @@
-import Head from "next/head"
+import Head from "next/head";
 
 const SEO = ({ title }) => {
 	return (
@@ -6,15 +6,45 @@ const SEO = ({ title }) => {
 			<title>{title}</title>
 			<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 			<meta httpEquiv="Content-Security-Policy" content="" />
-			<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh//GypsyDangerous/simple-css-reset/reset.css"/>
+			<link
+				rel="stylesheet"
+				href="https://cdn.jsdelivr.net/gh//GypsyDangerous/simple-css-reset/reset.css"
+			/>
 			<link rel="preconnect" href="https://fonts.gstatic.com" />
-			<link rel="icon" type="image/png" href="/circle-cropped.png"/>
+			<link rel="icon" type="image/png" href="/circle-cropped.png" />
 			<link
 				href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
 				rel="stylesheet"
 			/>
-		</Head>
-	)
-}
+			<meta
+				data-n-head="ssr"
+				data-hid="og:description"
+				property="og:description"
+				content="The only social link you will ever need in your bio"
+			/>
+			<meta
+				data-n-head="ssr"
+				data-hid="og:title"
+				property="og:title"
+				content="OneLink - The only social link you'll ever need"
+			/>
+			<meta data-n-head="ssr" data-hid="og:type" property="og:type" content="website" />
+			<meta
+				data-n-head="ssr"
+				data-hid="og:site_name"
+				property="og:site_name"
+				content="OneLink"
+			/>
+			<meta
+				data-n-head="ssr"
+				data-hid="og:url"
+				property="og:url"
+				content="https://www.onelinkapp.xyz"
+			/>
+				<meta data-n-head="ssr" data-hid="og:locale" property="og:locale" content="en_US" />
 
-export default SEO
+		</Head>
+	);
+};
+
+export default SEO;

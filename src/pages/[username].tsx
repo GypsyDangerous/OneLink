@@ -64,6 +64,25 @@ export default function Page(props) {
 		<UserPage>
 			<Head>
 				<title>@{props.ownerData.username} | Onelink</title>
+
+				<meta
+					data-n-head="ssr"
+					data-hid="og:image"
+					property="og:image"
+					content={`${process.env.NEXT_PUBLIC_API_URL}/public/images/${props.ownerData.photo}`}
+				/>
+				<meta
+					data-n-head="ssr"
+					data-hid="og:image:type"
+					property="og:image:type"
+					content="image/png"
+				/>
+				<meta
+					data-n-head="ssr"
+					data-hid="og:image:alt"
+					property="og:image:alt"
+					content="Users's Avatar"
+				/>
 			</Head>
 			<Avatar
 				// alt={props.ownerData.username}
