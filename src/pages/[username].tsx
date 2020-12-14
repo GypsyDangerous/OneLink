@@ -58,6 +58,8 @@ export default function Page(props) {
 		return [...links].sort((a, b) => a.order - b.order);
 	}, [links]);
 
+	console.log(props)
+
 	const classes = useStyles();
 
 	return (
@@ -109,6 +111,7 @@ export async function getServerSideProps(ctx) {
 			query: publicUserQuery,
 			variables: { name: username },
 		});
+		console.log(userResponse)
 		const { data: userData } = userResponse;
 		return { props: { ...data.page, ownerData: userData.user } };
 	} catch (err) {
