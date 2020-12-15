@@ -2,7 +2,7 @@ import useUser from "../../hooks/useUser";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { PaddingPage } from "../../components/shared/Page.styled";
-import { Avatar } from "@material-ui/core";
+import { Avatar, useMediaQuery } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { useEffect, useState } from "react";
 import Reorder, { reorder } from "react-reorder";
@@ -45,7 +45,7 @@ const SectionHeader = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 0 10rem;
+	/* padding: 0 10rem; */
 	position: sticky;
 	top: 80px;
 	z-index: 100;
@@ -211,10 +211,14 @@ const DeleteButton = styled(ItemButton)`
 
 const SectionContainer = styled(motion.section)`
 	/* position: absolute; */
-	min-width: 50%;
+	/* min-width: 50%; */
 	margin-top: 2.5rem;
 	display: flex;
-	width: 30%;
+	/* width: 30%; */
+	max-width: 450px;
+	@media screen and (max-width: 550px){
+		max-width: 300px;
+	}
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
@@ -392,6 +396,10 @@ export default function Admin() {
 		setLinks(prev => prev.filter(item => item.id !== id));
 	};
 
+	const showPreview = useMediaQuery("(min-width: 64rem)");
+
+	console.log(showPreview);
+
 	useEffect(() => {
 		setLinks([...(user?.Page?.links || [])]);
 	}, [user]);
@@ -462,35 +470,37 @@ export default function Admin() {
 							</AnimatePresence>
 						</ContentBody>
 					</AdminSection>
-					<AdminSection>
-						<SectionHeader className="link-section">
-							<Link href={`/${user.username}`}>
-								<a>
-									{process.env.NEXT_PUBLIC_CLIENT_URL}/{user.username}
-								</a>
-							</Link>
-							<CopyToClipboard
-								text={`${process.env.NEXT_PUBLIC_CLIENT_URL}/${user.username}`}
-							>
-								<FileCopyIcon />
-							</CopyToClipboard>
-						</SectionHeader>
-						<PreviewSection>
-							<PreviewBody>
-								<AvatarContainer>
-									<Avatar className={classes.large} />
-								</AvatarContainer>
-								<div style={{ fontWeight: "bold" }}>@{user.username}</div>
-								<ul>
-									{links
-										.sort((a, b) => a.order - b.order)
-										.map(link => (
-											<LinkComponent {...link} />
-										))}
-								</ul>
-							</PreviewBody>
-						</PreviewSection>
-					</AdminSection>
+					{showPreview && (
+						<AdminSection>
+							<SectionHeader className="link-section">
+								<Link href={`/${user.username}`}>
+									<a>
+										{process.env.NEXT_PUBLIC_CLIENT_URL}/{user.username}
+									</a>
+								</Link>
+								<CopyToClipboard
+									text={`${process.env.NEXT_PUBLIC_CLIENT_URL}/${user.username}`}
+								>
+									<FileCopyIcon />
+								</CopyToClipboard>
+							</SectionHeader>
+							<PreviewSection>
+								<PreviewBody>
+									<AvatarContainer>
+										<Avatar className={classes.large} />
+									</AvatarContainer>
+									<div style={{ fontWeight: "bold" }}>@{user.username}</div>
+									<ul>
+										{links
+											.sort((a, b) => a.order - b.order)
+											.map(link => (
+												<LinkComponent {...link} />
+											))}
+									</ul>
+								</PreviewBody>
+							</PreviewSection>
+						</AdminSection>
+					)}
 				</>
 			)}
 		</AdminPage>
