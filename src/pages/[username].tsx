@@ -58,8 +58,6 @@ export default function Page(props) {
 		return [...links].sort((a, b) => a.order - b.order);
 	}, [links]);
 
-	console.log(props)
-
 	const classes = useStyles();
 
 	return (
@@ -105,15 +103,10 @@ export async function getServerSideProps(ctx) {
 	const { username } = ctx.query;
 	try {
 		const response = await client.query({ query: pageQuery, variables: { name: username } });
-		if (!response.data.page) throw new Error("invalid name");
 		const { data } = response;
-		const userResponse = await client.query({
-			query: publicUserQuery,
-			variables: { name: username },
-		});
-		console.log(userResponse)
-		const { data: userData } = userResponse;
-		return { props: { ...data.page, ownerData: userData.user } };
+		console.log(data);
+		if (!data?.page) throw new Error("invalid name");
+		return { props: { ...data.page, ownerData: data.user } };
 	} catch (err) {
 		console.log(err.message);
 		return { notFound: true };

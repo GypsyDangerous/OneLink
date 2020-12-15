@@ -14,6 +14,11 @@ const pageQuery = gql`
 			}
 			theme
 		}
+		user(name: $name) {
+			bio
+			username
+			photo
+		}
 	}
 `;
 
