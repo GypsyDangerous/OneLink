@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { PaddingPage } from "../../components/shared/Page.styled";
 import { Avatar, useMediaQuery } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Reorder, { reorder } from "react-reorder";
 import LinkComponent from "../../components/Link";
 import Link from "next/link";
@@ -21,6 +21,7 @@ import { PhotoshopPicker, CirclePicker } from "react-color";
 import LinkList from "../../components/shared/LinkList";
 import defaultAnimations from "../../util/LinkAnimations.json";
 import { splitByCaps } from "../../util/functions";
+import { settingsContext, SettingsContextProvider } from "../../contexts/settingsContext";
 
 const useStyles = makeStyles(() =>
 	createStyles({
@@ -360,22 +361,6 @@ const Content = ({ links, setLinks, remove, ...props }) => (
 	</SectionContainer>
 );
 
-const SettingsActions = {
-	UPDATE: "update",
-	RESET: "reset",
-};
-
-const SettingsReducer = (action, state) => {
-	switch (action.type) {
-		case SettingsActions.UPDATE:
-			return;
-		case SettingsActions.RESET:
-			return;
-		default:
-			throw new Error("Bad Action");
-	}
-};
-
 const Customize = props => {
 	return (
 		<SectionContainer {...props}>
@@ -422,18 +407,20 @@ const Analytics = props => {
 	return <SectionContainer {...props}>analytics</SectionContainer>;
 };
 
-export default function Admin() {
+const AdminComponent = () => {
 	const { loading, user } = useUser({ redirectTo: "/auth/login" });
+	const { settings, update } = useContext(settingsContext);
+	console.log(settings);
 	const {
 		query: { type },
 	} = useRouter();
 	const classes = useStyles();
 	const section = type?.[0];
 
-	const [links, setLinks] = useState([]);
+	const { links } = settings;
 
 	const remove = id => {
-		setLinks(prev => prev.filter(item => item.id !== id));
+		update("links", prev => prev.filter(item => item.id !== id));
 	};
 
 	const showPreview = useMediaQuery("(min-width: 64rem)");
@@ -441,7 +428,7 @@ export default function Admin() {
 	console.log(showPreview);
 
 	useEffect(() => {
-		setLinks([...(user?.Page?.links || [])]);
+		update("links", [...(user?.Page?.links || [])]);
 	}, [user]);
 
 	return (
@@ -488,7 +475,7 @@ export default function Admin() {
 										animate={{ x: 0, opacity: 1 }}
 										initial={{ x: -600, opactiy: 0 }}
 										links={links}
-										setLinks={setLinks}
+										setLinks={links => update("links", links)}
 									/>
 								) : section === "customize" ? (
 									<Customize
@@ -544,6 +531,14 @@ export default function Admin() {
 				</>
 			)}
 		</AdminPage>
+	);
+};
+
+export default function Admin() {
+	return (
+		<SettingsContextProvider>
+			<AdminComponent />;
+		</SettingsContextProvider>
 	);
 }
 
