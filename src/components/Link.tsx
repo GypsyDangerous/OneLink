@@ -18,7 +18,7 @@ const LinkComponent = styled.li`
 	display: block;
 	position: relative;
 	z-index: 5;
-	border-radius: 100vw;
+	border-radius: ${({ capsule }: { capsule?: boolean }) => (capsule ? "100vw" : "0")};
 	overflow: hidden;
 	&:hover {
 		a {
@@ -81,11 +81,15 @@ const background = animationType => ({
 	},
 });
 
-const Link = ({ name, path, animation = "radial", disabled=false }) => {
+const Link = ({ name, path, animation = "radial", disabled = false, capsule = false }) => {
 	const [hovered, setHovered] = useState(false);
 
 	return (
-		<LinkComponent onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+		<LinkComponent
+			capsule={capsule}
+			onMouseEnter={() => setHovered(true)}
+			onMouseLeave={() => setHovered(false)}
+		>
 			<a href={disabled ? null : path}>{name}</a>
 			<LinkBackground
 				initial="unhovered"
