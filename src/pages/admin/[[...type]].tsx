@@ -19,6 +19,8 @@ import ImageIcon from "@material-ui/icons/Image";
 import AppsIcon from "@material-ui/icons/Apps";
 import { PhotoshopPicker, CirclePicker } from "react-color";
 import LinkList from "../../components/shared/LinkList";
+import defaultAnimations from "../../util/LinkAnimations.json";
+import { splitByCaps } from "../../util/functions";
 
 const useStyles = makeStyles(() =>
 	createStyles({
@@ -72,6 +74,9 @@ const SectionHeader = styled.div`
 		position: relative;
 		display: inline-block;
 		margin: 0 2rem;
+		@media screen and (max-width: 400px) {
+			margin: 0 1rem;
+		}
 	}
 `;
 
@@ -116,6 +121,7 @@ const ContentSection = styled.div`
 	border-radius: 1rem;
 	margin-bottom: 1.5rem;
 	padding: 1rem;
+	${(props: { solid?: boolean }) => (!props.solid ? "padding-left: 0;" : "")}
 	color: black;
 	.circle-picker {
 		justify-content: center;
@@ -130,9 +136,9 @@ const AddLinkBody = styled.div`
 
 const AddLinkSection = styled.div`
 	background: lightgrey;
-	flex: 1 1 63%;
+	flex: 1 1 50%;
 	&:first-child {
-		flex: 1 1 35%;
+		flex: 1 1 40%;
 	}
 	border-radius: 0.5rem;
 	margin: 0.5rem 0;
@@ -179,6 +185,9 @@ const GrabLink = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	/* &.dragged{
+		transform: rotate(30deg);
+	} */
 	cursor: grab;
 	:active {
 		cursor: grabbing;
@@ -220,7 +229,8 @@ const SectionContainer = styled(motion.section)`
 	margin-top: 2.5rem;
 	display: flex;
 	/* width: 30%; */
-	max-width: 450px;
+	max-width: 550px;
+	padding: 0 1rem;
 	@media screen and (max-width: 550px) {
 		max-width: 300px;
 	}
@@ -233,6 +243,26 @@ const ContentHeader = styled.h2`
 	font-size: 1rem;
 	margin-bottom: 0.5rem;
 	align-self: flex-start;
+`;
+
+const CustomizeLinksBody = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	justify-content: space-around;
+	& > div {
+		/* outline: solid black; */
+		min-width: 33%;
+		flex: 1;
+		transition: background 0.25s;
+		padding: 1rem;
+		&:hover {
+			background: rgba(18, 18, 18, 0.404);
+		}
+	}
+	&.column {
+		flex-direction: column;
+	}
 `;
 
 const Content = ({ links, setLinks, remove, ...props }) => (
@@ -319,9 +349,9 @@ const Content = ({ links, setLinks, remove, ...props }) => (
 							<EditButton>
 								<EditIcon /> Edit
 							</EditButton>
-							<DeleteButton onClick={() => remove(link.id)}>
+							{/* <DeleteButton onClick={() => remove(link.id)}>
 								<DeleteIcon /> Remove
-							</DeleteButton>
+							</DeleteButton> */}
 						</LinkButtons>
 					</GrabLink>
 				))}
@@ -359,24 +389,29 @@ const Customize = props => {
 			</ContentSection>
 			<ContentHeader>Link Hover animation</ContentHeader>
 			<ContentSection solid>
-				<div>
-					<LinkComponent path="" disabled name="example" />
-				</div>
-				<div>
-					<LinkComponent path="" disabled name="example" animation="slideLeftToRight" />
-				</div>
-				<div>
-					<LinkComponent path="" disabled name="example" animation="slideRightToLeft" />
-				</div>
-				<div>
-					<LinkComponent path="" disabled name="example" animation="slideTopToBottom" />
-				</div>
-				<div>
-					<LinkComponent path="" disabled name="example" animation="slideBottomToTop" />
-				</div>
+				<CustomizeLinksBody>
+					{defaultAnimations.map(animation => (
+						<motion.div>
+							<h2>{splitByCaps(animation)}</h2>
+
+							<LinkComponent animation={animation} path="" disabled name="Hover Me" />
+						</motion.div>
+					))}
+				</CustomizeLinksBody>
 			</ContentSection>
 			<ContentHeader>Link Style</ContentHeader>
-			<ContentSection solid></ContentSection>
+			<ContentSection solid>
+				<CustomizeLinksBody className="column">
+					<div>
+						<h2>Capsule</h2>
+						<LinkComponent capsule path="" disabled name="example" />
+					</div>
+					<div>
+						<h2>Square</h2>
+						<LinkComponent path="" disabled name="example" />
+					</div>
+				</CustomizeLinksBody>
+			</ContentSection>
 			<ContentHeader>Style</ContentHeader>
 			<ContentSection solid></ContentSection>
 		</SectionContainer>
@@ -449,24 +484,24 @@ export default function Admin() {
 									<Content
 										remove={remove}
 										key="content"
-										exit={{ x: -800, opacity: 0 }}
+										exit={{ x: -600, opacity: 0 }}
 										animate={{ x: 0, opacity: 1 }}
-										initial={{ x: -800, opactiy: 0 }}
+										initial={{ x: -600, opactiy: 0 }}
 										links={links}
 										setLinks={setLinks}
 									/>
 								) : section === "customize" ? (
 									<Customize
 										key={section}
-										initial={{ x: -800, opacity: 0 }}
-										exit={{ x: -800, opacity: 0 }}
+										initial={{ x: -600, opacity: 0 }}
+										exit={{ x: -600, opacity: 0 }}
 										animate={{ x: 0, opacity: 1 }}
 									/>
 								) : section === "analytics" ? (
 									<Analytics
 										key={section}
-										initial={{ x: -800, opacity: 0 }}
-										exit={{ x: -800, opacity: 0 }}
+										initial={{ x: -600, opacity: 0 }}
+										exit={{ x: -600, opacity: 0 }}
 										animate={{ x: 0, opacity: 1 }}
 									/>
 								) : (
