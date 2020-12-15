@@ -18,6 +18,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import ImageIcon from "@material-ui/icons/Image";
 import AppsIcon from "@material-ui/icons/Apps";
 import { PhotoshopPicker, CirclePicker } from "react-color";
+import LinkList from "../../components/shared/LinkList";
 
 const useStyles = makeStyles(() =>
 	createStyles({
@@ -35,6 +36,7 @@ const AdminPage = styled(PaddingPage)`
 
 const AdminSection = styled.div`
 	flex: 1 1 50%;
+	position: relative;
 	background: ${(props: { left?: boolean }) => (props.left ? "#2b2b2b" : "")};
 	/* overflow: auto; */
 `;
@@ -76,7 +78,7 @@ const SectionHeader = styled.div`
 const PreviewSection = styled.div`
 	display: flex;
 	height: calc(100% - 50px);
-	align-items: center;
+	/* align-items: center; */
 	justify-content: center;
 	width: 100%;
 `;
@@ -84,6 +86,8 @@ const PreviewSection = styled.div`
 const PreviewBody = styled.div`
 	width: 340px;
 	height: 650px;
+	position: sticky;
+	top: calc(50px + 80px + 5rem);
 	border: 10px solid black;
 	background: #212121;
 	border-radius: 2rem;
@@ -98,6 +102,7 @@ const AvatarContainer = styled.div`
 `;
 
 const ContentBody = styled.div`
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -216,7 +221,7 @@ const SectionContainer = styled(motion.section)`
 	display: flex;
 	/* width: 30%; */
 	max-width: 450px;
-	@media screen and (max-width: 550px){
+	@media screen and (max-width: 550px) {
 		max-width: 300px;
 	}
 	justify-content: center;
@@ -355,19 +360,19 @@ const Customize = props => {
 			<ContentHeader>Link Hover animation</ContentHeader>
 			<ContentSection solid>
 				<div>
-					<LinkComponent path="" name="example" />
+					<LinkComponent path="" disabled name="example" />
 				</div>
 				<div>
-					<LinkComponent path="" name="example" />
+					<LinkComponent path="" disabled name="example" animation="slideLeftToRight" />
 				</div>
 				<div>
-					<LinkComponent path="" name="example" />
+					<LinkComponent path="" disabled name="example" animation="slideRightToLeft" />
 				</div>
 				<div>
-					<LinkComponent path="" name="example" />
+					<LinkComponent path="" disabled name="example" animation="slideTopToBottom" />
 				</div>
 				<div>
-					<LinkComponent path="" name="example" />
+					<LinkComponent path="" disabled name="example" animation="slideBottomToTop" />
 				</div>
 			</ContentSection>
 			<ContentHeader>Link Style</ContentHeader>
@@ -490,13 +495,13 @@ export default function Admin() {
 										<Avatar className={classes.large} />
 									</AvatarContainer>
 									<div style={{ fontWeight: "bold" }}>@{user.username}</div>
-									<ul>
+									<LinkList>
 										{links
 											.sort((a, b) => a.order - b.order)
 											.map(link => (
 												<LinkComponent {...link} />
 											))}
-									</ul>
+									</LinkList>
 								</PreviewBody>
 							</PreviewSection>
 						</AdminSection>

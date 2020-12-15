@@ -5,15 +5,15 @@ import { duration } from "@material-ui/core";
 
 const LinkComponent = styled.li`
 	a {
-		padding: 1rem 6rem !important;
+		padding: 1rem 0 !important;
 		display: block;
 		transition: color 0.5s;
 		color: white;
 	}
+	width: 100%;
 	background: #212121;
 	transform: translate(0, 0);
 	text-align: center;
-	margin: 1rem !important;
 	border: 2px solid white;
 	display: block;
 	position: relative;
@@ -81,12 +81,12 @@ const background = animationType => ({
 	},
 });
 
-const Link = ({ name, path, animation = "radial" }) => {
+const Link = ({ name, path, animation = "radial", disabled=false }) => {
 	const [hovered, setHovered] = useState(false);
 
 	return (
 		<LinkComponent onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-			<a href={path}>{name}</a>
+			<a href={disabled ? null : path}>{name}</a>
 			<LinkBackground
 				initial="unhovered"
 				variants={background(animation)}

@@ -8,6 +8,7 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import Head from "next/head";
+import LinkList from "../components/shared/LinkList";
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -34,8 +35,9 @@ const UserPage = styled.div`
 	}
 `;
 
-const LinkSet = styled.ul`
+const LinkSet = styled(LinkList)`
 	margin-top: 2rem !important;
+	max-width: 425px;
 `;
 
 const Name = styled.div`
