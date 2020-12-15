@@ -16,7 +16,7 @@ const GlobalStyle = createGlobalStyle`
     	padding: 0;
         margin: 0;
 		font-family: 'Poppins', sans-serif;
-        /* overflow: hidden */
+        /* overflow: hidden; */
         box-sizing: border-box !important;
     }
 

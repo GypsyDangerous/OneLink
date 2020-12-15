@@ -8,7 +8,9 @@ const LinkComponent = styled.li`
 		padding: 1rem 6rem !important;
 		display: block;
 		transition: color 0.5s;
+		color: white;
 	}
+	background: #212121;
 	transform: translate(0, 0);
 	text-align: center;
 	margin: 1rem !important;
@@ -16,6 +18,8 @@ const LinkComponent = styled.li`
 	display: block;
 	position: relative;
 	z-index: 5;
+	border-radius: 100vw;
+	overflow: hidden;
 	&:hover {
 		a {
 			color: black;
@@ -77,7 +81,7 @@ const background = animationType => ({
 	},
 });
 
-const Link = ({ name, path }) => {
+const Link = ({ name, path, animation = "radial" }) => {
 	const [hovered, setHovered] = useState(false);
 
 	return (
@@ -85,7 +89,7 @@ const Link = ({ name, path }) => {
 			<a href={path}>{name}</a>
 			<LinkBackground
 				initial="unhovered"
-				variants={background("radial")}
+				variants={background(animation)}
 				animate={hovered ? "hovered" : "unhovered"}
 			/>
 		</LinkComponent>

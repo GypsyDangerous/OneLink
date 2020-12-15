@@ -36,6 +36,7 @@ const AdminPage = styled(PaddingPage)`
 const AdminSection = styled.div`
 	flex: 1 1 50%;
 	background: ${(props: { left?: boolean }) => (props.left ? "#2b2b2b" : "")};
+	/* overflow: auto; */
 `;
 
 const SectionHeader = styled.div`
@@ -45,6 +46,9 @@ const SectionHeader = styled.div`
 	align-items: center;
 	justify-content: center;
 	padding: 0 10rem;
+	position: sticky;
+	top: 80px;
+	z-index: 100;
 	&.link-section {
 		justify-content: flex-start;
 		padding-left: 0;
@@ -98,6 +102,7 @@ const ContentBody = styled.div`
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
+	height: auto;
 `;
 
 const ContentSection = styled.div`
@@ -205,8 +210,8 @@ const DeleteButton = styled(ItemButton)`
 `;
 
 const SectionContainer = styled(motion.section)`
-	position: absolute;
-	min-width: 25%;
+	/* position: absolute; */
+	min-width: 50%;
 	margin-top: 2.5rem;
 	display: flex;
 	width: 30%;
@@ -343,11 +348,27 @@ const Customize = props => {
 			<ContentSection solid>
 				<CirclePicker width="100%" />
 			</ContentSection>
-			<ContentHeader>Hover animation</ContentHeader>
+			<ContentHeader>Link Hover animation</ContentHeader>
+			<ContentSection solid>
+				<div>
+					<LinkComponent path="" name="example" />
+				</div>
+				<div>
+					<LinkComponent path="" name="example" />
+				</div>
+				<div>
+					<LinkComponent path="" name="example" />
+				</div>
+				<div>
+					<LinkComponent path="" name="example" />
+				</div>
+				<div>
+					<LinkComponent path="" name="example" />
+				</div>
+			</ContentSection>
+			<ContentHeader>Link Style</ContentHeader>
 			<ContentSection solid></ContentSection>
 			<ContentHeader>Style</ContentHeader>
-			<ContentSection solid></ContentSection>
-			<ContentHeader>background</ContentHeader>
 			<ContentSection solid></ContentSection>
 		</SectionContainer>
 	);
@@ -410,7 +431,7 @@ export default function Admin() {
 							</AnimateSharedLayout>
 						</SectionHeader>
 						<ContentBody>
-							<AnimatePresence>
+							<AnimatePresence exitBeforeEnter>
 								{!section ? (
 									<Content
 										remove={remove}
@@ -460,7 +481,7 @@ export default function Admin() {
 									<Avatar className={classes.large} />
 								</AvatarContainer>
 								<div style={{ fontWeight: "bold" }}>@{user.username}</div>
-								<ul style={{ padding: "1rem" }}>
+								<ul>
 									{links
 										.sort((a, b) => a.order - b.order)
 										.map(link => (
