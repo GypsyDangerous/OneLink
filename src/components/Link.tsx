@@ -10,7 +10,7 @@ interface LinkProps {
 }
 
 const getTextColor = color => {
-	return chroma(color).luminance() > 0.5 ? "black" : "white";
+	return chroma(color).luminance() > 0.4 ? "black" : "white";
 };
 
 const LinkComponent = styled.li`

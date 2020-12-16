@@ -9,6 +9,7 @@ export const SettingsContextProvider = ({ children }) => {
 		backgroundColor: "#212121",
 		linkColor: "#000000",
 		linkStyle: "square",
+		animation: "radial",
 		contactInfo: {
 			phone: "",
 		},
