@@ -96,7 +96,7 @@ const Link = ({
 	animation = "radial",
 	disabled = false,
 	capsule = false,
-	linkColor,
+	linkColor="",
 }) => {
 	const [hovered, setHovered] = useState(false);
 
@@ -111,7 +111,7 @@ const Link = ({
 			<LinkBackground
 				initial="unhovered"
 				variants={background(animation)}
-				animate={hovered ? "hovered" : "unhovered"}
+				animate={animation !== "none" ? (hovered ? "hovered" : "unhovered") : null}
 			/>
 		</LinkComponent>
 	);
