@@ -24,7 +24,7 @@ const LinkComponent = styled.li`
 	background: ${({ backgroundColor }: LinkProps) => backgroundColor || "#212121"};
 	transform: translate(0, 0);
 	text-align: center;
-	border: 2px solid white;
+	/* border: 2px solid white; */
 	display: block;
 	position: relative;
 	cursor: pointer;

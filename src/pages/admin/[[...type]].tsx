@@ -254,7 +254,7 @@ const CustomizeLinksBody = styled.div`
 	flex-wrap: wrap;
 	gap: 1rem;
 	justify-content: space-around;
-	h2{
+	h2 {
 		text-transform: capitalize;
 	}
 	& > div {
@@ -532,7 +532,10 @@ const AdminComponent = () => {
 							<PreviewSection>
 								<PreviewBody backgroundColor={settings.backgroundColor}>
 									<AvatarContainer>
-										<Avatar className={classes.large} />
+										<Avatar
+											className={classes.large}
+											src={`${process.env.NEXT_PUBLIC_API_URL}/public/images/${user.photo}`}
+										/>
 									</AvatarContainer>
 									<div style={{ fontWeight: "bold" }}>@{user.username}</div>
 									<LinkList>
