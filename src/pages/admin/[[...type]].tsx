@@ -537,7 +537,7 @@ const AdminComponent = () => {
 export default function Admin() {
 	return (
 		<SettingsContextProvider>
-			<AdminComponent />;
+			<AdminComponent />
 		</SettingsContextProvider>
 	);
 }
