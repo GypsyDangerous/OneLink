@@ -90,12 +90,14 @@ const PreviewSection = styled.div`
 `;
 
 const PreviewBody = styled.div`
+	background: ${({ backgroundColor }: { backgroundColor: string }) => backgroundColor};
+
 	width: 340px;
 	height: 650px;
 	position: sticky;
 	top: calc(50px + 80px + 5rem);
 	border: 10px solid black;
-	background: #212121;
+	/* background: #212121; */
 	border-radius: 2rem;
 	display: flex;
 	flex-direction: column;
@@ -362,15 +364,25 @@ const Content = ({ links, setLinks, remove, ...props }) => (
 );
 
 const Customize = props => {
+	const { settings, update } = useContext(settingsContext);
+
 	return (
 		<SectionContainer {...props}>
 			<ContentHeader>Background Color</ContentHeader>
 			<ContentSection solid>
-				<CirclePicker width="100%" />
+				<CirclePicker
+					width="100%"
+					color={settings.backgroundColor}
+					onChange={color => update("backgroundColor", color.hex)}
+				/>
 			</ContentSection>
 			<ContentHeader>Link Color</ContentHeader>
 			<ContentSection solid>
-				<CirclePicker width="100%" />
+				<CirclePicker
+					width="100%"
+					color={settings.linkColor}
+					onChange={color => update("linkColor", color.hex)}
+				/>
 			</ContentSection>
 			<ContentHeader>Link Hover animation</ContentHeader>
 			<ContentSection solid>
@@ -512,7 +524,7 @@ const AdminComponent = () => {
 								</CopyToClipboard>
 							</SectionHeader>
 							<PreviewSection>
-								<PreviewBody>
+								<PreviewBody backgroundColor={settings.backgroundColor}>
 									<AvatarContainer>
 										<Avatar className={classes.large} />
 									</AvatarContainer>
@@ -521,7 +533,7 @@ const AdminComponent = () => {
 										{links
 											.sort((a, b) => a.order - b.order)
 											.map(link => (
-												<LinkComponent {...link} />
+												<LinkComponent {...link} {...settings} />
 											))}
 									</LinkList>
 								</PreviewBody>
