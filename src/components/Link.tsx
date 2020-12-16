@@ -120,7 +120,7 @@ const Link = ({
 					initial="unhovered"
 					variants={background}
 					custom={animation}
-					animate={animation !== "none" ? (hovered ? "hovered" : "unhovered") : ""}
+					animate={hovered ? "hovered" : "unhovered"}
 				/>
 			)}
 		</LinkComponent>
