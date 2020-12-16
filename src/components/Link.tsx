@@ -103,6 +103,7 @@ const Link = ({
 	disabled = false,
 	capsule = false,
 	linkColor = "",
+	linkStyle = "",
 }) => {
 	const [hovered, setHovered] = useState(false);
 	const [animationType, setAnimationType] = useState(animation);
@@ -118,7 +119,7 @@ const Link = ({
 		<LinkComponent
 			animate={animationType !== "none"}
 			backgroundColor={linkColor}
-			capsule={capsule}
+			capsule={capsule || linkStyle === "capsule"}
 			onMouseEnter={() => setHovered(true)}
 			onMouseLeave={() => setHovered(false)}
 		>

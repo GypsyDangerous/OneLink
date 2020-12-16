@@ -20,6 +20,7 @@ import AppsIcon from "@material-ui/icons/Apps";
 import { PhotoshopPicker, CirclePicker } from "react-color";
 import LinkList from "../../components/shared/LinkList";
 import defaultAnimations from "../../util/LinkAnimations.json";
+import defaultTypes from "../../util/LinkTypes.json";
 import { splitByCaps } from "../../util/functions";
 import { settingsContext, SettingsContextProvider } from "../../contexts/settingsContext";
 
@@ -253,6 +254,9 @@ const CustomizeLinksBody = styled.div`
 	flex-wrap: wrap;
 	gap: 1rem;
 	justify-content: space-around;
+	h2{
+		text-transform: capitalize;
+	}
 	& > div {
 		/* outline: solid black; */
 		min-width: 33%;
@@ -399,14 +403,19 @@ const Customize = props => {
 			<ContentHeader>Link Style</ContentHeader>
 			<ContentSection solid>
 				<CustomizeLinksBody className="column">
-					<div>
-						<h2>Capsule</h2>
-						<LinkComponent capsule path="" disabled name="example" />
-					</div>
-					<div>
-						<h2>Square</h2>
-						<LinkComponent path="" disabled name="example" />
-					</div>
+					{defaultTypes.map(type => {
+						return (
+							<div onClick={() => update("linkStyle", type)}>
+								<h2>{type}</h2>
+								<LinkComponent
+									capsule={type === "capsule"}
+									path=""
+									disabled
+									name="example"
+								/>
+							</div>
+						);
+					})}
 				</CustomizeLinksBody>
 			</ContentSection>
 			<ContentHeader>Style</ContentHeader>
@@ -435,7 +444,6 @@ const AdminComponent = () => {
 	};
 
 	const showPreview = useMediaQuery("(min-width: 64rem)");
-
 
 	useEffect(() => {
 		update("links", [...(user?.Page?.links || [])]);
