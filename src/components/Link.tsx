@@ -1,24 +1,33 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { duration } from "@material-ui/core";
+import chroma from "chroma-js";
+
+interface LinkProps {
+	backgroundColor?: string;
+	capsule?: boolean;
+}
+
+const getTextColor = color => {
+	return chroma(color).luminance() > 0.5 ? "black" : "white";
+};
 
 const LinkComponent = styled.li`
 	a {
 		padding: 1rem 0 !important;
 		display: block;
 		transition: color 0.5s;
-		color: white;
+		color: ${({ backgroundColor }: LinkProps) => getTextColor(backgroundColor || "#212121")};
 	}
 	width: 100%;
-	background: #212121;
+	background: ${({ backgroundColor }: LinkProps) => backgroundColor || "#212121"};
 	transform: translate(0, 0);
 	text-align: center;
 	border: 2px solid white;
 	display: block;
 	position: relative;
 	z-index: 5;
-	border-radius: ${({ capsule }: { capsule?: boolean }) => (capsule ? "100vw" : "0")};
+	border-radius: ${({ capsule }: LinkProps) => (capsule ? "100vw" : "0")};
 	overflow: hidden;
 	&:hover {
 		a {
@@ -81,11 +90,19 @@ const background = animationType => ({
 	},
 });
 
-const Link = ({ name, path, animation = "radial", disabled = false, capsule = false }) => {
+const Link = ({
+	name,
+	path,
+	animation = "radial",
+	disabled = false,
+	capsule = false,
+	linkColor,
+}) => {
 	const [hovered, setHovered] = useState(false);
 
 	return (
 		<LinkComponent
+			backgroundColor={linkColor}
 			capsule={capsule}
 			onMouseEnter={() => setHovered(true)}
 			onMouseLeave={() => setHovered(false)}
