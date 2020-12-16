@@ -33,9 +33,6 @@ const Register = ({ ...props }) => {
 
 	const [register, { data }] = useMutation(RegisterMutation);
 
-	useEffect(() => {
-		console.log(data);
-	}, [data]);
 
 	const handleSubmit = async e => {
 		// console.log(formState);

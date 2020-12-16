@@ -422,7 +422,6 @@ const Analytics = props => {
 const AdminComponent = () => {
 	const { loading, user } = useUser({ redirectTo: "/auth/login" });
 	const { settings, update } = useContext(settingsContext);
-	console.log(settings);
 	const {
 		query: { type },
 	} = useRouter();
@@ -437,7 +436,6 @@ const AdminComponent = () => {
 
 	const showPreview = useMediaQuery("(min-width: 64rem)");
 
-	console.log(showPreview);
 
 	useEffect(() => {
 		update("links", [...(user?.Page?.links || [])]);

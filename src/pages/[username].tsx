@@ -106,7 +106,6 @@ export async function getServerSideProps(ctx) {
 	try {
 		const response = await client.query({ query: pageQuery, variables: { name: username } });
 		const { data } = response;
-		console.log(data);
 		if (!data?.page) throw new Error("invalid name");
 		return { props: { ...data.page, ownerData: data.user } };
 	} catch (err) {

@@ -27,7 +27,6 @@ const Login = ({ ...props }) => {
 
 	const [login, { data }] = useMutation(loginMutation);
 
-	console.log(data)
 
 	const handleSubmit = async e => {
 		// console.log(formState);
