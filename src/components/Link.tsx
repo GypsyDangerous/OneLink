@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import chroma from "chroma-js";
 
 interface LinkProps {
@@ -78,22 +78,23 @@ const availableAnimations = {
 	},
 };
 
-const background = animationType => ({
-	hovered: {
-		...(availableAnimations[animationType]?.hovered || {}),
+const background = {
+	hovered: animationType => ({
+		clipPath: availableAnimations[animationType]?.hovered?.clipPath,
+		// ...(availableAnimations[animationType]?.hovered || {}),
 		opacity: 1,
 		transition: {
 			duration: 0.5,
 		},
-	},
-	unhovered: {
-		...(availableAnimations[animationType]?.unhovered || {}),
+	}),
+	unhovered: animationType => ({
+		clipPath: availableAnimations[animationType]?.unhovered?.clipPath,
 		opacity: 0,
 		transition: {
 			duration: 0.5,
 		},
-	},
-});
+	}),
+};
 
 const Link = ({
 	name,
@@ -114,11 +115,14 @@ const Link = ({
 			onMouseLeave={() => setHovered(false)}
 		>
 			<a href={disabled ? null : path}>{name}</a>
-			<LinkBackground
-				initial="unhovered"
-				variants={background(animation)}
-				animate={animation !== "none" ? (hovered ? "hovered" : "unhovered") : ""}
-			/>
+			{animation !== "none" && (
+				<LinkBackground
+					initial="unhovered"
+					variants={background}
+					custom={animation}
+					animate={animation !== "none" ? (hovered ? "hovered" : "unhovered") : ""}
+				/>
+			)}
 		</LinkComponent>
 	);
 };
