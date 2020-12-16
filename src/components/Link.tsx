@@ -6,6 +6,7 @@ import chroma from "chroma-js";
 interface LinkProps {
 	backgroundColor?: string;
 	capsule?: boolean;
+	animate?: boolean;
 }
 
 const getTextColor = color => {
@@ -26,14 +27,18 @@ const LinkComponent = styled.li`
 	border: 2px solid white;
 	display: block;
 	position: relative;
+	cursor: pointer;
 	z-index: 5;
 	border-radius: ${({ capsule }: LinkProps) => (capsule ? "100vw" : "0")};
 	overflow: hidden;
-	&:hover {
+	${({ animate }: LinkProps) =>
+		animate
+			? `&:hover {
 		a {
 			color: black;
 		}
-	}
+	}`
+			: ""}
 	&:first-child {
 		margin-top: 0 !important;
 	}
@@ -96,12 +101,13 @@ const Link = ({
 	animation = "radial",
 	disabled = false,
 	capsule = false,
-	linkColor="",
+	linkColor = "",
 }) => {
 	const [hovered, setHovered] = useState(false);
 
 	return (
 		<LinkComponent
+			animate={animation !== "none"}
 			backgroundColor={linkColor}
 			capsule={capsule}
 			onMouseEnter={() => setHovered(true)}
@@ -111,7 +117,7 @@ const Link = ({
 			<LinkBackground
 				initial="unhovered"
 				variants={background(animation)}
-				animate={animation !== "none" ? (hovered ? "hovered" : "unhovered") : null}
+				animate={animation !== "none" ? (hovered ? "hovered" : "unhovered") : ""}
 			/>
 		</LinkComponent>
 	);
