@@ -105,21 +105,29 @@ const Link = ({
 	linkColor = "",
 }) => {
 	const [hovered, setHovered] = useState(false);
+	const [animationType, setAnimationType] = useState(animation);
+
+	useEffect(() => {
+		setAnimationType("none");
+		setTimeout(() => {
+			setAnimationType(animation);
+		}, 100);
+	}, [animation]);
 
 	return (
 		<LinkComponent
-			animate={animation !== "none"}
+			animate={animationType !== "none"}
 			backgroundColor={linkColor}
 			capsule={capsule}
 			onMouseEnter={() => setHovered(true)}
 			onMouseLeave={() => setHovered(false)}
 		>
 			<a href={disabled ? null : path}>{name}</a>
-			{animation !== "none" && (
+			{animationType !== "none" && (
 				<LinkBackground
 					initial="unhovered"
 					variants={background}
-					custom={animation}
+					custom={animationType}
 					animate={hovered ? "hovered" : "unhovered"}
 				/>
 			)}
