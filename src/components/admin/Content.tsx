@@ -19,7 +19,12 @@ import {
 	GrabLink,
 } from "./index.styled";
 import { Link as LinkType } from "../../util/types/Settings";
-import { defaultImages } from "../../util/constants";
+import { defaultImages, usernameLinks } from "../../util/constants";
+
+interface ModalMeta {
+	showUsername: boolean;
+	name: string;
+}
 
 const Content = ({ links, setLinks, remove, ...props }) => {
 	const [modalOpen, setModalOpen] = useState(false);
@@ -29,9 +34,14 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 		active: true,
 		image: "",
 	});
+	const [metaData, setMetaData] = useState<ModalMeta>({ showUsername: false, name: "" });
 
 	const handleOpen = (name?: string) => {
 		setModalOpen(true);
+		if (name) {
+			setCurrentLink(prev => ({ ...prev, image: defaultImages[name] }));
+			setMetaData({ name, showUsername: usernameLinks.includes(name) });
+		}
 	};
 
 	const handleClose = () => {

@@ -26,3 +26,5 @@ export const colors = [
 ].sort((a, b) => chroma(a).luminance() - chroma(b).luminance());
 
 export const defaultImages = {};
+
+export const usernameLinks = [] 
