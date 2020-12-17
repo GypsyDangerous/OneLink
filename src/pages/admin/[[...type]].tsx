@@ -25,6 +25,15 @@ import { Underline, LargeAvatar } from "../../components/shared/styles";
 import Content from "../../components/admin/Content";
 import Customize from "../../components/admin/Customize";
 import Analytics from "../../components/admin/Analytics";
+import styled from "styled-components";
+
+const CopyIcon = styled(FileCopyIcon)`
+	padding: 0.25rem;
+	border-radius: .1rem;
+	&:hover {
+		background: #282828;
+	}
+`;
 
 const AdminComponent = () => {
 	const { loading, user } = useUser({ redirectTo: "/auth/login" });
@@ -136,7 +145,7 @@ const AdminComponent = () => {
 									text={`${process.env.NEXT_PUBLIC_CLIENT_URL}/${user.username}`}
 									onCopy={() => setCopied(true)}
 								>
-									<FileCopyIcon />
+									<CopyIcon />
 								</CopyToClipboard>
 							</SectionHeader>
 							<PreviewSection>
