@@ -36,13 +36,16 @@ const SEO = ({ title }) => {
 				content="OneLink"
 			/>
 			<meta
+				name="description"
+				content="OneLink is a tool for anyone with a digital voice to organize, promote, and amplify your online existence. OneLink curates all of your links into one clean page that is easily shareable."
+			/>
+			<meta
 				data-n-head="ssr"
 				data-hid="og:url"
 				property="og:url"
 				content="https://www.onelinkapp.xyz"
 			/>
-				<meta data-n-head="ssr" data-hid="og:locale" property="og:locale" content="en_US" />
-
+			<meta data-n-head="ssr" data-hid="og:locale" property="og:locale" content="en_US" />
 		</Head>
 	);
 };
