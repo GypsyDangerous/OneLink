@@ -6,8 +6,8 @@ export const settingsContext = createContext(null);
 export const SettingsContextProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(SettingsReducer, {
 		links: [],
-		backgroundColor: "#212121",
-		linkColor: "#000000",
+		backgroundColor: "#282828",
+		linkColor: "#2c4d5a",
 		linkStyle: "square",
 		animation: "radial",
 		contactInfo: {
