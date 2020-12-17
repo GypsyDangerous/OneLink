@@ -1,7 +1,7 @@
 import useUser from "../../hooks/useUser";
 import { useRouter } from "next/router";
-import { useMediaQuery } from "@material-ui/core";
-import { useContext, useEffect } from "react";
+import { Slide, useMediaQuery } from "@material-ui/core";
+import { useContext, useEffect, useState } from "react";
 import LinkComponent from "../../components/Link";
 import Link from "next/link";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -20,6 +20,7 @@ import {
 	ContentBody,
 	AvatarContainer,
 } from "../../components/admin/index.styled";
+import Snackbar from "@material-ui/core/Snackbar";
 import { Underline, LargeAvatar } from "../../components/shared/styles";
 import Content from "../../components/admin/Content";
 import Customize from "../../components/admin/Customize";
@@ -45,6 +46,8 @@ const AdminComponent = () => {
 		update("links", [...(user?.Page?.links || [])]);
 	}, [user]);
 
+	const [copied, setCopied] = useState(false);
+
 	return (
 		<AdminPage>
 			<Head>
@@ -52,6 +55,16 @@ const AdminComponent = () => {
 			</Head>
 			{!loading && (
 				<>
+					<Snackbar
+						anchorOrigin={{
+							vertical: "bottom",
+							horizontal: "left",
+						}}
+						open={copied}
+						autoHideDuration={6000}
+						onClose={() => setCopied(false)}
+						message="Link Copied!"
+					/>
 					<AdminSection left>
 						<SectionHeader>
 							<AnimateSharedLayout>
@@ -121,6 +134,7 @@ const AdminComponent = () => {
 								</Link>
 								<CopyToClipboard
 									text={`${process.env.NEXT_PUBLIC_CLIENT_URL}/${user.username}`}
+									onCopy={() => setCopied(true)}
 								>
 									<FileCopyIcon />
 								</CopyToClipboard>
