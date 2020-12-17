@@ -6,11 +6,14 @@ import chroma from "chroma-js";
 interface LinkProps {
 	backgroundColor?: string;
 	capsule?: boolean;
-	animate?: boolean;
+	shouldAnimate?: boolean;
 }
 
-const getTextColor = color => {
-	return chroma(color).luminance() > 0.4 ? "black" : "white";
+const getTextColor = (color, invert?: boolean) => {
+	const isBright = chroma(color).luminance() > 0.4;
+	const brightIndex = isBright ? 1 : 0;
+	const colors = ["black", "white"];
+	return invert ? colors.reverse()[brightIndex] : colors[brightIndex];
 };
 
 const LinkComponent = styled.li`
@@ -18,27 +21,26 @@ const LinkComponent = styled.li`
 		padding: 1rem 0 !important;
 		display: block;
 		transition: color 0.5s;
-		color: ${({ backgroundColor }: LinkProps) => getTextColor(backgroundColor || "#212121")};
+		color: ${({ backgroundColor }: LinkProps) =>
+			getTextColor(backgroundColor || "#212121", false)};
 	}
 	width: 100%;
-	background: ${({ backgroundColor }: LinkProps) => backgroundColor || "#212121"};
+	/* background: ; */
 	transform: translate(0, 0);
 	text-align: center;
-	/* border: 2px solid white; */
+	border: 2px solid ${({ backgroundColor }: LinkProps) => backgroundColor || "#212121"};
 	display: block;
 	position: relative;
 	cursor: pointer;
 	z-index: 5;
 	border-radius: ${({ capsule }: LinkProps) => (capsule ? "100vw" : "0")};
 	overflow: hidden;
-	${({ animate }: LinkProps) =>
-		animate
-			? `&:hover {
+	&:hover {
 		a {
-			color: black;
+			color: ${({ backgroundColor }: LinkProps) =>
+				getTextColor(backgroundColor || "#212121", true)};
 		}
-	}`
-			: ""}
+	}
 	&:first-child {
 		margin-top: 0 !important;
 	}
@@ -50,7 +52,7 @@ const LinkBackground = styled(motion.span)`
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: white;
+	background: ${({ backgroundColor }: LinkProps) => backgroundColor || "#212121"};
 	z-index: -1;
 	transform-origin: left center;
 `;
@@ -117,7 +119,7 @@ const Link = ({
 
 	return (
 		<LinkComponent
-			animate={animationType !== "none"}
+			shouldAnimate={animationType !== "none"}
 			backgroundColor={linkColor}
 			capsule={capsule || linkStyle === "capsule"}
 			onMouseEnter={() => setHovered(true)}
@@ -130,6 +132,7 @@ const Link = ({
 					variants={background}
 					custom={animationType}
 					animate={hovered ? "hovered" : "unhovered"}
+					backgroundColor={linkColor}
 				/>
 			)}
 		</LinkComponent>
