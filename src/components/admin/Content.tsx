@@ -18,15 +18,16 @@ import {
 	AddLinkSection,
 	GrabLink,
 } from "./index.styled";
-import {Link as LinkType} from "../../util/types/Settings"
+import { Link as LinkType } from "../../util/types/Settings";
+import { defaultImages } from "../../util/constants";
 
 const Content = ({ links, setLinks, remove, ...props }) => {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [currentLink, setCurrentLink] = useState<LinkType | null>({
 		name: "",
 		path: "",
-		order: -1,
 		active: true,
+		image: "",
 	});
 
 	const handleOpen = (name?: string) => {

@@ -1,7 +1,7 @@
 export interface Link {
 	path: string;
 	embed?: boolean;
-	image?: string;
+	image: string;
 	name: string;
 	order?: number;
 	color?: string;

@@ -1,4 +1,4 @@
-import chroma from "chroma-js"
+import chroma from "chroma-js";
 
 export const colors = [
 	"#001aff",
@@ -24,3 +24,5 @@ export const colors = [
 	"#09ad1e",
 	"#ffbcb9",
 ].sort((a, b) => chroma(a).luminance() - chroma(b).luminance());
+
+export const defaultImages = {};
