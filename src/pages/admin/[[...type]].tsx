@@ -27,254 +27,28 @@ import chroma from "chroma-js";
 import Slide from "@material-ui/core/Slide";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
+import {
+	AdminPage,
+	AdminSection,
+	StyledModal,
+	SectionHeader,
+	SectionContainer,
+	PreviewBody,
+	PreviewSection,
+	ContentBody,
+	ContentHeader,
+	ContentSection,
+	AvatarContainer,
+	LinkButtons,
+	LinkItem,
+	EditButton,
+	CustomizeLinksBody,
+	AddLinkBody,
+	AddLinkSection,
+	GrabLink,
+} from "../../components/admin/index.styled";
 
-const useStyles = makeStyles(() =>
-	createStyles({
-		large: {
-			width: "100px",
-			height: "100px",
-		},
-	})
-);
-
-const AdminPage = styled(PaddingPage)`
-	justify-content: center;
-	height: 100%;
-`;
-
-const AdminSection = styled.div`
-	flex: 1 1 50%;
-	position: relative;
-	background: ${(props: { left?: boolean }) => (props.left ? "#2b2b2b" : "")};
-	/* overflow: auto; */
-`;
-
-const SectionHeader = styled.div`
-	height: 50px;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	/* padding: 0 10rem; */
-	position: sticky;
-	top: 80px;
-	z-index: 100;
-	&.link-section {
-		justify-content: flex-start;
-		padding-left: 0;
-		* {
-			cursor: pointer;
-		}
-		a {
-			color: var(--clr-accent-300);
-			margin-right: 0.5rem;
-			&:hover {
-				text-decoration: underline;
-			}
-		}
-	}
-	background: var(--clr-primary-300);
-	a {
-		/* font-weight: bold; */
-		outline: none;
-		position: relative;
-		display: inline-block;
-		margin: 0 2rem;
-		@media screen and (max-width: 400px) {
-			margin: 0 1rem;
-		}
-	}
-`;
-
-const PreviewSection = styled.div`
-	display: flex;
-	height: calc(100% - 50px);
-	/* align-items: center; */
-	justify-content: center;
-	width: 100%;
-`;
-
-const PreviewBody = styled.div`
-	background: ${({ backgroundColor }: { backgroundColor: string }) => backgroundColor};
-
-	width: 340px;
-	height: 650px;
-	position: sticky;
-	top: calc(50px + 80px + 5rem);
-	border: 10px solid black;
-	/* background: #212121; */
-	border-radius: 2rem;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 2rem;
-`;
-
-const AvatarContainer = styled.div`
-	margin-top: 4rem;
-`;
-
-const ContentBody = styled.div`
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;
-	height: auto;
-`;
-
-const ContentSection = styled.div`
-	width: 100%;
-	background: ${(props: { solid?: boolean }) => (props.solid ? "white" : "")};
-	border-radius: 1rem;
-	margin-bottom: 1.5rem;
-	padding: 1rem;
-	${(props: { solid?: boolean }) => (!props.solid ? "padding-left: 0;" : "")}
-	color: black;
-	.circle-picker {
-		justify-content: center;
-	}
-`;
-
-const AddLinkBody = styled.div`
-	display: flex;
-	width: 100%;
-	gap: 1rem;
-`;
-
-const AddLinkSection = styled.div`
-	background: lightgrey;
-	flex: 1 1 50%;
-	&:first-child {
-		flex: 1 1 40%;
-	}
-	border-radius: 0.5rem;
-	margin: 0.5rem 0;
-	padding: 0.5rem;
-	& > div {
-		display: flex;
-		padding: 0.25rem 0 0.25rem 0;
-		flex-wrap: wrap;
-		gap: 0.6rem;
-	}
-`;
-
-const LinkItem = styled.div`
-	border-radius: 0.25rem;
-	border: 1px solid #3240a5;
-	padding: 0.5rem;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background: #e9e9e9;
-	color: #4556df;
-	width: 40px;
-	height: 40px;
-	img {
-		max-width: 100%;
-	}
-`;
-
-const Underline = styled(motion.div)`
-	position: absolute;
-	border-bottom: 3px solid;
-	width: 100%;
-	left: 0;
-	bottom: -3px;
-`;
-
-const GrabLink = styled.div`
-	padding: 0.5rem;
-	background: ${({ back }: { back?: boolean }) => (back ? "lightgray" : "white")};
-	opacity: ${({ back }: { back?: boolean }) => (back ? 0.5 : 1)};
-	z-index: ${({ back }: { back?: boolean }) => (back ? -1 : 1)};
-	margin: 1rem 0;
-	min-height: 60px;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	/* &.dragged{
-		transform: rotate(30deg);
-	} */
-	cursor: grab;
-	:active {
-		cursor: grabbing;
-	}
-`;
-
-const LinkButtons = styled.div`
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
-`;
-
-const ItemButton = styled.button`
-	border-radius: 0.25rem;
-	padding: 0.5rem;
-	border: none;
-	outline: none !important;
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
-	border: 2px solid;
-`;
-
-const EditButton = styled(ItemButton)`
-	background: #2b658a;
-	border-color: #2b658a;
-	color: white;
-`;
-
-const DeleteButton = styled(ItemButton)`
-	background: #4e4e4e1a;
-	border-color: var(--warn-red);
-	color: var(--warn-red);
-`;
-
-const SectionContainer = styled(motion.section)`
-	/* position: absolute; */
-	/* min-width: 50%; */
-	margin-top: 2.5rem;
-	display: flex;
-	/* width: 30%; */
-	max-width: 550px;
-	padding: 0 1rem;
-	@media screen and (max-width: 550px) {
-		max-width: 300px;
-	}
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-`;
-
-const ContentHeader = styled.h2`
-	font-size: 1rem;
-	margin-bottom: 0.5rem;
-	align-self: flex-start;
-`;
-
-const CustomizeLinksBody = styled.div`
-	display: flex;
-	flex-wrap: wrap;
-	gap: 1rem;
-	justify-content: space-around;
-	h2 {
-		text-transform: capitalize;
-	}
-	& > div {
-		/* outline: solid black; */
-		min-width: 33%;
-		flex: 1;
-		transition: background 0.25s;
-		padding: 1rem;
-		&:hover {
-			background: rgba(18, 18, 18, 0.404);
-		}
-	}
-	&.column {
-		flex-direction: column;
-	}
-`;
+import { Underline, LargeAvatar } from "../../components/shared/styles";
 
 const colors = [
 	"#001aff",
@@ -300,12 +74,6 @@ const colors = [
 	"#09ad1e",
 	"#ffbcb9",
 ].sort((a, b) => chroma(a).luminance() - chroma(b).luminance());
-
-const StyledModal = styled(Modal)`
-	display: flex;
-	align-items: center;
-	justify-content: center;
-`;
 
 const Content = ({ links, setLinks, remove, ...props }) => {
 	const [open, setOpen] = useState(false);
@@ -505,7 +273,6 @@ const AdminComponent = () => {
 	const {
 		query: { type },
 	} = useRouter();
-	const classes = useStyles();
 	const section = type?.[0];
 
 	const { links } = settings;
@@ -603,9 +370,8 @@ const AdminComponent = () => {
 							<PreviewSection>
 								<PreviewBody backgroundColor={settings.backgroundColor}>
 									<AvatarContainer>
-										<Avatar
+										<LargeAvatar
 											alt="Avatar"
-											className={classes.large}
 											src={`${process.env.NEXT_PUBLIC_API_URL}/public/images/${user.photo}`}
 										/>
 									</AvatarContainer>
