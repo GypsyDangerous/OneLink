@@ -23,9 +23,7 @@ import {
 import { Underline, LargeAvatar } from "../../components/shared/styles";
 import Content from "../../components/admin/Content";
 import Customize from "../../components/admin/Customize";
-const Analytics = props => {
-	return <SectionContainer {...props}>analytics</SectionContainer>;
-};
+import Analytics from "../../components/admin/Analytics";
 
 const AdminComponent = () => {
 	const { loading, user } = useUser({ redirectTo: "/auth/login" });
