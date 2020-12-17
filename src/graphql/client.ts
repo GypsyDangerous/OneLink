@@ -1,25 +1,25 @@
-import { getAccessToken, setAccessToken } from "../auth/accessToken"
-import { ApolloClient, InMemoryCache, createHttpLink, } from "@apollo/client"
+import { getAccessToken, setAccessToken } from "../auth/accessToken";
+import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 // import { HttpLink } from "apollo-link-http"
-import { onError } from "apollo-link-error"
-import { ApolloLink, Observable } from "@apollo/client"
-import { TokenRefreshLink } from "apollo-link-token-refresh"
-import jwtDecode from "jwt-decode"
-const cache = new InMemoryCache({})
+import { onError } from "apollo-link-error";
+import { ApolloLink, Observable } from "@apollo/client";
+import { TokenRefreshLink } from "apollo-link-token-refresh";
+import jwtDecode from "jwt-decode";
+const cache = new InMemoryCache({});
 
 const requestLink = new ApolloLink(
 	(operation, forward) =>
 		new Observable(observer => {
-			let handle: any
+			let handle: any;
 			Promise.resolve(operation)
 				.then(operation => {
-					const accessToken = getAccessToken()
+					const accessToken = getAccessToken();
 					if (accessToken) {
 						operation.setContext({
 							headers: {
 								authorization: `Bearer ${accessToken}`,
 							},
-						})
+						});
 					}
 				})
 				.then(() => {
@@ -27,57 +27,58 @@ const requestLink = new ApolloLink(
 						next: observer.next.bind(observer),
 						error: observer.error.bind(observer),
 						complete: observer.complete.bind(observer),
-					})
+					});
 				})
-				.catch(observer.error.bind(observer))
+				.catch(observer.error.bind(observer));
 
 			return () => {
-				if (handle) handle.unsubscribe()
-			}
+				if (handle) handle.unsubscribe();
+			};
 		})
-)
+);
 
 const refreshLink: any = new TokenRefreshLink({
 	accessTokenField: "accessToken",
 	isTokenValidOrUndefined: () => {
-		const token = getAccessToken()
+		const token = getAccessToken();
 
 		if (!token) {
-			return true
+			return true;
 		}
 
 		try {
-			const { exp }: any = jwtDecode(token)
+			const { exp }: any = jwtDecode(token);
 			if (Date.now() >= exp * 1000) {
-				return false
+				return false;
 			} else {
-				return true
+				return true;
 			}
 		} catch {
-			return false
+			return false;
 		}
 	},
 	fetchAccessToken: () => {
 		return fetch(`${process.env.NEXT_PUBLIC_API_URL}/refresh_token`, {
 			method: "POST",
 			credentials: "include",
-		})
+		});
 	},
 	handleFetch: accessToken => {
-		setAccessToken(accessToken)
+		setAccessToken(accessToken);
 	},
 	handleError: err => {
-		console.warn("Your refresh token is invalid. Try to relogin")
-		console.error(err)
+		console.warn("Your refresh token is invalid. Try to relogin");
+		console.error(err);
 	},
-})
+});
 
 const client = new ApolloClient({
 	link: ApolloLink.from([
 		refreshLink,
 		onError(({ graphQLErrors, networkError }) => {
-			console.log(graphQLErrors)
-			console.log(networkError)
+			console.log("Apollo Errors");
+			console.log(graphQLErrors);
+			console.log(networkError);
 		}),
 		requestLink,
 		createHttpLink({
@@ -86,6 +87,6 @@ const client = new ApolloClient({
 		}),
 	]),
 	cache,
-})
+});
 
-export default client
+export default client;

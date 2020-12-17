@@ -8,7 +8,7 @@ export const silentRefresh = async () => {
 		const json = await response.json();
 		return json?.data?.token;
 	} catch (err) {
-		console.log(err);
+		console.log(err.message);
 		return null;
 	}
 };
