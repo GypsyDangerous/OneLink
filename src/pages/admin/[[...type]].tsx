@@ -38,13 +38,7 @@ const CopyIcon = styled(FileCopyIcon)`
 
 const AdminComponent = () => {
 	const [copied, setCopied] = useState(false);
-	const [modalOpen, setModalOpen] = useState(false);
-	const [currentLink, setCurrentLink] = useState<LinkType | null>({
-		name: "",
-		path: "",
-		order: -1,
-		active: true,
-	});
+	
 	const { loading, user } = useUser({ redirectTo: "/auth/login" });
 	const { settings, update } = useContext(settingsContext);
 	const {

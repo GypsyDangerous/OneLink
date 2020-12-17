@@ -18,16 +18,23 @@ import {
 	AddLinkSection,
 	GrabLink,
 } from "./index.styled";
+import {Link as LinkType} from "../../util/types/Settings"
 
 const Content = ({ links, setLinks, remove, ...props }) => {
-	const [open, setOpen] = useState(false);
+	const [modalOpen, setModalOpen] = useState(false);
+	const [currentLink, setCurrentLink] = useState<LinkType | null>({
+		name: "",
+		path: "",
+		order: -1,
+		active: true,
+	});
 
-	const handleOpen = () => {
-		setOpen(true);
+	const handleOpen = (name?: string) => {
+		setModalOpen(true);
 	};
 
 	const handleClose = () => {
-		setOpen(false);
+		setModalOpen(false);
 	};
 
 	return (
@@ -35,7 +42,7 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 			<StyledModal
 				aria-labelledby="transition-modal-title"
 				aria-describedby="transition-modal-description"
-				open={open}
+				open={modalOpen}
 				onClose={handleClose}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
@@ -43,7 +50,7 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 					timeout: 500,
 				}}
 			>
-				<Slide in={open} direction="up">
+				<Slide in={modalOpen} direction="up">
 					<div>
 						<h2 id="transition-modal-title">Transition modal</h2>
 						<p id="transition-modal-description">react-transition-group animates me.</p>
