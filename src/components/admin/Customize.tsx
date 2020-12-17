@@ -11,7 +11,7 @@ import {
 	ContentHeader,
 	ContentSection,
 	CustomizeLinksBody,
-} from "../../components/admin/index.styled";
+} from "./index.styled";
 import { colors } from "../../util/constants";
 
 const Customize = props => {

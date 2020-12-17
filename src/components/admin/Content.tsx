@@ -17,7 +17,7 @@ import {
 	AddLinkBody,
 	AddLinkSection,
 	GrabLink,
-} from "../../components/admin/index.styled";
+} from "./index.styled";
 
 const Content = ({ links, setLinks, remove, ...props }) => {
 	const [open, setOpen] = useState(false);
