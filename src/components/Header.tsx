@@ -161,7 +161,7 @@ const Header = () => {
 		>
 			<HeaderContent>
 				<Link href="/">
-					<a>
+					<a aria-label="logo">
 						<Logo />
 					</a>
 				</Link>
