@@ -305,10 +305,9 @@ const StyledModal = styled(Modal)`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-`
+`;
 
 const Content = ({ links, setLinks, remove, ...props }) => {
-
 	const [open, setOpen] = useState(false);
 
 	const handleOpen = () => {
@@ -412,7 +411,11 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 						<GrabLink key={link.order}>
 							<LinkButtons>
 								<AppsIcon />
-								<Avatar variant="square" src={link.image}>
+								<Avatar
+									alt={`${link.name} image`}
+									variant="square"
+									src={link.image}
+								>
 									<ImageIcon />
 								</Avatar>
 								<h2>{link.name}</h2>
@@ -601,6 +604,7 @@ const AdminComponent = () => {
 								<PreviewBody backgroundColor={settings.backgroundColor}>
 									<AvatarContainer>
 										<Avatar
+											alt="Avatar"
 											className={classes.large}
 											src={`${process.env.NEXT_PUBLIC_API_URL}/public/images/${user.photo}`}
 										/>

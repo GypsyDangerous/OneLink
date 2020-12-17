@@ -87,7 +87,7 @@ export default function Page(props) {
 				/>
 			</Head>
 			<Avatar
-				// alt={props.ownerData.username}
+				alt="Avatar"
 				src={`${process.env.NEXT_PUBLIC_API_URL}/public/images/${props.ownerData.photo}`}
 				className={classes.large}
 			/>
