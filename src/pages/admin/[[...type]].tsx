@@ -272,6 +272,31 @@ const CustomizeLinksBody = styled.div`
 	}
 `;
 
+const colors = [
+	"#001aff",
+	"#7000ff",
+	"#ab68ff",
+	"#bd00ff",
+	"#ff6a85",
+	"#282828",
+	"#01a5c8",
+	"#00ffd1",
+	"#00ff19",
+	"#7eff8b",
+	"#ff6767",
+	"#ff7a00",
+	"#e40025",
+	"#e8833e",
+	"#306844",
+	"#007bff",
+	"#fdd618",
+	"#6ab04c",
+	"#e45f00",
+	"#2c4d5a",
+	"#09ad1e",
+	"#ffbcb9",
+];
+
 const Content = ({ links, setLinks, remove, ...props }) => (
 	<SectionContainer {...props}>
 		<ContentSection solid>
@@ -375,6 +400,7 @@ const Customize = props => {
 			<ContentHeader>Background Color</ContentHeader>
 			<ContentSection solid>
 				<CirclePicker
+					colors={colors}
 					width="100%"
 					color={settings.backgroundColor}
 					onChange={color => update("backgroundColor", color.hex)}
@@ -383,6 +409,7 @@ const Customize = props => {
 			<ContentHeader>Link Color</ContentHeader>
 			<ContentSection solid>
 				<CirclePicker
+					colors={colors}
 					width="100%"
 					color={settings.linkColor}
 					onChange={color => update("linkColor", color.hex)}
