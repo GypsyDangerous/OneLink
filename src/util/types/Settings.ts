@@ -3,7 +3,7 @@ export interface Link {
 	embed?: boolean;
 	image?: string;
 	name: string;
-	order: number;
+	order?: number;
 	color?: string;
 	active: boolean;
 	id?: string

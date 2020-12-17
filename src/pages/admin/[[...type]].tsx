@@ -26,16 +26,25 @@ import Content from "../../components/admin/Content";
 import Customize from "../../components/admin/Customize";
 import Analytics from "../../components/admin/Analytics";
 import styled from "styled-components";
+import { Link as LinkType } from "../../util/types/Settings";
 
 const CopyIcon = styled(FileCopyIcon)`
 	padding: 0.25rem;
-	border-radius: .1rem;
+	border-radius: 0.1rem;
 	&:hover {
 		background: #282828;
 	}
 `;
 
 const AdminComponent = () => {
+	const [copied, setCopied] = useState(false);
+	const [modalOpen, setModalOpen] = useState(false);
+	const [currentLink, setCurrentLink] = useState<LinkType | null>({
+		name: "",
+		path: "",
+		order: -1,
+		active: true,
+	});
 	const { loading, user } = useUser({ redirectTo: "/auth/login" });
 	const { settings, update } = useContext(settingsContext);
 	const {
@@ -45,17 +54,15 @@ const AdminComponent = () => {
 
 	const { links } = settings;
 
+	const showPreview = useMediaQuery("(min-width: 64rem)");
+
 	const remove = id => {
 		update("links", prev => prev.filter(item => item.id !== id));
 	};
 
-	const showPreview = useMediaQuery("(min-width: 64rem)");
-
 	useEffect(() => {
 		update("links", [...(user?.Page?.links || [])]);
 	}, [user]);
-
-	const [copied, setCopied] = useState(false);
 
 	return (
 		<AdminPage>
