@@ -23,6 +23,7 @@ import defaultAnimations from "../../util/LinkAnimations.json";
 import defaultTypes from "../../util/LinkTypes.json";
 import { splitByCaps } from "../../util/functions";
 import { settingsContext, SettingsContextProvider } from "../../contexts/settingsContext";
+import chroma from "chroma-js"
 
 const useStyles = makeStyles(() =>
 	createStyles({
@@ -295,7 +296,7 @@ const colors = [
 	"#2c4d5a",
 	"#09ad1e",
 	"#ffbcb9",
-];
+].sort((a, b) => chroma(a).luminance() - chroma(b).luminance());
 
 const Content = ({ links, setLinks, remove, ...props }) => (
 	<SectionContainer {...props}>
