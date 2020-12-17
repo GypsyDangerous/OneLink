@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import { useWindowScroll } from "react-use";
 import { useContext, useRef, useState } from "react";
-import { getAccessToken, setAccessToken } from "../auth/accessToken";
+import { getAccessToken, setAccessToken } from "../util/auth/accessToken";
 import { useMutation } from "@apollo/client";
 import logoutMutation from "../graphql/logoutMutation";
 import Router from "next/router";

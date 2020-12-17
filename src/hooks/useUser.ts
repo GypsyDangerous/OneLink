@@ -3,7 +3,7 @@ import Router from "next/router";
 import { globalUser, userContext } from "../contexts/userContext";
 import client from "../graphql/client";
 import userQuery from "../graphql/userQuery";
-import { getAccessToken, setAccessToken } from "../auth/accessToken";
+import { getAccessToken, setAccessToken } from "../util/auth/accessToken";
 import useUserContext from "./useUserContext";
 interface userOptions {
 	redirectTo?: string;

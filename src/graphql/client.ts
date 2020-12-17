@@ -1,4 +1,4 @@
-import { getAccessToken, setAccessToken } from "../auth/accessToken";
+import { getAccessToken, setAccessToken } from "../util/auth/accessToken";
 import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 // import { HttpLink } from "apollo-link-http"
 import { onError } from "apollo-link-error";
