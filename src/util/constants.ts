@@ -37,6 +37,16 @@ export const defaultLinks = [
 	"youtube",
 ];
 
-export const defaultImages = {};
+export const defaultImages = {
+	twitter: "/twitter.svg",
+	tiktok: "/tiktok.png",
+	instagram: "/instagram.svg",
+	snapchat: "/snapchat.svg",
+	twitch: "/twitch.webp",
+	facebook: "/facebook.svg",
+	spotify: "/spotify.png",
+	discord: "/discord-round.svg",
+	youtube: "/youtube.svg",
+};
 
 export const usernameLinks = [];

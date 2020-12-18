@@ -19,7 +19,7 @@ import {
 	GrabLink,
 } from "./index.styled";
 import { Link as LinkType } from "../../util/types/Settings";
-import { defaultImages, usernameLinks } from "../../util/constants";
+import { defaultImages, usernameLinks, defaultLinks } from "../../util/constants";
 
 interface ModalMeta {
 	showUsername: boolean;
@@ -77,33 +77,11 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 							<LinkItem onClick={e => handleOpen()}>
 								<LinkIcon />
 							</LinkItem>
-							<LinkItem onClick={e => handleOpen("twitter")}>
-								<img src="/twitter.svg" alt=""  />
-							</LinkItem>
-							<LinkItem>
-								<img src="/tiktok.png" alt="" />
-							</LinkItem>
-							<LinkItem>
-								<img src="/instagram.svg" alt="" />
-							</LinkItem>
-							<LinkItem>
-								<img src="/snapchat.svg" alt="" />
-							</LinkItem>
-							<LinkItem>
-								<img src="/twitch.webp" alt="" />
-							</LinkItem>
-							<LinkItem>
-								<img src="/facebook.svg" alt="" />
-							</LinkItem>
-							<LinkItem>
-								<img src="/spotify.png" alt="" />
-							</LinkItem>
-							<LinkItem>
-								<img src="/discord-round.svg" alt="" />
-							</LinkItem>
-							<LinkItem>
-								<img src="/youtube.svg" alt="" />
-							</LinkItem>
+							{defaultLinks.map(linkName => (
+								<LinkItem onClick={e => handleOpen(linkName)}>
+									<img src={defaultImages[linkName]} alt={`${linkName} icon`} />
+								</LinkItem>
+							))}
 						</div>
 					</AddLinkSection>
 					<AddLinkSection>
