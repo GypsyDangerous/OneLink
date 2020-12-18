@@ -134,7 +134,7 @@ const Link = ({
 			onMouseLeave={() => setHovered(false)}
 		>
 			<a href={disabled ? null : path}>
-				{image?.length && <img width="40" height="40" src={image}></img>}
+				{!!image?.length && <img width="40" height="40" src={image}></img>}
 				{name}
 			</a>
 			{animationType !== "none" && (
