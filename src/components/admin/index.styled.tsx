@@ -135,6 +135,7 @@ export const AddLinkSection = styled.div`
 
 export const LinkItem = styled.div`
 	border-radius: 0.25rem;
+	cursor: pointer;
 	border: 1px solid #3240a5;
 	padding: 0.5rem;
 	display: flex;
