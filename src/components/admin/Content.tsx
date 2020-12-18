@@ -75,6 +75,7 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 			>
 				<Slide in={modalOpen} direction="up">
 					<LinkModal
+						close={handleClose}
 						currentLink={currentLink}
 						setCurrentLink={setCurrentLink}
 						metaData={metaData}

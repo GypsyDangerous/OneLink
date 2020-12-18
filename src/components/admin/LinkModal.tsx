@@ -1,9 +1,11 @@
-import { Dispatch, forwardRef, SetStateAction, useContext } from "react";
+import { Dispatch, forwardRef, SetStateAction, useContext, useMemo } from "react";
 import styled from "styled-components";
 import { settingsContext } from "../../contexts/settingsContext";
 import { Link as LinkType, ModalMeta } from "../../util/types/Settings";
 import Link from "../Link";
 import Form from "../shared/Form";
+import TextField from "@material-ui/core/TextField";
+import { createMuiTheme, InputAdornment, ThemeProvider, useMediaQuery } from "@material-ui/core";
 
 const ModalComponent = styled.div`
 	width: 50%;
@@ -43,33 +45,81 @@ interface ModalProps {
 	metaData: ModalMeta;
 	currentLink: LinkType;
 	setCurrentLink: Dispatch<SetStateAction<LinkType>>;
+	close: () => void
 }
 
 const LinkModal = forwardRef<HTMLDivElement, ModalProps>(
-	({ metaData, currentLink, setCurrentLink }, ref) => {
-		const { settings, update } = useContext(settingsContext);
+	({ metaData, currentLink, setCurrentLink, close }, ref) => {
+		const { settings, addLink } = useContext(settingsContext);
+
+		const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+
+		const theme = useMemo(
+			() =>
+				createMuiTheme({
+					palette: {
+						type: !prefersDarkMode ? "dark" : "light",
+					},
+				}),
+			[prefersDarkMode]
+		);
 
 		return (
-			<ModalComponent ref={ref}>
-				<h2>
-					Add a{"eaiou".includes(metaData?.name?.[0]) && "n"} {metaData?.name}{" "}
-					{metaData?.showUsername ? "username" : "Link"}
-				</h2>
-				<PreviewText>preview</PreviewText>
-				<div>
-					<ModalSection>
-						<Form>
-							
-						</Form>
-					</ModalSection>
-				</div>
-				<div>
-					<PreviewSection>
-						<Link {...currentLink} {...settings} disabled></Link>
-					</PreviewSection>
-					<button>Save {metaData.name || "Link"}</button>
-				</div>
-			</ModalComponent>
+			<ThemeProvider theme={theme}>
+				<ModalComponent ref={ref}>
+					<h2>
+						Add a{"eaiou".includes(metaData?.name?.[0]) && "n"} {metaData?.name}{" "}
+						{metaData?.showUsername ? "username" : "Link"}
+					</h2>
+					<PreviewText>preview</PreviewText>
+					<div>
+						<ModalSection>
+							<Form>
+								<TextField
+									required
+									value={currentLink.path}
+									onChange={e =>
+										setCurrentLink(prev => ({ ...prev, path: e.target.value }))
+									}
+									id="outlined-required"
+									label={metaData.showUsername ? "Username" : "URL"}
+									variant="outlined"
+									InputProps={
+										metaData.showUsername
+											? {
+													startAdornment: (
+														<InputAdornment position="start">
+															@
+														</InputAdornment>
+													),
+											  }
+											: {}
+									}
+								/>
+								<TextField
+									value={currentLink.name}
+									onChange={e =>
+										setCurrentLink(prev => ({ ...prev, name: e.target.value }))
+									}
+									required
+									id="outlined-required"
+									label={"Title"}
+									variant="outlined"
+								/>
+							</Form>
+						</ModalSection>
+					</div>
+					<div>
+						<PreviewSection>
+							<Link {...currentLink} {...settings} disabled></Link>
+						</PreviewSection>
+						<button onClick={() => {
+							addLink(currentLink)
+							close()
+						}}>Save {metaData.name || "Link"}</button>
+					</div>
+				</ModalComponent>
+			</ThemeProvider>
 		);
 	}
 );
