@@ -6,11 +6,11 @@ import Link from "../Link";
 
 const ModalComponent = styled.div`
 	background: #c7e8f3;
-	padding: 1rem;
+	padding: 1.5rem;
 	border-radius: 0.5rem;
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	grid-template-rows: repeat(2, 1fr);
+	grid-template-rows: auto 1fr;
 	gap: 0.5rem;
 	h2 {
 		text-transform: capitalize;
@@ -27,6 +27,13 @@ const ModalSection = styled.div`
 	background: white;
 	border-radius: 0.25rem;
 	padding: 1rem;
+	min-height: 200px;
+`;
+
+const PreviewSection = styled(ModalSection)`
+	display: flex;
+	justify-content: center;
+	align-items: center;
 `;
 
 interface ModalProps {
@@ -50,9 +57,10 @@ const LinkModal = forwardRef<HTMLDivElement, ModalProps>(
 					<ModalSection></ModalSection>
 				</div>
 				<div>
-					<ModalSection>
+					<PreviewSection>
 						<Link {...currentLink} {...settings}></Link>
-					</ModalSection>
+					</PreviewSection>
+					<button>Save {metaData.name || "Link"}</button>
 				</div>
 			</ModalComponent>
 		);
