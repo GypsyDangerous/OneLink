@@ -22,22 +22,34 @@ import { Link as LinkType } from "../../util/types/Settings";
 import { defaultImages, usernameLinks, defaultLinks } from "../../util/constants";
 import LinkModal from "../../components/admin/LinkModal";
 
-import {ModalMeta} from "../../util/types/Settings"
+import { ModalMeta } from "../../util/types/Settings";
+
+const defaultLink = (): LinkType => ({
+	path: "",
+	embed: false,
+	image: "",
+	name: "",
+	order: -1,
+	color: "",
+	active: true,
+	id: "",
+});
 
 const Content = ({ links, setLinks, remove, ...props }) => {
 	const [modalOpen, setModalOpen] = useState(false);
-	const [currentLink, setCurrentLink] = useState<LinkType | null>({
-		name: "",
-		path: "",
-		active: true,
-		image: "",
-	});
+	const [currentLink, setCurrentLink] = useState<LinkType | null>(defaultLink);
 	const [metaData, setMetaData] = useState<ModalMeta>({ showUsername: false, name: "" });
 
-	const handleOpen = (name?: string) => {
+	const handleOpen = (name?: string, linkToEdit?: LinkType) => {
+		// setTimeout(() => {
 		setModalOpen(true);
+		// }, 50);
 		if (name) {
-			setCurrentLink(prev => ({ ...prev, image: defaultImages[name] }));
+			if (linkToEdit) {
+				setCurrentLink(linkToEdit);
+			} else {
+				setCurrentLink({ ...defaultLink(), image: defaultImages[name] });
+			}
 			setMetaData({ name, showUsername: usernameLinks.includes(name) });
 		}
 	};
@@ -60,7 +72,11 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 				}}
 			>
 				<Slide in={modalOpen} direction="up">
-					<LinkModal metaData={metaData} />
+					<LinkModal
+						currentLink={currentLink}
+						setCurrentLink={setCurrentLink}
+						metaData={metaData}
+					/>
 				</Slide>
 			</StyledModal>
 			<ContentSection solid>
@@ -124,7 +140,7 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 								<h2>{link.name}</h2>
 							</LinkButtons>
 							<LinkButtons>
-								<EditButton>
+								<EditButton onClick={() => handleOpen(link.name, link)}>
 									<EditIcon /> Edit
 								</EditButton>
 								{/* <DeleteButton onClick={() => remove(link.id)}>
