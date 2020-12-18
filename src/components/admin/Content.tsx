@@ -51,6 +51,8 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 				setCurrentLink({ ...defaultLink(), image: defaultImages[name] });
 			}
 			setMetaData({ name, showUsername: usernameLinks.includes(name) });
+		} else {
+			setMetaData({});
 		}
 	};
 

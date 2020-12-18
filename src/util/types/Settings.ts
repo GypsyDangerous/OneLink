@@ -10,6 +10,6 @@ export interface Link {
 }
 
 export interface ModalMeta {
-	showUsername: boolean;
-	name: string;
+	showUsername?: boolean;
+	name?: string;
 }
