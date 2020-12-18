@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { settingsContext } from "../../contexts/settingsContext";
 import { Link as LinkType, ModalMeta } from "../../util/types/Settings";
 import Link from "../Link";
+import Form from "../shared/Form";
 
 const ModalComponent = styled.div`
 	width: 50%;
@@ -56,11 +57,15 @@ const LinkModal = forwardRef<HTMLDivElement, ModalProps>(
 				</h2>
 				<PreviewText>preview</PreviewText>
 				<div>
-					<ModalSection></ModalSection>
+					<ModalSection>
+						<Form>
+							
+						</Form>
+					</ModalSection>
 				</div>
 				<div>
 					<PreviewSection>
-						<Link {...currentLink} {...settings}></Link>
+						<Link {...currentLink} {...settings} disabled></Link>
 					</PreviewSection>
 					<button>Save {metaData.name || "Link"}</button>
 				</div>
