@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FC, FormEvent, ReactNode } from "react";
 
 const FormComponent = styled.form`
 	display: flex;
@@ -6,7 +7,12 @@ const FormComponent = styled.form`
 	gap: 1rem;
 `;
 
-const Form = ({ children, onSubmit, ...props }) => {
+interface FormProps {
+	onSubmit?: (e: FormEvent<HTMLFormElement>) => {};
+	children?: ReactNode;
+}
+
+const Form = ({ children, onSubmit, ...props }: FormProps) => {
 	return (
 		<FormComponent
 			{...props}
