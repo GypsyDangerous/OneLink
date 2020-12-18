@@ -49,4 +49,4 @@ export const defaultImages = {
 	youtube: "/youtube.svg",
 };
 
-export const usernameLinks = [];
+export const usernameLinks = ["twitter", "tiktok", "instagram", "snapchat"];
