@@ -19,8 +19,15 @@ const getTextColor = (color, invert?: boolean) => {
 const LinkComponent = styled.li`
 	a {
 		padding: 1rem 0 !important;
-		display: block;
 		transition: color 0.5s;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		img{
+			/* justify-self: start; */
+			margin-right: .5rem;
+		}
 		color: ${({ backgroundColor }: LinkProps) =>
 			getTextColor(backgroundColor || "#212121", false)};
 	}
@@ -106,6 +113,7 @@ const Link = ({
 	capsule = false,
 	linkColor = "",
 	linkStyle = "",
+	image = "",
 }) => {
 	const [hovered, setHovered] = useState(false);
 	const [animationType, setAnimationType] = useState(animation);
@@ -125,7 +133,10 @@ const Link = ({
 			onMouseEnter={() => setHovered(true)}
 			onMouseLeave={() => setHovered(false)}
 		>
-			<a href={disabled ? null : path}>{name}</a>
+			<a href={disabled ? null : path}>
+				{image?.length && <img width="40" height="40" src={image}></img>}
+				{name}
+			</a>
 			{animationType !== "none" && (
 				<LinkBackground
 					initial="unhovered"

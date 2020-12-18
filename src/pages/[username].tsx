@@ -30,8 +30,8 @@ const UserPage = styled.div`
 	align-items: center;
 	padding-top: 6rem;
 	img {
-		width: 100px;
-		height: 100px;
+		/* width: 100px;
+		height: 100px; */
 	}
 `;
 
