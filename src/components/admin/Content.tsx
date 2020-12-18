@@ -74,11 +74,11 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 					<AddLinkSection>
 						<h2>Link</h2>
 						<div>
-							<LinkItem onClick={handleOpen}>
+							<LinkItem onClick={e => handleOpen()}>
 								<LinkIcon />
 							</LinkItem>
-							<LinkItem>
-								<img src="/twitter.svg" alt="" />
+							<LinkItem onClick={e => handleOpen("twitter")}>
+								<img src="/twitter.svg" alt=""  />
 							</LinkItem>
 							<LinkItem>
 								<img src="/tiktok.png" alt="" />

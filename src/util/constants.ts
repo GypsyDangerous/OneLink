@@ -25,6 +25,18 @@ export const colors = [
 	"#ffbcb9",
 ].sort((a, b) => chroma(a).luminance() - chroma(b).luminance());
 
+export const defaultLinks = [
+	"twitter",
+	"tiktok",
+	"instagram",
+	"snapchat",
+	"twitch",
+	"facebook",
+	"spotify",
+	"discord",
+	"youtube",
+];
+
 export const defaultImages = {};
 
-export const usernameLinks = [] 
+export const usernameLinks = [];
