@@ -36,9 +36,15 @@ const CopyIcon = styled(FileCopyIcon)`
 	}
 `;
 
+const sectionProps = {
+	exit: { x: -600, opacity: 0 },
+	animate: { x: 0, opacity: 1 },
+	initial: { x: -600, opactiy: 0 },
+};
+
 const AdminComponent = () => {
 	const [copied, setCopied] = useState(false);
-	
+
 	const { loading, user } = useUser({ redirectTo: "/auth/login" });
 	const { settings, update } = useContext(settingsContext);
 	const {
@@ -108,25 +114,19 @@ const AdminComponent = () => {
 									<Content
 										remove={remove}
 										key="content"
-										exit={{ x: -600, opacity: 0 }}
-										animate={{ x: 0, opacity: 1 }}
-										initial={{ x: -600, opactiy: 0 }}
+										{...sectionProps}
 										links={links}
 										setLinks={links => update("links", links)}
 									/>
 								) : section === "customize" ? (
 									<Customize
 										key={section}
-										initial={{ x: -600, opacity: 0 }}
-										exit={{ x: -600, opacity: 0 }}
-										animate={{ x: 0, opacity: 1 }}
+										{...sectionProps}
 									/>
 								) : section === "analytics" ? (
 									<Analytics
 										key={section}
-										initial={{ x: -600, opacity: 0 }}
-										exit={{ x: -600, opacity: 0 }}
-										animate={{ x: 0, opacity: 1 }}
+										{...sectionProps}
 									/>
 								) : (
 									<></>
