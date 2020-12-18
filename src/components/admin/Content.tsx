@@ -20,11 +20,9 @@ import {
 } from "./index.styled";
 import { Link as LinkType } from "../../util/types/Settings";
 import { defaultImages, usernameLinks, defaultLinks } from "../../util/constants";
+import LinkModal from "../../components/admin/LinkModal";
 
-interface ModalMeta {
-	showUsername: boolean;
-	name: string;
-}
+import {ModalMeta} from "../../util/types/Settings"
 
 const Content = ({ links, setLinks, remove, ...props }) => {
 	const [modalOpen, setModalOpen] = useState(false);
@@ -62,10 +60,7 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 				}}
 			>
 				<Slide in={modalOpen} direction="up">
-					<div>
-						<h2 id="transition-modal-title">Transition modal</h2>
-						<p id="transition-modal-description">react-transition-group animates me.</p>
-					</div>
+					<LinkModal metaData={metaData} />
 				</Slide>
 			</StyledModal>
 			<ContentSection solid>

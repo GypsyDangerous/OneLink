@@ -14,7 +14,6 @@ import {
 	AdminPage,
 	AdminSection,
 	SectionHeader,
-	SectionContainer,
 	PreviewBody,
 	PreviewSection,
 	ContentBody,
@@ -26,7 +25,6 @@ import Content from "../../components/admin/Content";
 import Customize from "../../components/admin/Customize";
 import Analytics from "../../components/admin/Analytics";
 import styled from "styled-components";
-import { Link as LinkType } from "../../util/types/Settings";
 
 const CopyIcon = styled(FileCopyIcon)`
 	padding: 0.25rem;

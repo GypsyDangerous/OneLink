@@ -6,5 +6,10 @@ export interface Link {
 	order?: number;
 	color?: string;
 	active: boolean;
-	id?: string
+	id?: string;
+}
+
+export interface ModalMeta {
+	showUsername: boolean;
+	name: string;
 }
