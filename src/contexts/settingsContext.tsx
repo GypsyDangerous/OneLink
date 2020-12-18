@@ -15,12 +15,14 @@ export const SettingsContextProvider = ({ children }) => {
 		},
 	});
 
+	const addLink = link => dispatch({ type: SettingsActions.APPENDLINK, value: link });
+
 	const update = (key, value) => dispatch({ type: SettingsActions.UPDATE, key, value });
 
 	const reset = state => dispatch({ type: SettingsActions.RESET, state });
 
 	return (
-		<settingsContext.Provider value={{ settings: state, update, reset }}>
+		<settingsContext.Provider value={{ settings: state, update, reset, addLink }}>
 			{children}
 		</settingsContext.Provider>
 	);
