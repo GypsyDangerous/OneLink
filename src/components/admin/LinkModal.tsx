@@ -5,6 +5,8 @@ import { Link as LinkType, ModalMeta } from "../../util/types/Settings";
 import Link from "../Link";
 
 const ModalComponent = styled.div`
+	width: 50%;
+	min-width: 500px;
 	background: #c7e8f3;
 	padding: 1.5rem;
 	border-radius: 0.5rem;
