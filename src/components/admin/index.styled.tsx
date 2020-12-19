@@ -152,12 +152,12 @@ export const LinkItem = styled.div`
 
 
 
-export const GrabLink = styled.div`
-	padding: 0.5rem;
+export const GrabLink = styled.li`
+	padding: 0.5rem !important;
 	background: ${({ back }: { back?: boolean }) => (back ? "lightgray" : "white")};
 	opacity: ${({ back }: { back?: boolean }) => (back ? 0.5 : 1)};
 	z-index: ${({ back }: { back?: boolean }) => (back ? -1 : 1)};
-	margin: 1rem 0;
+	margin: 1rem 0 !important;
 	min-height: 60px;
 	display: flex;
 	align-items: center;
