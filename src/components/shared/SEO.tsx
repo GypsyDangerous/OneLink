@@ -7,6 +7,10 @@ const SEO = ({ title }) => {
 			<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 			<meta httpEquiv="Content-Security-Policy" content="" />
 			<link
+				rel="preload"
+				href="https://cdn.jsdelivr.net/gh//GypsyDangerous/simple-css-reset/reset.css"
+			/>
+			<link
 				rel="stylesheet"
 				href="https://cdn.jsdelivr.net/gh//GypsyDangerous/simple-css-reset/reset.css"
 			/>
