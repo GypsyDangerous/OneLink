@@ -32,8 +32,8 @@ const ModalComponent = styled.div`
 	background: #c7e8f3;
 	padding: 1.5rem;
 	border-radius: 0.5rem;
-	img{
-		border-radius: .25rem;
+	img {
+		border-radius: 0.25rem;
 	}
 	form {
 		display: grid;
@@ -73,7 +73,7 @@ const Button = styled(ItemButton)`
 		text-align: center;
 		display: flex;
 		justify-content: center;
-		margin-top: .5rem;
+		margin-top: 0.5rem;
 		padding: 1rem 2rem;
 		font-size: 1.25rem;
 		color: white;
@@ -204,7 +204,12 @@ const LinkModal = forwardRef<HTMLDivElement, ModalProps>(
 		return (
 			<ThemeProvider theme={theme}>
 				<ModalComponent ref={ref}>
-					<Form>
+					<Form
+						onSubmit={() => {
+							addLink(currentLink);
+							close();
+						}}
+					>
 						<h2>
 							Add a{"eaiou".includes(metaData?.name?.[0]) && "n"} {metaData?.name}{" "}
 							{metaData?.showUsername ? "username" : "Link"}
@@ -303,13 +308,7 @@ const LinkModal = forwardRef<HTMLDivElement, ModalProps>(
 							<PreviewSection>
 								<Link {...currentLink} {...settings} disabled></Link>
 							</PreviewSection>
-							<Button
-								className="save"
-								onClick={() => {
-									addLink(currentLink);
-									close();
-								}}
-							>
+							<Button className="save">
 								Save {metaData.name || "Link"}
 							</Button>
 						</div>
