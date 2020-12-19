@@ -21,10 +21,14 @@ import {
 } from "../../components/admin/index.styled";
 import Snackbar from "@material-ui/core/Snackbar";
 import { Underline, LargeAvatar } from "../../components/shared/styles";
-import Content from "../../components/admin/Content";
-import Customize from "../../components/admin/Customize";
-import Analytics from "../../components/admin/Analytics";
+// import Customize from "../../components/admin/Customize";
+// import Analytics from "../../components/admin/Analytics";
+// import Content from "../../components/admin/Content";
 import styled from "styled-components";
+import dynamic from "next/dynamic";
+const Content = dynamic(import("../../components/admin/Content"));
+const Analytics = dynamic(import("../../components/admin/Analytics"));
+const Customize = dynamic(import("../../components/admin/Customize"));
 
 const CopyIcon = styled(FileCopyIcon)`
 	padding: 0.25rem;
