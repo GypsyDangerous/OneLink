@@ -39,12 +39,12 @@ export const defaultLinks = [
 
 export const defaultImages = {
 	twitter: "/twitter.svg",
-	tiktok: "/tiktok.png",
+	tiktok: "/tiktok.webp",
 	instagram: "/instagram.svg",
 	snapchat: "/snapchat.svg",
 	twitch: "/twitch.webp",
 	facebook: "/facebook.svg",
-	spotify: "/spotify.png",
+	spotify: "/spotify.webp",
 	discord: "/discord-round.svg",
 	youtube: "/youtube.svg",
 };
