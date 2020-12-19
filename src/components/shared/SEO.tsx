@@ -9,6 +9,7 @@ const SEO = ({ title }) => {
 			<link
 				rel="preload"
 				href="https://cdn.jsdelivr.net/gh//GypsyDangerous/simple-css-reset/reset.css"
+				as="style"
 			/>
 			<link
 				rel="stylesheet"
