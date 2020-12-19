@@ -108,7 +108,7 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 				<h1 style={{ color: "white" }}>Contact Info</h1>
 			</ContentSection>
 			<ContentSection>
-				<h1 style={{ color: "white" }}>Content</h1>
+				<h1 style={{ color: "white" }}>Links</h1>
 				<Reorder
 					reorderId="my-list" // Unique ID that is used internally to track this list (required)
 					reorderGroup="reorder-group" // A group ID that allows items to be dragged between lists of the same group (optional)
