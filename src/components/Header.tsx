@@ -23,8 +23,9 @@ const HeaderComponent = styled(motion.header)`
 	top: 0;
 	right: 0;
 	left: 0;
-	z-index: 10;
+	z-index: 10000;
 	background: #212121;
+
 `;
 
 const HeaderContent = styled.div`
@@ -74,6 +75,7 @@ const ProfileSection = styled(motion.div)`
 	top: 100%;
 	right: 0;
 	width: 200px;
+	z-index: 10000;
 	background: #121212;
 	a {
 		outline: none;
