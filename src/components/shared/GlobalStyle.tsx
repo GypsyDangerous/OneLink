@@ -31,10 +31,11 @@ const GlobalStyle = createGlobalStyle`
 	}
 	
 	::-webkit-scrollbar {
-    width: 8px;
+    	width: 8px;
 	}	
  
 	::-webkit-scrollbar-track {
+		border-radius: 10px;
 		background: var(--clr-primary-300)
 	}
  

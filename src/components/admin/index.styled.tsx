@@ -1,9 +1,8 @@
-import styled from "styled-components"
+import styled from "styled-components";
 import { PaddingPage } from "../shared/Page.styled";
-import {motion } from "framer-motion"
+import { motion } from "framer-motion";
 
 import Modal from "@material-ui/core/Modal";
-
 
 export const StyledModal = styled(Modal)`
 	display: flex;
@@ -70,7 +69,8 @@ export const PreviewSection = styled.div`
 
 export const PreviewBody = styled.div`
 	background: ${({ backgroundColor }: { backgroundColor: string }) => backgroundColor};
-
+	overflow: auto;
+	padding-bottom: 1rem;
 	width: 340px;
 	height: 650px;
 	position: sticky;
@@ -82,6 +82,19 @@ export const PreviewBody = styled.div`
 	flex-direction: column;
 	align-items: center;
 	gap: 2rem;
+	&::-webkit-scrollbar {
+		width: 4px;
+	}
+
+	&::-webkit-scrollbar-track {
+		border-radius: 10px;
+		background: var(--clr-primary-300);
+	}
+
+	&::-webkit-scrollbar-thumb {
+		border-radius: 10px;
+		background: #28bf7b;
+	}
 `;
 
 export const AvatarContainer = styled.div`
@@ -149,8 +162,6 @@ export const LinkItem = styled.div`
 		max-width: 100%;
 	}
 `;
-
-
 
 export const GrabLink = styled.li`
 	padding: 0.5rem !important;
