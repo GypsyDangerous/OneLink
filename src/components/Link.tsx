@@ -24,9 +24,9 @@ const LinkComponent = styled.li`
 		align-items: center;
 		justify-content: center;
 		text-align: center;
-		img{
+		img {
 			/* justify-self: start; */
-			margin-right: .5rem;
+			margin-right: 0.5rem;
 		}
 		color: ${({ backgroundColor }: LinkProps) =>
 			getTextColor(backgroundColor || "#212121", false)};
@@ -134,7 +134,9 @@ const Link = ({
 			onMouseLeave={() => setHovered(false)}
 		>
 			<a href={disabled ? null : path}>
-				{!!image?.length && <img width="40" height="40" src={image}></img>}
+				{!!image?.length && (
+					<img alt={`${name} icon`} width="40" height="40" src={image}></img>
+				)}
 				{name}
 			</a>
 			{animationType !== "none" && (
