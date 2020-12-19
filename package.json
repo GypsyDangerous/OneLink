@@ -33,6 +33,7 @@
     "react-color": "^2.19.3",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "17.0.1",
+    "react-dropzone": "^11.2.4",
     "react-loader": "^2.4.7",
     "react-reorder": "^3.0.0-alpha.7",
     "react-use": "^15.3.4",
