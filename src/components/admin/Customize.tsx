@@ -67,8 +67,8 @@ const Customize = props => {
 					})}
 				</CustomizeLinksBody>
 			</ContentSection>
-			<ContentHeader>Style</ContentHeader>
-			<ContentSection solid></ContentSection>
+			{/* <ContentHeader>Style</ContentHeader>
+			<ContentSection solid></ContentSection> */}
 		</SectionContainer>
 	);
 };
