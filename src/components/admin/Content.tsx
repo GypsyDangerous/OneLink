@@ -92,7 +92,7 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 								<LinkIcon />
 							</LinkItem>
 							{defaultLinks.map(linkName => (
-								<LinkItem onClick={e => handleOpen(linkName)}>
+								<LinkItem onClick={e => handleOpen(linkName)} key={linkName}>
 									<img src={defaultImages[linkName]} alt={`${linkName} icon`} />
 								</LinkItem>
 							))}

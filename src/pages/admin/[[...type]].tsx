@@ -117,15 +117,9 @@ const AdminComponent = () => {
 										setLinks={links => update("links", links)}
 									/>
 								) : section === "customize" ? (
-									<Customize
-										key={section}
-										{...sectionProps}
-									/>
+									<Customize key={section} {...sectionProps} />
 								) : section === "analytics" ? (
-									<Analytics
-										key={section}
-										{...sectionProps}
-									/>
+									<Analytics key={section} {...sectionProps} />
 								) : (
 									<></>
 								)}
@@ -160,7 +154,11 @@ const AdminComponent = () => {
 										{links
 											.sort((a, b) => a.order - b.order)
 											.map(link => (
-												<LinkComponent {...link} {...settings} />
+												<LinkComponent
+													key={link.order}
+													{...link}
+													{...settings}
+												/>
 											))}
 									</LinkList>
 								</PreviewBody>
