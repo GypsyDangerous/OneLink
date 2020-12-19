@@ -146,6 +146,7 @@ const AdminComponent = () => {
 									<AvatarContainer>
 										<LargeAvatar
 											alt="Avatar"
+											imgProps={{ width: 100, height: 100 }}
 											src={`${process.env.NEXT_PUBLIC_API_URL}/public/images/${user.photo}?width=100`}
 										/>
 									</AvatarContainer>

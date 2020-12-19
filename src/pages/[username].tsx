@@ -88,6 +88,8 @@ export default function Page(props) {
 			</Head>
 			<Avatar
 				alt="Avatar"
+				imgProps={{ width: 100, height: 100 }}
+
 				src={`${process.env.NEXT_PUBLIC_API_URL}/public/images/${props.ownerData.photo}?width=100`}
 				className={classes.large}
 			/>

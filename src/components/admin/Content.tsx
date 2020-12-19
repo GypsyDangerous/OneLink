@@ -134,6 +134,7 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 							<LinkButtons>
 								<AppsIcon />
 								<Avatar
+									imgProps={{ width: 24, height: 24 }}
 									alt={`edit ${link.name} icon`}
 									variant="square"
 									src={`${link.image}?width="24`}
