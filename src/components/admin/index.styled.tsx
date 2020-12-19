@@ -222,7 +222,7 @@ export const ContentHeader = styled.h2`
 	align-self: flex-start;
 `;
 
-export const CustomizeLinksBody = styled.div`
+export const CustomizeLinksBody = styled.ul`
 	display: flex;
 	flex-wrap: wrap;
 	gap: 1rem;
