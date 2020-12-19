@@ -203,7 +203,7 @@ const Header = () => {
 								style={{ display: "flex", alignItems: "center", gap: "1rem" }}
 								onClick={() => setProfileOpen(prev => !prev)}
 							>
-								<Avatar alt="Avatar" src={`${process.env.NEXT_PUBLIC_API_URL}/public/images/${user?.photo}`} />
+								<Avatar alt="Avatar" src={`${process.env.NEXT_PUBLIC_API_URL}/public/images/${user?.photo}?width=40&height=40`} />
 								<div>{user?.username}</div>
 								<motion.div
 									style={{

@@ -152,7 +152,7 @@ const AdminComponent = () => {
 									<AvatarContainer>
 										<LargeAvatar
 											alt="Avatar"
-											src={`${process.env.NEXT_PUBLIC_API_URL}/public/images/${user.photo}`}
+											src={`${process.env.NEXT_PUBLIC_API_URL}/public/images/${user.photo}?width=100`}
 										/>
 									</AvatarContainer>
 									<div style={{ fontWeight: "bold" }}>@{user.username}</div>

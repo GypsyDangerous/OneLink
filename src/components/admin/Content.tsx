@@ -136,7 +136,7 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 								<Avatar
 									alt={`${link.name} image`}
 									variant="square"
-									src={link.image}
+									src={`${link.image}?width="24`}
 								>
 									<ImageIcon />
 								</Avatar>
