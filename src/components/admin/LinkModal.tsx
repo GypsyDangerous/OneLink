@@ -32,6 +32,9 @@ const ModalComponent = styled.div`
 	background: #c7e8f3;
 	padding: 1.5rem;
 	border-radius: 0.5rem;
+	img{
+		border-radius: .25rem;
+	}
 	form {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);

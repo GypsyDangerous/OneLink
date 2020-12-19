@@ -82,6 +82,9 @@ export const PreviewBody = styled.div`
 	flex-direction: column;
 	align-items: center;
 	gap: 2rem;
+	img{
+		border-radius: .25rem;
+	}
 	&::-webkit-scrollbar {
 		width: 4px;
 	}
@@ -176,6 +179,9 @@ export const GrabLink = styled.li`
 	/* &.dragged{
 		transform: rotate(30deg);
 	} */
+	img{
+		border-radius: .25rem;
+	}
 	cursor: grab;
 	:active {
 		cursor: grabbing;
