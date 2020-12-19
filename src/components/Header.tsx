@@ -25,7 +25,6 @@ const HeaderComponent = styled(motion.header)`
 	left: 0;
 	z-index: 10000;
 	background: #212121;
-
 `;
 
 const HeaderContent = styled.div`

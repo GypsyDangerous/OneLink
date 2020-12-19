@@ -121,15 +121,7 @@ const LinkModal = forwardRef<HTMLDivElement, ModalProps>(
 		const [loading, setLoading] = useState(false);
 		const [error, setError] = useState(null);
 		const [uploadedUrl, setUploadedUrl] = useState(null);
-		const [copied, setCopied] = useState(false);
 		const inputRef = useRef<HTMLInputElement>();
-
-		const handleClose = (event, reason) => {
-			if (reason === "clickaway") {
-				return;
-			}
-			setCopied(false);
-		};
 
 		const reset = () => {
 			setFiles([]);
