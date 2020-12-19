@@ -8,7 +8,7 @@ const FormComponent = styled.form`
 `;
 
 interface FormProps {
-	onSubmit?: (e: FormEvent<HTMLFormElement>) => {};
+	onSubmit?: (e?: FormEvent<HTMLFormElement>) => void;
 	children?: ReactNode;
 }
 
