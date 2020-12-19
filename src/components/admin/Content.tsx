@@ -53,6 +53,7 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 			setMetaData({ name, showUsername: usernameLinks.includes(name) });
 		} else {
 			setMetaData({});
+			setCurrentLink(defaultLink())
 		}
 	};
 

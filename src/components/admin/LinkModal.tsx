@@ -14,9 +14,17 @@ import { Link as LinkType, ModalMeta } from "../../util/types/Settings";
 import Link from "../Link";
 import Form from "../shared/Form";
 import TextField from "@material-ui/core/TextField";
-import { createMuiTheme, InputAdornment, ThemeProvider, useMediaQuery } from "@material-ui/core";
+import {
+	Avatar,
+	createMuiTheme,
+	InputAdornment,
+	ThemeProvider,
+	useMediaQuery,
+} from "@material-ui/core";
 import { useDropzone } from "react-dropzone";
 import { ItemButton } from "./index.styled";
+import { LargeAvatar } from "../shared/styles";
+import ImageIcon from "@material-ui/icons/Image";
 
 const ModalComponent = styled.div`
 	width: 50%;
@@ -139,7 +147,7 @@ const LinkModal = forwardRef<HTMLDivElement, ModalProps>(
 						body.append("image", acceptedFiles[0]);
 
 						const response = await fetch(
-							`${process.env.REACT_APP_API_URL}/api/v1/upload`,
+							`${process.env.NEXT_PUBLIC_API_URL}/v1/upload`,
 							{
 								method: "POST",
 								body,
@@ -151,10 +159,11 @@ const LinkModal = forwardRef<HTMLDivElement, ModalProps>(
 						}
 						try {
 							const json = await response.json();
-							url = `${process.env.REACT_APP_API_URL}/${json.data.imageUrl}`.replace(
+							url = `${process.env.NEXT_PUBLIC_API_URL}/${json.data.imageUrl}`.replace(
 								"\\",
 								"/"
 							);
+							setCurrentLink(prev => ({ ...prev, image: url }));
 						} catch (err) {
 							setError("Please Try again, you may have invalid image.");
 						}
@@ -247,7 +256,14 @@ const LinkModal = forwardRef<HTMLDivElement, ModalProps>(
 												}}
 												{...inputProps}
 											/>
-											{currentLink?.image?.length ? (
+											<LargeAvatar
+												variant="square"
+												imgProps={{ width: 100 }}
+												src={currentLink?.image}
+											>
+												<ImageIcon />
+											</LargeAvatar>
+											{/* {currentLink?.image?.length ? (
 												<img
 													src={currentLink?.image}
 													width="133"
@@ -262,9 +278,9 @@ const LinkModal = forwardRef<HTMLDivElement, ModalProps>(
 														id="preview"
 														alt=""
 													/>
-													<p>{"Drag & Drop your image here"}</p>
+													
 												</>
-											)}
+											)} */}
 										</div>
 										<div>
 											<Button
