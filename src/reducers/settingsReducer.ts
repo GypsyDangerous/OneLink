@@ -7,7 +7,10 @@ export const SettingsActions = {
 export const SettingsReducer = (state, action) => {
 	switch (action.type) {
 		case SettingsActions.APPENDLINK:
-			return { ...state, links: [...state.links, action.value] };
+			return {
+				...state,
+				links: [...state.links, { ...action.value, order: state.links.length + 1 }],
+			};
 		case SettingsActions.UPDATE:
 			if (typeof action.value === "function")
 				return { ...state, [action.key]: action.value(state[action.key]) };
