@@ -70,7 +70,7 @@ const Button = styled(ItemButton)`
 		text-align: center;
 		display: flex;
 		justify-content: center;
-		margin-top: 2.25rem;
+		margin-top: .5rem;
 		padding: 1rem 2rem;
 		font-size: 1.25rem;
 		color: white;
