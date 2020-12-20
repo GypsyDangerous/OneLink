@@ -76,10 +76,10 @@ const useUser = ({ refresh }: userOptions = {}): globalUser => {
 						setLoading(false);
 						await Router.push(redirectTo, as);
 					}
-				}, 200);
+				}, 300);
 				loadingId = setTimeout(() => {
 					setLoading(false);
-				}, 100);
+				}, 300);
 			}
 		} catch (err) {
 			setLoading(false);
