@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import LinkComponent from "../../components/Link";
-import { motion } from "framer-motion";
+import { AnimateSharedLayout, motion } from "framer-motion";
 import { CirclePicker } from "react-color";
 import defaultAnimations from "../../util/LinkAnimations.json";
 import defaultTypes from "../../util/LinkTypes.json";
@@ -13,6 +13,34 @@ import {
 	CustomizeLinksBody,
 } from "./index.styled";
 import { colors } from "../../util/constants";
+import styled from "styled-components";
+
+const OptionArea = styled(motion.div)`
+	display: flex;
+	flex-direction: column;
+`;
+
+const OptionHeader = styled(motion.div)`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+`;
+
+const ButtonOutline = styled(motion.div)`
+	padding: 0.1rem;
+	width: 1rem;
+	height: 1rem;
+	border-radius: 0.25rem;
+	border: 2px solid blue;
+	align-items: center;
+`;
+
+const ButtonCenter = styled(motion.div)`
+	border-radius: 0.125rem;
+	width: 100%;
+	height: 100%;
+	background: blue;
+`;
 
 const Customize = props => {
 	const { settings, update } = useContext(settingsContext);
@@ -40,31 +68,55 @@ const Customize = props => {
 			<ContentHeader>Link Hover animation</ContentHeader>
 			<ContentSection solid>
 				<CustomizeLinksBody>
-					{defaultAnimations.map(animation => (
-						<motion.div key={animation} onClick={() => update("animation", animation)}>
-							<h2>{splitByCaps(animation)}</h2>
+					<AnimateSharedLayout>
+						{defaultAnimations.map(animation => (
+							<OptionArea
+								key={animation}
+								onClick={() => update("animation", animation)}
+							>
+								<OptionHeader>
+									<h2>{splitByCaps(animation)}</h2>
+									<ButtonOutline>
+										{animation === settings?.animation && (
+											<ButtonCenter layoutId="selected"></ButtonCenter>
+										)}
+									</ButtonOutline>
+								</OptionHeader>
 
-							<LinkComponent animation={animation} path="" disabled name="Hover Me" />
-						</motion.div>
-					))}
+								<LinkComponent
+									animation={animation}
+									path=""
+									disabled
+									name="Hover Me"
+								/>
+							</OptionArea>
+						))}
+					</AnimateSharedLayout>
 				</CustomizeLinksBody>
 			</ContentSection>
 			<ContentHeader>Link Style</ContentHeader>
 			<ContentSection solid>
 				<CustomizeLinksBody className="column">
-					{defaultTypes.map(type => {
-						return (
-							<div key={type} onClick={() => update("linkStyle", type)}>
-								<h2>{type}</h2>
-								<LinkComponent
-									capsule={type === "capsule"}
-									path=""
-									disabled
-									name="example"
-								/>
-							</div>
-						);
-					})}
+					<AnimateSharedLayout>
+						{defaultTypes.map(type => {
+							return (
+								<OptionArea key={type} onClick={() => update("linkStyle", type)}>
+									<OptionHeader>
+										<h2>{type}</h2>
+										<ButtonOutline>
+											{type === settings?.linkStyle && <ButtonCenter layoutId="type-selection"></ButtonCenter>}
+										</ButtonOutline>
+									</OptionHeader>
+									<LinkComponent
+										capsule={type === "capsule"}
+										path=""
+										disabled
+										name="example"
+									/>
+								</OptionArea>
+							);
+						})}
+					</AnimateSharedLayout>
 				</CustomizeLinksBody>
 			</ContentSection>
 			{/* <ContentHeader>Style</ContentHeader>
