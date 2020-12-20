@@ -49,7 +49,7 @@ const useUser = ({ refresh }: userOptions = {}): globalUser => {
 			setAccessToken(token);
 			setTokenRefreshed(true);
 		});
-	}, [router.pathname]);
+	}, []);
 
 	useEffect(() => {
 		setLoading(true);

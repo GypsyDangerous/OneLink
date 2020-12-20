@@ -9,6 +9,7 @@ import { VALIDATOR_EMAIL } from "../../util/validators";
 import { useMutation } from "@apollo/client";
 import loginMutation from "../../graphql/loginMutation";
 import Router from "next/router";
+import { setAccessToken } from "../../util/auth/accessToken";
 
 const Login = ({ ...props }) => {
 	const [formState, inputHandler, setFormData] = useForm(
@@ -34,7 +35,8 @@ const Login = ({ ...props }) => {
 			Object.entries(formState.inputs).map(([key, val]: any) => [key, val.value])
 		);
 		try {
-			await login({ variables });
+			const data = await login({ variables });
+			setAccessToken(data.data.login.token)
 			Router.push("/admin")
 		} catch (err) {
 			console.log(err.message);

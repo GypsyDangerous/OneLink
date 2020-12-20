@@ -11,6 +11,7 @@ import RegisterMutation from "../../graphql/registerMutation";
 import { useMutation } from "@apollo/client";
 import { useEffect } from "react";
 import Router from "next/router";
+import { setAccessToken } from "../../util/auth/accessToken";
 
 const Register = ({ ...props }) => {
 	const [formState, inputHandler, setFormData] = useForm(
@@ -33,14 +34,14 @@ const Register = ({ ...props }) => {
 
 	const [register, { data }] = useMutation(RegisterMutation);
 
-
 	const handleSubmit = async e => {
 		// console.log(formState);
 		const variables = Object.fromEntries(
 			Object.entries(formState.inputs).map(([key, val]: any) => [key, val.value])
 		);
 		try {
-			await register({ variables });
+			const data = await register({ variables });
+			setAccessToken(data.data.register.token);
 			Router.push("/admin");
 		} catch (err) {
 			console.log(err.message);
