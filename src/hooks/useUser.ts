@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState } from "react";
-import Router from "next/router";
+import Router, {useRouter} from "next/router";
 import { globalUser, userContext } from "../contexts/userContext";
 import client from "../graphql/client";
 import userQuery from "../graphql/userQuery";
@@ -12,8 +12,24 @@ interface userOptions {
 	loggedInRedirect?: string;
 }
 
-const useUser = ({ refresh, redirectTo, as, loggedInRedirect }: userOptions = {}): globalUser => {
+const redirects = {
+	"/": {
+		redirectTo: "/landing",
+		as: "/",
+		loggedInRedirect: "/admin"
+	},
+	"/admin": { redirectTo: "/auth/login" },
+	"/auth/[type]": { loggedInRedirect: "/admin" }
+}
+
+const useUser = ({ refresh }: userOptions = {}): globalUser => {
 	const context = useUserContext();
+
+	const router = useRouter()
+
+	const pathRedirects = redirects[router.pathname]
+	
+	const {redirectTo, as, loggedInRedirect} = pathRedirects || {}
 
 	const [tokenRefreshed, setTokenRefreshed] = useState(false);
 	const accessToken = getAccessToken();
