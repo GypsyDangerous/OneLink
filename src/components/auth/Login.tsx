@@ -37,7 +37,6 @@ const Login = ({ ...props }) => {
 		);
 		try {
 			const data = await login({ variables });
-			console.log(data.data.login)
 			setUser(data.data.login.user)
 			setAccessToken(data.data.login.token)
 			Router.push("/admin")
