@@ -1,7 +1,6 @@
 import client from "../graphql/client";
 import { gql } from "@apollo/client";
 import styled from "styled-components";
-import { publicUserQuery } from "../graphql/userQuery";
 import pageQuery from "../graphql/pageQuery";
 import Link from "../components/Link";
 import { useContext, useEffect, useMemo, useState } from "react";
@@ -106,6 +105,7 @@ export default function Page(props) {
 export async function getServerSideProps(ctx) {
 	const { username } = ctx.query;
 	try {
+		if(!username || username === "null") throw new Error("no user found")
 		const response = await client.query({ query: pageQuery, variables: { name: username } });
 		const { data } = response;
 		if (!data?.page) throw new Error("invalid name");
