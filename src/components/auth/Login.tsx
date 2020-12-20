@@ -10,6 +10,7 @@ import { useMutation } from "@apollo/client";
 import loginMutation from "../../graphql/loginMutation";
 import Router from "next/router";
 import { setAccessToken } from "../../util/auth/accessToken";
+import useUserContext from "../../hooks/useUserContext";
 
 const Login = ({ ...props }) => {
 	const [formState, inputHandler, setFormData] = useForm(
@@ -27,7 +28,7 @@ const Login = ({ ...props }) => {
 	);
 
 	const [login, { data }] = useMutation(loginMutation);
-
+	const {setUser} = useUserContext()
 
 	const handleSubmit = async e => {
 		// console.log(formState);
@@ -36,6 +37,7 @@ const Login = ({ ...props }) => {
 		);
 		try {
 			const data = await login({ variables });
+			setUser(data.data.login.user)
 			setAccessToken(data.data.login.token)
 			Router.push("/admin")
 		} catch (err) {

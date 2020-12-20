@@ -12,6 +12,7 @@ import { useMutation } from "@apollo/client";
 import { useEffect } from "react";
 import Router from "next/router";
 import { setAccessToken } from "../../util/auth/accessToken";
+import useUserContext from "../../hooks/useUserContext";
 
 const Register = ({ ...props }) => {
 	const [formState, inputHandler, setFormData] = useForm(
@@ -32,6 +33,8 @@ const Register = ({ ...props }) => {
 		false
 	);
 
+	const {setUser} = useUserContext()
+
 	const [register, { data }] = useMutation(RegisterMutation);
 
 	const handleSubmit = async e => {
@@ -41,6 +44,7 @@ const Register = ({ ...props }) => {
 		);
 		try {
 			const data = await register({ variables });
+			setUser(data.data.register.user)
 			setAccessToken(data.data.register.token);
 			Router.push("/admin");
 		} catch (err) {
