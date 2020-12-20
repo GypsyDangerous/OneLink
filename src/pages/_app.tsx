@@ -51,8 +51,6 @@ function App({ children }) {
 
 	const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
-	console.log(router.pathname)
-
 	const theme = useMemo(
 		() =>
 			createMuiTheme({
