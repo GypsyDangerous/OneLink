@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState } from "react";
-import Router, {useRouter} from "next/router";
+import Router, { useRouter } from "next/router";
 import { globalUser, userContext } from "../contexts/userContext";
 import client from "../graphql/client";
 import userQuery from "../graphql/userQuery";
@@ -16,20 +16,20 @@ const redirects = {
 	"/": {
 		redirectTo: "/landing",
 		as: "/",
-		loggedInRedirect: "/admin"
+		loggedInRedirect: "/admin",
 	},
 	"/admin": { redirectTo: "/auth/login" },
-	"/auth/[type]": { loggedInRedirect: "/admin" }
-}
+	"/auth/[type]": { loggedInRedirect: "/admin" },
+};
 
 const useUser = ({ refresh }: userOptions = {}): globalUser => {
 	const context = useUserContext();
 
-	const router = useRouter()
+	const router = useRouter();
 
-	const pathRedirects = redirects[router.pathname]
-	
-	const {redirectTo, as, loggedInRedirect} = pathRedirects || {}
+	const pathRedirects = redirects[router.pathname];
+
+	const { redirectTo, as, loggedInRedirect } = pathRedirects || {};
 
 	const [tokenRefreshed, setTokenRefreshed] = useState(false);
 	const accessToken = getAccessToken();
@@ -37,42 +37,51 @@ const useUser = ({ refresh }: userOptions = {}): globalUser => {
 	const { setUser, user, setLoading, loading } = context;
 
 	useEffect(() => {
-		setTokenRefreshed(false);
-		fetch(`${process.env.NEXT_PUBLIC_API_URL}/refresh_token`, {
-			method: "POST",
-			credentials: "include",
-		}).then(async response => {
-			if (!response.ok) return setTokenRefreshed(true);
-			const json = await response.json();
-			const { token } = json.data;
-			setAccessToken(token);
-			setTokenRefreshed(true);
-		});
+		try {
+			setTokenRefreshed(false);
+			fetch(`${process.env.NEXT_PUBLIC_API_URL}/refresh_token`, {
+				method: "POST",
+				credentials: "include",
+			}).then(async response => {
+				if (!response.ok) return setTokenRefreshed(true);
+				const json = await response.json();
+				const { token } = json.data;
+				setAccessToken(token);
+				setTokenRefreshed(true);
+			});
+		} catch (err) {
+			setTokenRefreshed(false);
+			setLoading(false);
+		}
 	}, []);
 
 	useEffect(() => {
 		setLoading(true);
 		let id: number;
 		let loadingId: number;
-		if (tokenRefreshed) {
-			id = setTimeout(async () => {
-				if (accessToken) {
-					const userData = await client.query({
-						query: userQuery,
-					});
-					setUser(userData?.data?.me);
-					if (loggedInRedirect) {
+		try {
+			if (tokenRefreshed) {
+				id = setTimeout(async () => {
+					if (accessToken) {
+						const userData = await client.query({
+							query: userQuery,
+						});
+						setUser(userData?.data?.me);
+						if (loggedInRedirect) {
+							setLoading(false);
+							await Router.push(loggedInRedirect);
+						}
+					} else if (redirectTo) {
 						setLoading(false);
-						await Router.push(loggedInRedirect);
+						await Router.push(redirectTo, as);
 					}
-				} else if (redirectTo) {
+				}, 200);
+				loadingId = setTimeout(() => {
 					setLoading(false);
-					await Router.push(redirectTo, as);
-				}
-			}, 200);
-			loadingId = setTimeout(() => {
-				setLoading(false);
-			}, 100);
+				}, 100);
+			}
+		} catch (err) {
+			setLoading(false);
 		}
 		return () => {
 			clearTimeout(id);
