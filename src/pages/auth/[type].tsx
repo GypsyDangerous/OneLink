@@ -89,8 +89,6 @@ const sidebar = {
 };
 
 const Auth = ({ type }) => {
-	useUser({ loggedInRedirect: "/admin" });
-
 	return (
 		<AuthPage>
 			<AuthContainer>

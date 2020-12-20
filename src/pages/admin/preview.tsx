@@ -2,9 +2,11 @@ import { SettingsContextProvider } from "../../contexts/settingsContext";
 import useUser from "../../hooks/useUser";
 import Preview from "../../components/admin/Preview";
 import { PaddingPage } from "../../components/shared/Page.styled";
+import useUserContext from "../../hooks/useUserContext";
 
 export default function PreviewPage() {
-	const { loading, user } = useUser({ redirectTo: "/auth/login" });
+	// const { loading, user } = useUser({ redirectTo: "/auth/login" });
+	const {user} = useUserContext()
 
 	return (
 		<SettingsContextProvider>

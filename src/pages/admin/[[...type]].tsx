@@ -27,6 +27,7 @@ import { Underline, LargeAvatar } from "../../components/shared/styles";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 import Preview from "../../components/admin/Preview";
+import useUserContext from "../../hooks/useUserContext";
 const Content = dynamic(() => import("../../components/admin/Content"));
 const Analytics = dynamic(() => import("../../components/admin/Analytics"));
 const Customize = dynamic(() => import("../../components/admin/Customize"));
@@ -48,7 +49,7 @@ const sectionProps = {
 const AdminComponent = () => {
 	const [copied, setCopied] = useState(false);
 
-	const { loading, user } = useUser({ redirectTo: "/auth/login" });
+	const { user, loading } = useUserContext();
 	const { settings, update } = useContext(settingsContext);
 	const {
 		query: { type },

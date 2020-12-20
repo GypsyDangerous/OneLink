@@ -1,9 +1,7 @@
-import useUser from "../hooks/useUser";
-import styled from "styled-components";
-import {PaddingPage as MainPage} from "../components/shared/Page.styled"
+import { PaddingPage as MainPage } from "../components/shared/Page.styled";
+import useUserContext from "../hooks/useUserContext";
 
 export default function Home() {
-	const { loading } = useUser({ redirectTo: "/landing", as: "/", loggedInRedirect: "/admin" });
-
+	const { loading } = useUserContext();
 	return <MainPage>{!loading && <h1>Hello next</h1>}</MainPage>;
 }
