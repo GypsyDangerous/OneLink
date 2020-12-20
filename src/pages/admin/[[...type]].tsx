@@ -68,13 +68,6 @@ const AdminComponent = () => {
 		update("links", [...(user?.Page?.links || [])]);
 	}, [user]);
 
-	// const handleClose = (event, reason) => {
-	// 	if (reason === "clickaway") {
-	// 		return;
-	// 	}
-	// 	setCopied(false);
-	// };
-
 	return (
 		<AdminPage>
 			<Head>
