@@ -1,16 +1,21 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { AvatarContainer, PreviewBody, PreviewSection } from "../../components/admin/index.styled";
 import { LargeAvatar } from "../../components/shared/styles";
 import LinkList from "../../components/shared/LinkList";
 import LinkComponent from "../../components/Link";
 import { settingsContext } from "../../contexts/settingsContext";
+import { Link } from "../../util/types/Settings";
 
-
-const Preview = ({user}) => {
-
+const Preview = ({ user, links: propsLinks = [] }) => {
+	const [allLinks, setAllLinks] = useState<Link[]>([]);
 	const { settings, update } = useContext(settingsContext) || {};
 
 	const { links } = settings || {};
+
+	useEffect(() => {
+		if (propsLinks?.length) setAllLinks(propsLinks);
+		else setAllLinks(links);
+	}, [propsLinks, links]);
 
 	return (
 		<PreviewSection>
@@ -24,7 +29,7 @@ const Preview = ({user}) => {
 				</AvatarContainer>
 				<div style={{ fontWeight: "bold" }}>@{user.username}</div>
 				<LinkList>
-					{links
+					{allLinks
 						.sort((a, b) => a.order - b.order)
 						.map(link => (
 							<LinkComponent key={link.order} {...link} {...settings} />
