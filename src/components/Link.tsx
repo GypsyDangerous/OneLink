@@ -1,20 +1,14 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import chroma from "chroma-js";
+import { getTextColor } from "../util/functions";
 
 interface LinkProps {
 	backgroundColor?: string;
 	capsule?: boolean;
 	shouldAnimate?: boolean;
+	pageColor?: string;
 }
-
-const getTextColor = (color, invert?: boolean) => {
-	const isBright = chroma(color).luminance() > 0.4;
-	const brightIndex = isBright ? 1 : 0;
-	const colors = ["black", "white"];
-	return invert ? colors.reverse()[brightIndex] : colors[brightIndex];
-};
 
 const LinkComponent = styled.li`
 	a {
@@ -28,8 +22,8 @@ const LinkComponent = styled.li`
 			/* justify-self: start; */
 			margin-right: 0.5rem;
 		}
-		color: ${({ backgroundColor }: LinkProps) =>
-			getTextColor(backgroundColor || "#212121", false)};
+		color: ${({ pageColor }: LinkProps) =>
+			getTextColor(pageColor || "#212121", true)};
 	}
 	width: 100%;
 	/* background: ; */
@@ -114,6 +108,7 @@ const Link = ({
 	linkColor = "",
 	linkStyle = "",
 	image = "",
+	backgroundColor = "",
 }) => {
 	const [hovered, setHovered] = useState(false);
 	const [animationType, setAnimationType] = useState(animation);
@@ -129,6 +124,7 @@ const Link = ({
 		<LinkComponent
 			shouldAnimate={animationType !== "none"}
 			backgroundColor={linkColor}
+			pageColor={backgroundColor}
 			capsule={capsule || linkStyle === "capsule"}
 			onMouseEnter={() => setHovered(true)}
 			onMouseLeave={() => setHovered(false)}

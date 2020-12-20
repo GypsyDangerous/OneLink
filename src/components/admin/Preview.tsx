@@ -5,6 +5,17 @@ import LinkList from "../../components/shared/LinkList";
 import LinkComponent from "../../components/Link";
 import { settingsContext } from "../../contexts/settingsContext";
 import { Link } from "../../util/types/Settings";
+import styled from "styled-components";
+import {getTextColor} from "../../util/functions"
+
+interface NameProps{
+	backgroundColor?: string
+}
+
+const Name = styled.div`
+	font-weight: bold;
+	color: ${({backgroundColor}: NameProps) => getTextColor(backgroundColor, true)};
+`;
 
 const Preview = ({ user, links: propsLinks = [] }) => {
 	const [allLinks, setAllLinks] = useState<Link[]>([]);
@@ -27,7 +38,7 @@ const Preview = ({ user, links: propsLinks = [] }) => {
 						src={`${process.env.NEXT_PUBLIC_API_URL}/public/images/${user.photo}?width=100`}
 					/>
 				</AvatarContainer>
-				<div style={{ fontWeight: "bold" }}>@{user.username}</div>
+				<Name backgroundColor={settings?.backgroundColor}>@{user.username}</Name>
 				<LinkList>
 					{allLinks
 						.sort((a, b) => a.order - b.order)
