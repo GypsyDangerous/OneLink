@@ -54,7 +54,7 @@ const Customize = props => {
 				<CustomizeLinksBody className="column">
 					{defaultTypes.map(type => {
 						return (
-							<div onClick={() => update("linkStyle", type)}>
+							<div key={type} onClick={() => update("linkStyle", type)}>
 								<h2>{type}</h2>
 								<LinkComponent
 									capsule={type === "capsule"}
