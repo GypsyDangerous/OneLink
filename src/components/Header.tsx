@@ -237,13 +237,19 @@ const Header = () => {
 											<Link href="/admin/account">
 												<a>
 													<ProfileItem>
-														{" "}
 														<PersonIcon /> My Account
 													</ProfileItem>
 												</a>
 											</Link>
-											<ProfileItem warn>
-												{" "}
+											<ProfileItem
+												warn
+												onClick={() => {
+													logout().then(() => {
+														setAccessToken(null)
+														Router.push("/");
+													});
+												}}
+											>
 												<ExitToAppIcon />
 												Logout
 											</ProfileItem>
