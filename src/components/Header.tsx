@@ -3,7 +3,7 @@ import Link from "next/link";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { useWindowScroll } from "react-use";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { getAccessToken, setAccessToken } from "../util/auth/accessToken";
 import { useMutation } from "@apollo/client";
 import logoutMutation from "../graphql/logoutMutation";
@@ -154,6 +154,10 @@ const Header = () => {
 
 	const [logout, { data }] = useMutation(logoutMutation);
 
+	useEffect(() => {
+		setProfileOpen(false);
+	}, [token, router.pathname]);
+
 	return (
 		<HeaderComponent
 		// variants={headerVariants}
@@ -245,7 +249,8 @@ const Header = () => {
 												warn
 												onClick={() => {
 													logout().then(() => {
-														setAccessToken(null)
+														setProfileOpen(false);
+														setAccessToken(null);
 														Router.push("/");
 													});
 												}}
