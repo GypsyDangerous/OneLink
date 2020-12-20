@@ -67,8 +67,8 @@ const refreshLink: any = new TokenRefreshLink({
 		setAccessToken(accessToken);
 	},
 	handleError: err => {
-		console.warn("Your refresh token is invalid. Try to relogin");
-		console.error(err);
+		console.log("Your refresh token is invalid. Try to relogin");
+		console.log(err);
 	},
 });
 
@@ -79,6 +79,7 @@ const client = new ApolloClient({
 			console.log("Apollo Errors");
 			console.log(graphQLErrors);
 			console.log(networkError);
+			console.log("end of Apollo Errors")
 		}),
 		requestLink,
 		createHttpLink({
