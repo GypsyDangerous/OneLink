@@ -20,7 +20,7 @@ export const splitByCaps = (string: string) => {
 };
 
 export const getTextColor = (color, invert?: boolean) => {
-	const isBright = chroma(color).luminance() > 0.4;
+	const isBright = chroma(color).luminance() > 0.20;
 	const brightIndex = isBright ? 1 : 0;
 	const colors = ["black", "white"];
 	return invert ? colors.reverse()[brightIndex] : colors[brightIndex];
