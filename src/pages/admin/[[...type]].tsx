@@ -27,9 +27,9 @@ import { Underline, LargeAvatar } from "../../components/shared/styles";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 import Preview from "../../components/admin/Preview";
-const Content = dynamic(import("../../components/admin/Content"));
-const Analytics = dynamic(import("../../components/admin/Analytics"));
-const Customize = dynamic(import("../../components/admin/Customize"));
+const Content = dynamic(() => import("../../components/admin/Content"));
+const Analytics = dynamic(() => import("../../components/admin/Analytics"));
+const Customize = dynamic(() => import("../../components/admin/Customize"));
 
 const CopyIcon = styled(FileCopyIcon)`
 	padding: 0.25rem;
