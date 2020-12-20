@@ -41,7 +41,7 @@ const Customize = props => {
 			<ContentSection solid>
 				<CustomizeLinksBody>
 					{defaultAnimations.map(animation => (
-						<motion.div onClick={() => update("animation", animation)}>
+						<motion.div key={animation} onClick={() => update("animation", animation)}>
 							<h2>{splitByCaps(animation)}</h2>
 
 							<LinkComponent animation={animation} path="" disabled name="Hover Me" />
