@@ -51,6 +51,8 @@ function App({ children }) {
 
 	const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
+	console.log(router.pathname)
+
 	const theme = useMemo(
 		() =>
 			createMuiTheme({
@@ -65,7 +67,7 @@ function App({ children }) {
 		<ThemeProvider theme={theme}>
 			<SEO title="OneLink | Get Started" />
 			<GlobalStyle />
-			{!router?.query?.username && router.pathname !== "/404" && <Header />}
+			{!router.pathname.includes("preview") && !router?.query?.username && router.pathname !== "/404" && <Header />}
 			<Loading loading={loading} />
 			{children}
 		</ThemeProvider>

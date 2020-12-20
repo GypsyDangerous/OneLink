@@ -26,6 +26,7 @@ import { Underline, LargeAvatar } from "../../components/shared/styles";
 // import Content from "../../components/admin/Content";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
+import Preview from "../../components/admin/Preview";
 const Content = dynamic(import("../../components/admin/Content"));
 const Analytics = dynamic(import("../../components/admin/Analytics"));
 const Customize = dynamic(import("../../components/admin/Customize"));
@@ -152,29 +153,7 @@ const AdminComponent = () => {
 									<CopyIcon />
 								</CopyToClipboard>
 							</SectionHeader>
-							<PreviewSection>
-								<PreviewBody backgroundColor={settings.backgroundColor}>
-									<AvatarContainer>
-										<LargeAvatar
-											alt="Avatar"
-											imgProps={{ width: 100, height: 100 }}
-											src={`${process.env.NEXT_PUBLIC_API_URL}/public/images/${user.photo}?width=100`}
-										/>
-									</AvatarContainer>
-									<div style={{ fontWeight: "bold" }}>@{user.username}</div>
-									<LinkList>
-										{links
-											.sort((a, b) => a.order - b.order)
-											.map(link => (
-												<LinkComponent
-													key={link.order}
-													{...link}
-													{...settings}
-												/>
-											))}
-									</LinkList>
-								</PreviewBody>
-							</PreviewSection>
+							<Preview user={user} />
 						</AdminSection>
 					)}
 				</>
