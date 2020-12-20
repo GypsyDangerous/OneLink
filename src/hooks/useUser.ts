@@ -38,22 +38,17 @@ const useUser = ({ refresh }: userOptions = {}): globalUser => {
 	const { setUser, user, setLoading, loading } = context;
 
 	useEffect(() => {
-		try {
-			setTokenRefreshed(false);
-			fetch(`${process.env.NEXT_PUBLIC_API_URL}/refresh_token`, {
-				method: "POST",
-				credentials: "include",
-			}).then(async response => {
-				if (!response.ok) return setTokenRefreshed(true);
-				const json = await response.json();
-				const { token } = json.data;
-				setAccessToken(token);
-				setTokenRefreshed(true);
-			});
-		} catch (err) {
-			setTokenRefreshed(false);
-			setLoading(false);
-		}
+		setTokenRefreshed(false);
+		fetch(`${process.env.NEXT_PUBLIC_API_URL}/refresh_token`, {
+			method: "POST",
+			credentials: "include",
+		}).then(async response => {
+			if (!response.ok) return setTokenRefreshed(true);
+			const json = await response.json();
+			const { token } = json.data;
+			setAccessToken(token);
+			setTokenRefreshed(true);
+		});
 	}, []);
 
 	useEffect(() => {
