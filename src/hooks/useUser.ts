@@ -19,6 +19,7 @@ const redirects = {
 		loggedInRedirect: "/admin",
 	},
 	"/admin": { redirectTo: "/auth/login" },
+	"/admin/[[...type]]": { redirectTo: "/auth/login" },
 	"/auth/[type]": { loggedInRedirect: "/admin" },
 };
 
