@@ -10,22 +10,9 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useRouter } from "next/router";
 
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import { useContext, useMemo } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import Loading from "../components/shared/Loading";
-// import FingerprintJS from '@fingerprintjs/fingerprintjs'
-
-// (async () => {
-//   // We recommend to call `load` at application startup.
-//   const fp = await FingerprintJS.load()
-
-//   // The FingerprintJS agent is ready.
-//   // Get a visitor identifier when you'd like to.
-//   const result = await fp.get()
-
-//   // This is the visitor identifier:
-//   const visitorId = result.visitorId
-//   console.log(visitorId)
-// })()
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
 
 import React from "react";
 import Router from "next/router";
@@ -65,7 +52,9 @@ function App({ children }) {
 		<ThemeProvider theme={theme}>
 			<SEO title="OneLink | Get Started" />
 			<GlobalStyle />
-			{!router.pathname.includes("preview") && !router?.query?.username && router.pathname !== "/404" && <Header />}
+			{!router.pathname.includes("preview") &&
+				!router?.query?.username &&
+				router.pathname !== "/404" && <Header />}
 			<Loading loading={loading} />
 			{children}
 		</ThemeProvider>

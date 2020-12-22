@@ -15,6 +15,8 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import chroma from "chroma-js";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
+
 
 const HeaderComponent = styled(motion.header)`
 	height: 80px;
@@ -157,6 +159,25 @@ const Header = () => {
 	useEffect(() => {
 		setProfileOpen(false);
 	}, [token, router.pathname]);
+
+	useEffect(() => {
+		console.log({window})
+		if(window){
+
+			(async () => {
+				// We recommend to call `load` at application startup.
+				const fp = await FingerprintJS.load();
+	
+				// The FingerprintJS agent is ready.
+				// Get a visitor identifier when you'd like to.
+				const result = await fp.get();
+	
+				// This is the visitor identifier:
+				const visitorId = result.visitorId;
+				console.log(visitorId);
+			})();
+		}
+	}, []);
 
 	return (
 		<HeaderComponent
