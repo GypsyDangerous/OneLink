@@ -4,7 +4,6 @@ import { UserContextProvider } from "../contexts/userContext";
 import { ApolloProvider } from "@apollo/client";
 import client from "../graphql/client";
 import useUser from "../hooks/useUser";
-import Header from "../components/Header";
 import styled from "styled-components";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useRouter } from "next/router";
@@ -12,12 +11,12 @@ import { useRouter } from "next/router";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { useContext, useEffect, useMemo } from "react";
 import Loading from "../components/shared/Loading";
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
-
+import dynamic from "next/dynamic"
 import React from "react";
 import Router from "next/router";
 import NProgress from "nprogress";
-
+// import Header from "../components/Header";
+const Header = dynamic(import("../components/Header"), {ssr: false})
 // NProgress.configure({ showSpinner: publicRuntimeConfig.NProgressShowSpinner });
 
 Router.events.on("routeChangeStart", () => {
