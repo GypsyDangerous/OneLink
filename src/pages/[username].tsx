@@ -88,7 +88,6 @@ export default function Page(props) {
 			<Avatar
 				alt="Avatar"
 				imgProps={{ width: 100, height: 100 }}
-
 				src={`${process.env.NEXT_PUBLIC_API_URL}/public/images/${props.ownerData.photo}?width=100`}
 				className={classes.large}
 			/>
@@ -105,7 +104,7 @@ export default function Page(props) {
 export async function getServerSideProps(ctx) {
 	const { username } = ctx.query;
 	try {
-		if(!username || username === "null") throw new Error("no user found")
+		if (!username || username === "null") throw new Error("no user found");
 		const response = await client.query({ query: pageQuery, variables: { name: username } });
 		const { data } = response;
 		if (!data?.page) throw new Error("invalid name");
