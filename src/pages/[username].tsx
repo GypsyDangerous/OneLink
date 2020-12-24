@@ -1,5 +1,5 @@
 import client from "../graphql/client";
-import { gql } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import styled from "styled-components";
 import pageQuery from "../graphql/pageQuery";
 import Link from "../components/Link";
@@ -52,6 +52,14 @@ interface link {
 	id: string;
 }
 
+const clickMutation = gql`
+	mutation clickLink($linkId: ID!, $userId: ID!) {
+		incrementCount(linkId: $linkId, userId: $userId) {
+			clicks
+		}
+	}
+`;
+
 export default function Page(props) {
 	const [links, setLinks] = useState(props.links);
 
@@ -60,6 +68,8 @@ export default function Page(props) {
 	}, [links]);
 
 	const classes = useStyles();
+
+	const [clickLink, data] = useMutation(clickMutation);
 
 	return (
 		<UserPage>
@@ -94,7 +104,16 @@ export default function Page(props) {
 			<Name>@{props.ownerData.username}</Name>
 			<LinkSet>
 				{displayLinks.map((link: link) => (
-					<Link key={link.order} {...link} />
+					<Link
+						key={link.order}
+						{...link}
+						onClick={() => {
+							console.log({ linkId: link.id, userId: props.ownerData.id})
+							clickLink({ variables: { linkId: link.id, userId: props.ownerData.id} }).catch(err =>
+								console.log(err.message)
+							);
+						}}
+					/>
 				))}
 			</LinkSet>
 		</UserPage>

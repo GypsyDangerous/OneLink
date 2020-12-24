@@ -28,6 +28,7 @@ export const publicUserQuery = gql`
 			bio
 			username
 			photo
+			id
 		}
 	}
 `;

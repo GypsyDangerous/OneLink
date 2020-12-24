@@ -22,8 +22,7 @@ const LinkComponent = styled.li`
 			/* justify-self: start; */
 			margin-right: 0.5rem;
 		}
-		color: ${({ pageColor }: LinkProps) =>
-			getTextColor(pageColor || "#212121", true)};
+		color: ${({ pageColor }: LinkProps) => getTextColor(pageColor || "#212121", true)};
 	}
 	width: 100%;
 	/* background: ; */
@@ -99,17 +98,31 @@ const background = {
 	}),
 };
 
+interface LinkComponent {
+	name: string;
+	path: string;
+	animation?: string;
+	disabled?: boolean;
+	capsule?: boolean;
+	linkColor?: string;
+	linkStyle?: string;
+	image?: string;
+	backgroundColor?: string;
+	onClick?: (e) => void;
+}
+
 const Link = ({
 	name,
 	path,
 	animation = "radial",
 	disabled = false,
 	capsule = false,
-	linkColor = "",
-	linkStyle = "",
-	image = "",
+	linkColor,
+	linkStyle,
+	image,
 	backgroundColor = "white",
-}) => {
+	onClick,
+}: LinkComponent) => {
 	const [hovered, setHovered] = useState(false);
 	const [animationType, setAnimationType] = useState(animation);
 
@@ -129,7 +142,19 @@ const Link = ({
 			onMouseEnter={() => setHovered(true)}
 			onMouseLeave={() => setHovered(false)}
 		>
-			<a href={disabled ? null : path}>
+			<a
+				href={disabled ? null : path}
+				onClick={e => {
+					if (onClick) {
+						onClick(e);
+					}
+				}}
+				onContextMenu={e => {
+					if (onClick) {
+						onClick(e);
+					}
+				}}
+			>
 				{!!image?.length && (
 					<img alt={`${name} icon`} width="40" height="40" src={image}></img>
 				)}

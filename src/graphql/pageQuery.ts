@@ -11,6 +11,7 @@ const pageQuery = gql`
 				color
 				active
 				image
+				id
 			}
 			theme
 		}
@@ -18,6 +19,7 @@ const pageQuery = gql`
 			bio
 			username
 			photo
+			id
 		}
 	}
 `;
