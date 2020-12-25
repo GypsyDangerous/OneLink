@@ -46,7 +46,14 @@ const GlobalStyle = createGlobalStyle`
 
 	.MuiFormHelperText-contained{
 		margin-left: 0px !important;
-	}	  
+	}
+	
+	#nprogress{
+		z-index: 10000;
+		bar{
+			z-index: 1000000;
+		}
+	}
 `;
 
 export default GlobalStyle;
