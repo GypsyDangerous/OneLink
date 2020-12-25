@@ -51,7 +51,7 @@ const GlobalStyle = createGlobalStyle`
 	#nprogress{
 		z-index: 10000;
 		bar{
-			z-index: 1000000;
+			z-index: 1000000 !important;
 		}
 	}
 `;
