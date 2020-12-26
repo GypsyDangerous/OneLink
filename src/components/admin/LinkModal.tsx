@@ -298,7 +298,7 @@ const LinkModal = forwardRef<HTMLDivElement, ModalProps>(
 						</div>
 						<div>
 							<PreviewSection>
-								<Link {...currentLink} {...settings} disabled></Link>
+								<Link {...currentLink} {...settings} backgroundColor="#ffffff" disabled></Link>
 							</PreviewSection>
 							<Button className="save">
 								Save {metaData.name || "Link"}
