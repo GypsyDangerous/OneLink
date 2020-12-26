@@ -18,6 +18,7 @@ export default function Landing() {
 					// label="With normal TextField"
 					id="outlined-start-adornment"
 					InputProps={{
+						placeholder:"Your Name",
 						startAdornment: <InputAdornment position="start">onelinkapp.xyz/</InputAdornment>,
 					}}
 					variant="outlined"
