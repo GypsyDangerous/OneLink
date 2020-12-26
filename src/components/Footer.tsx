@@ -8,9 +8,9 @@ const FooterComponent = styled.footer`
 	background: var(--clr-primary-300);
 	display: flex;
 	color: white;
-    padding: 1rem;
-    box-sizing: content-box !important;
-    gap: .25rem;
+	padding: 1rem;
+	box-sizing: content-box !important;
+	gap: 0.25rem;
 	flex-direction: column;
 `;
 
@@ -22,10 +22,9 @@ const FooterItem = styled.ul`
 `;
 
 const Message = styled.li`
-    display: flex;
-    align-items: center;
-
-`
+	display: flex;
+	align-items: center;
+`;
 
 const Footer = () => {
 	return (
@@ -59,10 +58,30 @@ const Footer = () => {
 			<FooterItem>
 				<Message>
 					Made with{" "}
-					<span style={{ color: "red", height: 23, marginLeft: ".25rem", marginRight: ".25rem" }}>
+					<span
+						style={{
+							color: "red",
+							height: 23,
+							marginLeft: ".25rem",
+							marginRight: ".25rem",
+						}}
+					>
 						<FavoriteIcon />
 					</span>{" "}
-					and Next by David Snyder
+					and{" "}
+					<a
+						href="https://nextjs.org"
+                        rel="noreffer noopener"
+                        target="_blank"
+						style={{
+							marginLeft: ".25rem",
+                            marginRight: ".25rem",
+                            textDecoration: "underline"
+						}}
+					>
+						Next.js
+					</a>{" "}
+					by David Snyder
 				</Message>
 			</FooterItem>
 		</FooterComponent>
