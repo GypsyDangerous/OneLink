@@ -35,7 +35,7 @@ const GlobalStyle = createGlobalStyle`
 	}	
  
 	::-webkit-scrollbar-track {
-		border-radius: 10px;
+		/* border-radius: 10px; */
 		background: var(--clr-primary-300)
 	}
  

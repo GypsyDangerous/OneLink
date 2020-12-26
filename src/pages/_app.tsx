@@ -11,12 +11,13 @@ import { useRouter } from "next/router";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { useContext, useEffect, useMemo } from "react";
 import Loading from "../components/shared/Loading";
-import dynamic from "next/dynamic"
+import dynamic from "next/dynamic";
 import React from "react";
 import Router from "next/router";
 import NProgress from "nprogress";
+import Footer from "../components/Footer";
 // import Header from "../components/Header";
-const Header = dynamic(import("../components/Header"), {ssr: false})
+const Header = dynamic(import("../components/Header"), { ssr: false });
 // NProgress.configure({ showSpinner: publicRuntimeConfig.NProgressShowSpinner });
 
 Router.events.on("routeChangeStart", () => {
@@ -56,6 +57,7 @@ function App({ children }) {
 				router.pathname !== "/404" && <Header />}
 			<Loading loading={loading} />
 			{children}
+			<Footer></Footer>
 		</ThemeProvider>
 	);
 }
