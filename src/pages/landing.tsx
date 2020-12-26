@@ -14,6 +14,14 @@ export default function Landing() {
 		<PaddingPage>
 			<Hero>
 				<h1>Onelink</h1>
+				<TextField
+					// label="With normal TextField"
+					id="outlined-start-adornment"
+					InputProps={{
+						startAdornment: <InputAdornment position="start">onelinkapp.xyz/</InputAdornment>,
+					}}
+					variant="outlined"
+				/>
 			</Hero>
 		</PaddingPage>
 	);
