@@ -7,22 +7,31 @@ const Hero = styled.section`
 	/* background: blue; */
 	height: calc(100vh - 80px);
 	width: 100vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 `;
 
 export default function Landing() {
 	return (
 		<PaddingPage>
 			<Hero>
-				<h1>Onelink</h1>
-				<TextField
-					// label="With normal TextField"
-					id="outlined-start-adornment"
-					InputProps={{
-						placeholder:"Your Name",
-						startAdornment: <InputAdornment position="start">onelinkapp.xyz/</InputAdornment>,
-					}}
-					variant="outlined"
-				/>
+				<div>
+					<TextField
+						// label="With normal TextField"
+						id="outlined-start-adornment"
+						InputProps={{
+							placeholder: "Your Name",
+							startAdornment: (
+								<InputAdornment position="start">onelinkapp.xyz/</InputAdornment>
+							),
+						}}
+						variant="outlined"
+					/>
+				</div>
+				<div>
+					
+				</div>
 			</Hero>
 		</PaddingPage>
 	);
