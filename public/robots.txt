@@ -1,0 +1,5 @@
+# www.onelinkapp.xyz/
+
+# Allow crawling of all content
+User-agent: *
+Disallow:
