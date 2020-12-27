@@ -120,7 +120,8 @@ export const ContentSection = styled.div`
 	margin-bottom: 1.5rem;
 	padding: 1rem;
 	${(props: { solid?: boolean }) => (!props.solid ? "padding-left: 0;" : "")}
-	color: black;
+	color: white;
+	background: rgba(60, 60, 60);
 	.circle-picker {
 		justify-content: center;
 	}

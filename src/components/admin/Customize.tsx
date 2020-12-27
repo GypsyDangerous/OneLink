@@ -28,18 +28,19 @@ const OptionHeader = styled(motion.div)`
 
 const ButtonOutline = styled(motion.div)`
 	padding: 0.1rem;
-	width: 1rem;
-	height: 1rem;
-	border-radius: 0.25rem;
-	border: 2px solid blue;
+	width: 1.5rem;
+	height: 1.5rem;
+	border-radius: 50%;
+	border: 2px solid var(--clr-accent-300);
 	align-items: center;
+	margin-bottom: 0.25rem;
 `;
 
 const ButtonCenter = styled(motion.div)`
-	border-radius: 0.125rem;
+	border-radius: 50%;
 	width: 100%;
 	height: 100%;
-	background: blue;
+	background: var(--clr-accent-300);
 `;
 
 const Customize = props => {
@@ -88,6 +89,8 @@ const Customize = props => {
 									path=""
 									disabled
 									name="Hover Me"
+									backgroundColor="#000000"
+									linkColor="#ffffff"
 								/>
 							</OptionArea>
 						))}
@@ -104,7 +107,9 @@ const Customize = props => {
 									<OptionHeader>
 										<h2>{type}</h2>
 										<ButtonOutline>
-											{type === settings?.linkStyle && <ButtonCenter layoutId="type-selection"></ButtonCenter>}
+											{type === settings?.linkStyle && (
+												<ButtonCenter layoutId="type-selection"></ButtonCenter>
+											)}
 										</ButtonOutline>
 									</OptionHeader>
 									<LinkComponent
@@ -112,6 +117,8 @@ const Customize = props => {
 										path=""
 										disabled
 										name="example"
+										backgroundColor="#000000"
+										linkColor="#ffffff"
 									/>
 								</OptionArea>
 							);
