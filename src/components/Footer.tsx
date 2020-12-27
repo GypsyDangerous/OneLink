@@ -3,6 +3,7 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import Link from "next/link";
+import Anchor from "./shared/Anchor";
 const FooterComponent = styled.footer`
 	height: 80px;
 	background: var(--clr-primary-300);
@@ -42,16 +43,16 @@ const Footer = () => {
 			</FooterItem>
 			<FooterItem>
 				<li>
-					<a href="mailto:davidgraygs4@gmail.com">Contact</a>
+					<Anchor href="mailto:davidgraygs4@gmail.com">Contact</Anchor>
 				</li>
 				<li>
 					<Link href="/privacy">
-						<a>Privacy Policy</a>
+						<Anchor>Privacy Policy</Anchor>
 					</Link>
 				</li>
 				<li>
-					<Link href="/tos">
-						<a>Terms of Service</a>
+					<Link href="/tos" passHref>
+						<Anchor>Terms of Service</Anchor>
 					</Link>
 				</li>
 			</FooterItem>
@@ -69,10 +70,9 @@ const Footer = () => {
 						<FavoriteIcon />
 					</span>{" "}
 					and{" "}
-					<a
+					<Anchor
 						href="https://nextjs.org"
-                        rel="noreffer noopener"
-                        target="_blank"
+                        newTab
 						style={{
 							marginLeft: ".25rem",
                             marginRight: ".25rem",
@@ -80,7 +80,7 @@ const Footer = () => {
 						}}
 					>
 						Next.js
-					</a>{" "}
+					</Anchor>{" "}
 					by David Snyder
 				</Message>
 			</FooterItem>
