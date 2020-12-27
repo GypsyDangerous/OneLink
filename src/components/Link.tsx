@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { getTextColor } from "../util/functions";
+import Anchor from "./shared/Anchor";
 
 interface LinkProps {
 	backgroundColor?: string;
@@ -142,9 +143,9 @@ const Link = ({
 			onMouseEnter={() => setHovered(true)}
 			onMouseLeave={() => setHovered(false)}
 		>
-			<a
+			<Anchor
 				href={disabled ? null : path}
-				target="_blank"
+				newTab
 				onClick={e => {
 					if (onClick) {
 						onClick(e);
@@ -160,7 +161,7 @@ const Link = ({
 					<img alt={`${name} icon`} width="40" height="40" src={image}></img>
 				)}
 				{name}
-			</a>
+			</Anchor>
 			{animationType !== "none" && (
 				<LinkBackground
 					initial="unhovered"
