@@ -32,13 +32,13 @@ const Footer = () => {
 		<FooterComponent>
 			<FooterItem>
 				<li>
-					<a href="https://github.com/GypsyDangerous" target="_blank" aria-label="github">
+					<Anchor href="https://github.com/GypsyDangerous" newTab aria-label="github">
 						<GitHubIcon />
-					</a>
+					</Anchor>
 				</li>
-				<a href="https://www.twitter.com/snyderling_" target="_blank" aria-label="twitter">
+				<Anchor href="https://www.twitter.com/snyderling_" newTab aria-label="twitter">
 					<TwitterIcon />
-				</a>
+				</Anchor>
 				<li></li>
 			</FooterItem>
 			<FooterItem>
