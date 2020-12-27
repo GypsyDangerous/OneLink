@@ -115,13 +115,12 @@ export const ContentBody = styled.div`
 
 export const ContentSection = styled.div`
 	width: 100%;
-	background: ${(props: { solid?: boolean }) => (props.solid ? "white" : "")};
+	background: ${(props: { solid?: boolean }) => (props.solid ? "rgba(60, 60, 60)" : "")};
 	border-radius: 1rem;
 	margin-bottom: 1.5rem;
 	padding: 1rem;
 	${(props: { solid?: boolean }) => (!props.solid ? "padding-left: 0;" : "")}
 	color: white;
-	background: rgba(60, 60, 60);
 	.circle-picker {
 		justify-content: center;
 	}
@@ -134,7 +133,7 @@ export const AddLinkBody = styled.div`
 `;
 
 export const AddLinkSection = styled.div`
-	background: lightgrey;
+	background: rgba(99, 99, 99);
 	flex: 1 1 50%;
 	&:first-child {
 		flex: 1 1 40%;
