@@ -4,7 +4,7 @@ import Link from "next/link";
 const NotFoundContainer = styled.div`
 	padding: 40px 77px;
 	display: grid;
-	width: 100vw;
+	/* width: 100vw; */
 	height: 100vh;
 	grid-template-areas:
 		"header header"
