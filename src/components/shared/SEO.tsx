@@ -23,7 +23,7 @@ const SEO = ({ title }) => {
 			/>
 			<link rel="preconnect" href="https://fonts.gstatic.com" />
 			<link rel="preconnect" href={process.env.NEXT_PUBLIC_API_URL} />
-			<link rel="icon" type="image/png" href="/circle-cropped.png" />
+			<link rel="icon" type="image/png" href="/circle-cropped.ico" />
 			<link
 				href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
 				rel="preload"
@@ -37,7 +37,7 @@ const SEO = ({ title }) => {
 				data-n-head="ssr"
 				data-hid="og:description"
 				property="og:description"
-				content="The only social link you will ever need in your bio"
+				content="OneLink is a tool for anyone to organize, promote, and amplify your online presence. OneLink curates all of your links into a clean page that is easily shareable."
 			/>
 			<meta
 				data-n-head="ssr"
