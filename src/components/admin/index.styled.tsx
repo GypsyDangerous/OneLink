@@ -176,6 +176,7 @@ export const GrabLink = styled.li`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	color: black;
 	/* &.dragged{
 		transform: rotate(30deg);
 	} */
