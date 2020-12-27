@@ -37,8 +37,8 @@ const LinkComponent = styled.li`
 	overflow: hidden;
 	&:hover {
 		a {
-			color: ${({ backgroundColor }: LinkProps) =>
-				getTextColor(backgroundColor || "#212121", true)};
+			color: ${({ backgroundColor, shouldAnimate, pageColor }: LinkProps) =>
+				getTextColor(!shouldAnimate ? pageColor : backgroundColor || "#212121", true)};
 		}
 	}
 	&:first-child {
@@ -144,6 +144,7 @@ const Link = ({
 		>
 			<a
 				href={disabled ? null : path}
+				target="_blank"
 				onClick={e => {
 					if (onClick) {
 						onClick(e);
