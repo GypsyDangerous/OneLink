@@ -34,6 +34,11 @@ const ButtonOutline = styled(motion.div)`
 	border: 2px solid var(--clr-accent-300);
 	align-items: center;
 	margin-bottom: 0.25rem;
+	transition: background .25s;
+	cursor: pointer;
+	:hover{
+		background: #ffffff22
+	}
 `;
 
 const ButtonCenter = styled(motion.div)`
