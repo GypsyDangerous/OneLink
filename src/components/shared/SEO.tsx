@@ -54,7 +54,7 @@ const SEO = ({ title }) => {
 			/>
 			<meta
 				name="description"
-				content="OneLink is a tool for anyone with a digital voice to organize, promote, and amplify your online existence. OneLink curates all of your links into one clean page that is easily shareable."
+				content="OneLink is a tool for anyone to organize, promote, and amplify your online presence. OneLink curates all of your links into a clean page that is easily shareable."
 			/>
 			<meta
 				data-n-head="ssr"
