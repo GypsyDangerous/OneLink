@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { AvatarContainer, PreviewBody, PreviewSection } from "../../components/admin/index.styled";
 import { LargeAvatar } from "../../components/shared/styles";
-import LinkList from "../../components/shared/LinkList";
-import LinkComponent from "../../components/Link";
 import { settingsContext } from "../../contexts/settingsContext";
 import { Link } from "../../util/types/Settings";
 import styled from "styled-components";
 import {getTextColor} from "../../util/functions"
+import LinkList from "../../components/shared/LinkList";
+import LinkComponent from "../../components/Link";
 
 interface NameProps{
 	backgroundColor?: string

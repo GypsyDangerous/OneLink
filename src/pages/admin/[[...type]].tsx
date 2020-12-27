@@ -1,37 +1,28 @@
-import useUser from "../../hooks/useUser";
 import { useRouter } from "next/router";
-import { Slide, useMediaQuery } from "@material-ui/core";
+import { useMediaQuery } from "@material-ui/core";
 import { useContext, useEffect, useState } from "react";
-import LinkComponent from "../../components/Link";
 import Link from "next/link";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import { AnimateSharedLayout, AnimatePresence } from "framer-motion";
 import Head from "next/head";
-import LinkList from "../../components/shared/LinkList";
 import { settingsContext, SettingsContextProvider } from "../../contexts/settingsContext";
 import {
 	AdminPage,
 	AdminSection,
 	SectionHeader,
-	PreviewBody,
-	PreviewSection,
 	ContentBody,
-	AvatarContainer,
 } from "../../components/admin/index.styled";
 import Snackbar from "@material-ui/core/Snackbar";
-import { Underline, LargeAvatar } from "../../components/shared/styles";
-// import Customize from "../../components/admin/Customize";
-// import Analytics from "../../components/admin/Analytics";
-// import Content from "../../components/admin/Content";
-import _ from "lodash"
+import { Underline } from "../../components/shared/styles";
+import _ from "lodash";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
-import Preview from "../../components/admin/Preview";
 import useUserContext from "../../hooks/useUserContext";
 const Content = dynamic(() => import("../../components/admin/Content"));
 const Analytics = dynamic(() => import("../../components/admin/Analytics"));
 const Customize = dynamic(() => import("../../components/admin/Customize"));
+const Preview = dynamic(() => import("../../components/admin/Preview"));
 
 const CopyIcon = styled(FileCopyIcon)`
 	padding: 0.25rem;

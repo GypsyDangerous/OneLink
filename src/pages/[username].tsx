@@ -2,12 +2,13 @@ import client from "../graphql/client";
 import { gql, useMutation } from "@apollo/client";
 import styled from "styled-components";
 import pageQuery from "../graphql/pageQuery";
-import Link from "../components/Link";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import Avatar from "@material-ui/core/Avatar";
 import Head from "next/head";
-import LinkList from "../components/shared/LinkList";
+import dynamic from "next/dynamic";
+const Link = dynamic(() => import("../components/Link"));
+const LinkList = dynamic(() => import("../components/shared/LinkList"));
+const Avatar = dynamic(() => import("@material-ui/core/Avatar"));
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -108,10 +109,10 @@ export default function Page(props) {
 						key={link.order}
 						{...link}
 						onClick={() => {
-							console.log({ linkId: link.id, userId: props.ownerData.id})
-							clickLink({ variables: { linkId: link.id, userId: props.ownerData.id} }).catch(err =>
-								console.log(err.message)
-							);
+							console.log({ linkId: link.id, userId: props.ownerData.id });
+							clickLink({
+								variables: { linkId: link.id, userId: props.ownerData.id },
+							}).catch(err => console.log(err.message));
 						}}
 					/>
 				))}

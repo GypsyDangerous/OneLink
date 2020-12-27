@@ -2,7 +2,9 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { getTextColor } from "../util/functions";
-import Anchor from "./shared/Anchor";
+import dynamic from "next/dynamic";
+
+const Anchor = dynamic(() => import("./shared/Anchor"))
 
 interface LinkProps {
 	backgroundColor?: string;
