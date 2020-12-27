@@ -19,6 +19,8 @@ import _ from "lodash";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 import useUserContext from "../../hooks/useUserContext";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import pageQuery from "../../graphql/pageQuery";
 const Content = dynamic(() => import("../../components/admin/Content"));
 const Analytics = dynamic(() => import("../../components/admin/Analytics"));
 const Customize = dynamic(() => import("../../components/admin/Customize"));
@@ -42,7 +44,7 @@ const AdminComponent = () => {
 	const [copied, setCopied] = useState(false);
 
 	const { user, loading } = useUserContext();
-	const { settings, update } = useContext(settingsContext);
+	const { settings, update, reset } = useContext(settingsContext);
 	const {
 		query: { type },
 	} = useRouter();
@@ -51,6 +53,13 @@ const AdminComponent = () => {
 	const { links } = settings;
 
 	const showPreview = useMediaQuery("(min-width: 64rem)");
+
+	const  { data } = useQuery(pageQuery, { variables: {name: user.username} });
+	
+	useEffect(() => {
+		console.log(data?.page?.theme)
+		// reset(data?.page?.theme)
+	}, [data])
 
 	const remove = id => {
 		update("links", prev => prev.filter(item => item.id !== id));
