@@ -46,7 +46,7 @@ const Footer = () => {
 					<Anchor href="mailto:davidgraygs4@gmail.com">Contact</Anchor>
 				</li>
 				<li>
-					<Link href="/privacy">
+					<Link href="/privacy" passHref>
 						<Anchor>Privacy Policy</Anchor>
 					</Link>
 				</li>
