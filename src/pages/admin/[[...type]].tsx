@@ -21,13 +21,19 @@ import dynamic from "next/dynamic";
 import useUserContext from "../../hooks/useUserContext";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import pageQuery from "../../graphql/pageQuery";
+import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 const Content = dynamic(() => import("../../components/admin/Content"));
 const Analytics = dynamic(() => import("../../components/admin/Analytics"));
 const Customize = dynamic(() => import("../../components/admin/Customize"));
 const Preview = dynamic(() => import("../../components/admin/Preview"));
 
-const CopyIcon = styled(FileCopyIcon)`
+function Alert(props: AlertProps) {
+	return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+const CopyIcon = styled.div`
 	padding: 0.25rem;
+	height: 32px;
 	border-radius: 0.1rem;
 	&:hover {
 		background: #282828;
@@ -54,12 +60,12 @@ const AdminComponent = () => {
 
 	const showPreview = useMediaQuery("(min-width: 64rem)");
 
-	const  { data } = useQuery(pageQuery, { variables: {name: user.username} });
-	
+	const { data } = useQuery(pageQuery, { variables: { name: user.username } });
+
 	useEffect(() => {
-		console.log(data?.page?.theme)
+		console.log(data?.page?.theme);
 		// reset(data?.page?.theme)
-	}, [data])
+	}, [data]);
 
 	const remove = id => {
 		update("links", prev => prev.filter(item => item.id !== id));
@@ -84,8 +90,11 @@ const AdminComponent = () => {
 						open={copied}
 						autoHideDuration={6000}
 						onClose={() => setCopied(false)}
-						message="Link Copied!"
-					/>
+					>
+						<Alert onClose={() => setCopied(false)} severity="success">
+						Link Copied!
+						</Alert>
+					</Snackbar>
 					<AdminSection left>
 						<SectionHeader>
 							<AnimateSharedLayout>
@@ -138,14 +147,20 @@ const AdminComponent = () => {
 							<SectionHeader className="link-section">
 								<Link href={`/${user.username}`}>
 									<a>
-										{process.env.NEXT_PUBLIC_CLIENT_URL.replace(/https?:\/\//, "")}/{user.username}
+										{process.env.NEXT_PUBLIC_CLIENT_URL.replace(
+											/https?:\/\//,
+											""
+										)}
+										/{user.username}
 									</a>
 								</Link>
 								<CopyToClipboard
 									text={`${process.env.NEXT_PUBLIC_CLIENT_URL}/${user.username}`}
 									onCopy={() => setCopied(true)}
 								>
-									<CopyIcon />
+									<CopyIcon>
+										<FileCopyIcon />
+									</CopyIcon>
 								</CopyToClipboard>
 							</SectionHeader>
 							<Preview user={user} />
