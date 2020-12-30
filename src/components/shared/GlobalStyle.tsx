@@ -35,14 +35,15 @@ const GlobalStyle = createGlobalStyle`
 	}	
  
 	::-webkit-scrollbar-track {
-		/* border-radius: 10px; */
 		box-shadow: inset 5px 5px 10px #212121;
-		background: var(--clr-primary-300)
+		background: var(--clr-primary-300);
+		cursor: grab;
 	}
  
 	::-webkit-scrollbar-thumb {
-    	border-radius: 10px;
+    	border-radius: 100vh;
 		background: #28BF7B;
+		cursor: grab;
 	}
 
 	.MuiFormHelperText-contained{
