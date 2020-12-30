@@ -11,6 +11,7 @@ import loginMutation from "../../graphql/loginMutation";
 import Router from "next/router";
 import { setAccessToken } from "../../util/auth/accessToken";
 import useUserContext from "../../hooks/useUserContext";
+import Image from "next/image"
 
 const Login = ({ ...props }) => {
 	const [formState, inputHandler, setFormData] = useForm(
@@ -73,7 +74,7 @@ const Login = ({ ...props }) => {
 				/>
 				<HR />
 				<GoogleButton type="button">
-					<img src="/google-g-2015.svg" width="25" />
+					<Image src="/google-g-2015.svg" width="25" height="25" />
 					Sign in with Google
 				</GoogleButton>
 				<FormButton type="submit">Login</FormButton>

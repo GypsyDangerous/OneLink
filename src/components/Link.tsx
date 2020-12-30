@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { getTextColor } from "../util/functions";
 import dynamic from "next/dynamic";
+import Image from "next/image"
 
 const Anchor = dynamic(() => import("./shared/Anchor"))
 
@@ -160,7 +161,7 @@ const Link = ({
 				}}
 			>
 				{!!image?.length && (
-					<img alt={`${name} icon`} width="40" height="40" src={image}></img>
+					<Image alt={`${name} icon`} width="40" height="40" src={image}/>
 				)}
 				{name}
 			</Anchor>
