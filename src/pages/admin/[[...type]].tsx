@@ -138,7 +138,7 @@ const AdminComponent = () => {
 							<SectionHeader className="link-section">
 								<Link href={`/${user.username}`}>
 									<a>
-										{process.env.NEXT_PUBLIC_CLIENT_URL}/{user.username}
+										{process.env.NEXT_PUBLIC_CLIENT_URL.replace(/https?:\/\//, "")}/{user.username}
 									</a>
 								</Link>
 								<CopyToClipboard

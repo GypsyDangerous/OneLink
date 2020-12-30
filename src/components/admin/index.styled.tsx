@@ -74,7 +74,8 @@ export const PreviewBody = styled.div`
 	width: 340px;
 	height: 650px;
 	position: sticky;
-	top: calc(50px + 80px + 5rem);
+	top: 150px;
+	/* top: calc(50px + 80px + 5rem); */
 	border: 10px solid black;
 	/* background: #212121; */
 	border-radius: 2rem;
@@ -116,7 +117,7 @@ export const ContentBody = styled.div`
 export const ContentSection = styled.div`
 	width: 100%;
 	background: ${(props: { solid?: boolean }) => (props.solid ? "rgba(60, 60, 60)" : "")};
-	border-radius: 1rem;
+	border-radius: .5rem;
 	margin-bottom: 1.5rem;
 	padding: 1rem;
 	${(props: { solid?: boolean }) => (!props.solid ? "padding-left: 0;" : "")}
@@ -133,7 +134,7 @@ export const AddLinkBody = styled.div`
 `;
 
 export const AddLinkSection = styled.div`
-	background: rgba(99, 99, 99);
+	background: rgba(99, 99, 99, .25);
 	flex: 1 1 50%;
 	&:first-child {
 		flex: 1 1 40%;
