@@ -103,6 +103,9 @@ export const PreviewBody = styled.div`
 
 export const AvatarContainer = styled.div`
 	margin-top: 4rem;
+	svg{
+		font-size: 4rem !important;
+	}
 `;
 
 export const ContentBody = styled.div`

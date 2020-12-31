@@ -67,9 +67,9 @@ const Header = () => {
 
 	return (
 		<HeaderComponent
-			// variants={headerVariants}
-			// transition={{ duration: 0.5, ease: "easeInOut" }}
-			// animate={y > 80 ? "scrolled" : "top"}
+		// variants={headerVariants}
+		// transition={{ duration: 0.5, ease: "easeInOut" }}
+		// animate={y > 80 ? "scrolled" : "top"}
 		>
 			<HeaderContent>
 				<HeaderLeft>
@@ -113,7 +113,9 @@ const Header = () => {
 									imgProps={{ width: 40, height: 40 }}
 									alt="Avatar"
 									src={`${process.env.NEXT_PUBLIC_API_URL}/public/images/${user?.photo}?width=40&height=40`}
-								/>
+								>
+									<PersonIcon />
+								</Avatar>
 								<div>
 									{user?.username || (
 										<Skeleton variant="text" width={50} height={20} />
