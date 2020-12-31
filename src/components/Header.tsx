@@ -10,6 +10,7 @@ import Router from "next/router";
 import { userContext } from "../contexts/userContext";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import dynamic from "next/dynamic";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 import {
 	HeaderComponent,
@@ -19,7 +20,9 @@ import {
 	HeaderLink,
 	Logo,
 	headerVariants,
-	Buttons,
+	HeaderRight,
+	HeaderLeft,
+	Chevron,
 } from "./Header.styled";
 
 import { Underline } from "./shared/styles";
@@ -64,17 +67,19 @@ const Header = () => {
 
 	return (
 		<HeaderComponent
-			variants={headerVariants}
-			transition={{ duration: 0.5, ease: "easeInOut" }}
-			animate={y > 100 ? "scrolled" : "top"}
+			// variants={headerVariants}
+			// transition={{ duration: 0.5, ease: "easeInOut" }}
+			// animate={y > 80 ? "scrolled" : "top"}
 		>
 			<HeaderContent>
-				<Link href="/">
-					<a aria-label="logo">
-						<Logo />
-					</a>
-				</Link>
-				<Buttons>
+				<HeaderLeft>
+					<Link href="/">
+						<a aria-label="logo">
+							<Logo />
+						</a>
+					</Link>
+				</HeaderLeft>
+				<HeaderRight>
 					{!token ? (
 						<AnimateSharedLayout>
 							<HeaderLink>
@@ -109,17 +114,14 @@ const Header = () => {
 									alt="Avatar"
 									src={`${process.env.NEXT_PUBLIC_API_URL}/public/images/${user?.photo}?width=40&height=40`}
 								/>
-								<div>{user?.username}</div>
-								<motion.div
-									style={{
-										transformOrigin: "center",
-										height: "24px",
-										width: "24px",
-									}}
-									animate={profileOpen ? { rotate: 180 } : { rotate: 0 }}
-								>
+								<div>
+									{user?.username || (
+										<Skeleton variant="text" width={50} height={20} />
+									)}
+								</div>
+								<Chevron animate={profileOpen ? { rotate: 180 } : { rotate: 0 }}>
 									<KeyboardArrowDownIcon />
-								</motion.div>
+								</Chevron>
 							</div>
 							<AnimatePresence>
 								{profileOpen && (
@@ -160,7 +162,7 @@ const Header = () => {
 							</AnimatePresence>
 						</>
 					)}
-				</Buttons>
+				</HeaderRight>
 			</HeaderContent>
 		</HeaderComponent>
 	);

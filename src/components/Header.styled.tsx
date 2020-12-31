@@ -29,7 +29,6 @@ export const ProfileItem = styled(motion.div)`
 	}
 `;
 
-
 export const HeaderComponent = styled(motion.header)`
 	height: 80px;
 	/* outline: solid; */
@@ -50,6 +49,12 @@ export const HeaderContent = styled.div`
 	align-items: center;
 `;
 
+export const Chevron = styled(motion.div)`
+	transform-origin: center;
+	height: 24px;
+	width: 24px;
+`;
+
 export const Logo = styled.div`
 	width: 50px;
 	height: 50px;
@@ -57,7 +62,7 @@ export const Logo = styled.div`
 	color: white;
 `;
 
-export const Buttons = styled.div`
+export const HeaderRight = styled.div`
 	display: flex;
 	align-items: center;
 	color: white;
@@ -67,6 +72,13 @@ export const Buttons = styled.div`
 		/* cursor: pointer; */
 		margin: 0 0.5rem;
 	}
+`;
+
+export const HeaderLeft = styled.div`
+	display: flex;
+	height: 100%;
+	align-items: center;
+	width: 15%;
 `;
 
 export const HeaderLink = styled.span`
@@ -89,8 +101,6 @@ export const ProfileSection = styled(motion.div)`
 		display: block;
 	}
 `;
-
-
 
 export const headerVariants = {
 	top: {
