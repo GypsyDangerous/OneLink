@@ -19,7 +19,7 @@ import _ from "lodash";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 import useUserContext from "../../hooks/useUserContext";
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import pageQuery from "../../graphql/pageQuery";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 const Content = dynamic(() => import("../../components/admin/Content"));

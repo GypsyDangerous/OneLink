@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import Loader from "react-loader";
 
 const Loading = ({ loading }) => {
