@@ -179,7 +179,7 @@ const LinkModal = forwardRef<HTMLDivElement, ModalProps>(
 					reader.onload = () => {
 						// Do whatever you want with the file contents
 						const binaryStr = reader.result;
-						console.log(binaryStr);
+						// console.log(binaryStr);
 					};
 					reader.readAsArrayBuffer(file);
 				});
@@ -298,7 +298,7 @@ const LinkModal = forwardRef<HTMLDivElement, ModalProps>(
 						</div>
 						<div>
 							<PreviewSection>
-								<Link {...currentLink} {...settings} disabled></Link>
+								<Link {...currentLink} {...settings} backgroundColor="#ffffff" disabled></Link>
 							</PreviewSection>
 							<Button className="save">
 								Save {metaData.name || "Link"}

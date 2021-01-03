@@ -15,9 +15,15 @@ const SEO = ({ title }) => {
 				rel="stylesheet"
 				href="https://cdn.jsdelivr.net/gh//GypsyDangerous/simple-css-reset/reset.css"
 			/>
+			<link
+				rel="stylesheet"
+				href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.css"
+				integrity="sha512-DanfxWBasQtq+RtkNAEDTdX4Q6BPCJQ/kexi/RftcP0BcA4NIJPSi7i31Vl+Yl5OCfgZkdJmCqz+byTOIIRboQ=="
+				crossOrigin="anonymous"
+			/>
 			<link rel="preconnect" href="https://fonts.gstatic.com" />
 			<link rel="preconnect" href={process.env.NEXT_PUBLIC_API_URL} />
-			<link rel="icon" type="image/png" href="/circle-cropped.png" />
+			<link rel="icon" type="image/png" href="/circle-cropped.ico" />
 			<link
 				href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
 				rel="preload"
@@ -31,7 +37,7 @@ const SEO = ({ title }) => {
 				data-n-head="ssr"
 				data-hid="og:description"
 				property="og:description"
-				content="The only social link you will ever need in your bio"
+				content="OneLink is a tool for anyone to organize, promote, and amplify your online presence. OneLink curates all of your links into a clean page that is easily shareable."
 			/>
 			<meta
 				data-n-head="ssr"
@@ -48,7 +54,7 @@ const SEO = ({ title }) => {
 			/>
 			<meta
 				name="description"
-				content="OneLink is a tool for anyone with a digital voice to organize, promote, and amplify your online existence. OneLink curates all of your links into one clean page that is easily shareable."
+				content="OneLink is a tool for anyone to organize, promote, and amplify your online presence. OneLink curates all of your links into a clean page that is easily shareable."
 			/>
 			<meta
 				data-n-head="ssr"

@@ -4,20 +4,17 @@ import { UserContextProvider } from "../contexts/userContext";
 import { ApolloProvider } from "@apollo/client";
 import client from "../graphql/client";
 import useUser from "../hooks/useUser";
-import styled from "styled-components";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useRouter } from "next/router";
-
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import { useContext, useEffect, useMemo } from "react";
+import {  useMemo } from "react";
 import Loading from "../components/shared/Loading";
-import dynamic from "next/dynamic"
-import React from "react";
+import dynamic from "next/dynamic";
 import Router from "next/router";
 import NProgress from "nprogress";
-// import Header from "../components/Header";
-const Header = dynamic(import("../components/Header"), {ssr: false})
-// NProgress.configure({ showSpinner: publicRuntimeConfig.NProgressShowSpinner });
+
+const Footer = dynamic(() => import("../components/Footer"))
+const Header = dynamic(import("../components/Header"), { ssr: false });
 
 Router.events.on("routeChangeStart", () => {
 	NProgress.start();
@@ -56,6 +53,7 @@ function App({ children }) {
 				router.pathname !== "/404" && <Header />}
 			<Loading loading={loading} />
 			{children}
+			<Footer></Footer>
 		</ThemeProvider>
 	);
 }

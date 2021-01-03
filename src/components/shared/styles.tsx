@@ -19,3 +19,4 @@ export const LargeAvatar = withStyles((theme: Theme) =>
 		},
 	})
 )(Avatar);
+

@@ -13,7 +13,12 @@ const pageQuery = gql`
 				image
 				id
 			}
-			theme
+			theme{
+				linkColor,
+				backgroundColor,
+				animationType,
+				linkStyle
+			}
 		}
 		user(name: $name) {
 			bio

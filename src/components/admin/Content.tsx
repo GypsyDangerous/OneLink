@@ -21,6 +21,7 @@ import {
 import { Link as LinkType } from "../../util/types/Settings";
 import { defaultImages, usernameLinks, defaultLinks } from "../../util/constants";
 import LinkModal from "../../components/admin/LinkModal";
+import Image from "next/image"
 
 import { ModalMeta } from "../../util/types/Settings";
 
@@ -94,7 +95,7 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 							</LinkItem>
 							{defaultLinks.map(linkName => (
 								<LinkItem onClick={e => handleOpen(linkName)} key={linkName}>
-									<img width="22" height="22" src={defaultImages[linkName]} alt={`${linkName} icon`} />
+									<Image width="22" height="22" src={defaultImages[linkName]} alt={`${linkName} icon`} />
 								</LinkItem>
 							))}
 						</div>

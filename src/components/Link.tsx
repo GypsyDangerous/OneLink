@@ -2,6 +2,10 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { getTextColor } from "../util/functions";
+import dynamic from "next/dynamic";
+import Image from "next/image"
+
+const Anchor = dynamic(() => import("./shared/Anchor"))
 
 interface LinkProps {
 	backgroundColor?: string;
@@ -37,8 +41,8 @@ const LinkComponent = styled.li`
 	overflow: hidden;
 	&:hover {
 		a {
-			color: ${({ backgroundColor }: LinkProps) =>
-				getTextColor(backgroundColor || "#212121", true)};
+			color: ${({ backgroundColor, shouldAnimate, pageColor }: LinkProps) =>
+				getTextColor(!shouldAnimate ? pageColor : backgroundColor || "#212121", true)};
 		}
 	}
 	&:first-child {
@@ -142,8 +146,9 @@ const Link = ({
 			onMouseEnter={() => setHovered(true)}
 			onMouseLeave={() => setHovered(false)}
 		>
-			<a
+			<Anchor
 				href={disabled ? null : path}
+				newTab
 				onClick={e => {
 					if (onClick) {
 						onClick(e);
@@ -156,10 +161,10 @@ const Link = ({
 				}}
 			>
 				{!!image?.length && (
-					<img alt={`${name} icon`} width="40" height="40" src={image}></img>
+					<Image alt={`${name} icon`} width="40" height="40" src={image}/>
 				)}
 				{name}
-			</a>
+			</Anchor>
 			{animationType !== "none" && (
 				<LinkBackground
 					initial="unhovered"

@@ -3,7 +3,6 @@ import { useEffect } from "react";
 
 const useFingerPrint = () => {
 	useEffect(() => {
-		console.log({ window });
 		if (window) {
 			(async () => {
 				// We recommend to call `load` at application startup.
