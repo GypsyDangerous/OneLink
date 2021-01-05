@@ -63,17 +63,20 @@ const AdminComponent = () => {
 	const { data } = useQuery(pageQuery, { variables: { name: user.username } });
 
 	useEffect(() => {
-		console.log(data?.page?.theme);
-		// reset(data?.page?.theme)
+		const page = data?.page
+		console.log(page)
+		if (page) {
+			reset({links: page.links, ...page.theme});
+		}
 	}, [data]);
 
 	const remove = id => {
 		update("links", prev => prev.filter(item => item.id !== id));
 	};
 
-	useEffect(() => {
-		update("links", [...(user?.Page?.links || [])]);
-	}, [user]);
+	// useEffect(() => {
+	// 	update("links", [...(user?.Page?.links || [])]);
+	// }, [user]);
 
 	return (
 		<AdminPage>
@@ -92,7 +95,7 @@ const AdminComponent = () => {
 						onClose={() => setCopied(false)}
 					>
 						<Alert onClose={() => setCopied(false)} severity="success">
-						Link Copied!
+							Link Copied!
 						</Alert>
 					</Snackbar>
 					<AdminSection left>

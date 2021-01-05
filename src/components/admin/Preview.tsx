@@ -26,9 +26,9 @@ const Preview = ({ user, links: propsLinks = [] }) => {
 	const { links } = settings || {};
 
 	useEffect(() => {
-		if (propsLinks?.length) setAllLinks(propsLinks);
-		else setAllLinks(links);
-	}, [propsLinks, links]);
+		if (propsLinks?.length) setAllLinks([...propsLinks]);
+		else setAllLinks([...links]);
+	}, [links]);
 
 	return (
 		<PreviewSection>
