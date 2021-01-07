@@ -22,6 +22,7 @@ import useUserContext from "../../hooks/useUserContext";
 import { useQuery } from "@apollo/client";
 import pageQuery from "../../graphql/pageQuery";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import { useGoogleLogin } from "react-google-login";
 const Content = dynamic(() => import("../../components/admin/Content"));
 const Analytics = dynamic(() => import("../../components/admin/Analytics"));
 const Customize = dynamic(() => import("../../components/admin/Customize"));
@@ -63,10 +64,10 @@ const AdminComponent = () => {
 	const { data } = useQuery(pageQuery, { variables: { name: user.username } });
 
 	useEffect(() => {
-		const page = data?.page
-		console.log(page)
+		const page = data?.page;
+		console.log(page);
 		if (page) {
-			reset({links: page.links, ...page.theme});
+			reset({ links: page.links, ...page.theme });
 		}
 	}, [data]);
 
@@ -77,6 +78,8 @@ const AdminComponent = () => {
 	// useEffect(() => {
 	// 	update("links", [...(user?.Page?.links || [])]);
 	// }, [user]);
+
+
 
 	return (
 		<AdminPage>

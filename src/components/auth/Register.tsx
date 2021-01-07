@@ -7,13 +7,14 @@ import { H1, HR } from "../shared/Headers.styled";
 import GoogleButton from "./GoogleButton.styled";
 import { useForm } from "../../hooks/useForm";
 import Input from "../shared/Input";
-import RegisterMutation from "../../graphql/registerMutation";
+import RegisterMutation, { googleRegister } from "../../graphql/registerMutation";
 import { useMutation } from "@apollo/client";
 import { useEffect } from "react";
 import Router from "next/router";
 import { setAccessToken } from "../../util/auth/accessToken";
 import useUserContext from "../../hooks/useUserContext";
-import Image from "next/image"
+import Image from "next/image";
+import { useGoogleLogin } from "react-google-login";
 
 const Register = ({ ...props }) => {
 	const [formState, inputHandler, setFormData] = useForm(
@@ -34,9 +35,10 @@ const Register = ({ ...props }) => {
 		false
 	);
 
-	const {setUser} = useUserContext()
+	const { setUser } = useUserContext();
 
 	const [register, { data }] = useMutation(RegisterMutation);
+	const [registerWithGoogle, { data: googleData }] = useMutation(googleRegister);
 
 	const handleSubmit = async e => {
 		// console.log(formState);
@@ -45,13 +47,38 @@ const Register = ({ ...props }) => {
 		);
 		try {
 			const data = await register({ variables });
-			setUser(data.data.register.user)
+			setUser(data.data.register.user);
 			setAccessToken(data.data.register.token);
 			Router.push("/admin");
 		} catch (err) {
 			console.log(err.message);
 		}
 	};
+
+	const onSuccess = async res => {
+		console.dir(res);
+		console.log("Login Success: currentUser:", res.profileObj);
+		registerWithGoogle({ variables: { token: res.tokenObj.id_token } });
+		// alert(
+		// 	`Logged in successfully welcome ${res.profileObj.name} 😍. \n See console for full profile object.`
+		// );
+	};
+
+	console.log(googleData);
+
+	const onFailure = res => {
+		console.log("Login failed: res:", res);
+	};
+
+	const { signIn } = useGoogleLogin({
+		onSuccess,
+		onFailure,
+		clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
+		// isSignedIn: true,
+		accessType: "offline",
+		// responseType: 'code',
+		prompt: "consent",
+	});
 
 	return (
 		<RegisterComponent {...props}>
@@ -87,7 +114,7 @@ const Register = ({ ...props }) => {
 					required
 				/>
 				<HR />
-				<GoogleButton type="button">
+				<GoogleButton type="button" onClick={signIn}>
 					<Image src="/google-g-2015.svg" width="25" height="25" />
 					Sign in with Google
 				</GoogleButton>
