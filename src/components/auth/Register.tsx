@@ -58,7 +58,14 @@ const Register = ({ ...props }) => {
 	const onSuccess = async res => {
 		console.dir(res);
 		console.log("Login Success: currentUser:", res.profileObj);
-		registerWithGoogle({ variables: { token: res.tokenObj.id_token } });
+		try{
+			const data = await registerWithGoogle({ variables: { token: res.tokenObj.id_token } });
+			setUser(data.data.googleRegister.user);
+			setAccessToken(data.data.googleRegister.token);
+			Router.push("/admin");
+		}catch(err){
+			console.log(err.message)
+		}
 		// alert(
 		// 	`Logged in successfully welcome ${res.profileObj.name} 😍. \n See console for full profile object.`
 		// );
