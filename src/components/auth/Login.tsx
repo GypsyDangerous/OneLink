@@ -13,6 +13,9 @@ import { setAccessToken } from "../../util/auth/accessToken";
 import useUserContext from "../../hooks/useUserContext";
 import Image from "next/image";
 import { useGoogleLogin } from "react-google-login";
+import { useState } from "react";
+import { FormControl } from "@material-ui/core";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 const Login = ({ ...props }) => {
 	const [formState, inputHandler, setFormData] = useForm(
@@ -29,12 +32,15 @@ const Login = ({ ...props }) => {
 		false
 	);
 
-	const [login, { data }] = useMutation(loginMutation);
-	const [loginWithGoogle, { data: googleData }] = useMutation(googleLogin);
+	const [login] = useMutation(loginMutation);
+	const [loginWithGoogle] = useMutation(googleLogin);
 	const { setUser } = useUserContext();
+	const [error, setError] = useState(null);
+	const [googleError, setGoogleError] = useState(null);
 
 	const handleSubmit = async e => {
 		// console.log(formState);
+		setError(null);
 		const variables = Object.fromEntries(
 			Object.entries(formState.inputs).map(([key, val]: any) => [key, val.value])
 		);
@@ -44,13 +50,13 @@ const Login = ({ ...props }) => {
 			setAccessToken(data.data.login.token);
 			Router.push("/admin");
 		} catch (err) {
-			console.log(err.message);
+			console.log({ error: err.message });
+			setError("Invalid email or password");
 		}
 	};
 
 	const onSuccess = async res => {
-		console.dir(res);
-		console.log("Login Success: currentUser:", res.profileObj);
+		setGoogleError(null);
 		try {
 			const data = await loginWithGoogle({ variables: { token: res.tokenObj.id_token } });
 			setUser(data.data.googleLogin.user);
@@ -58,26 +64,19 @@ const Login = ({ ...props }) => {
 			Router.push("/admin");
 		} catch (err) {
 			console.log(err.message);
+			setGoogleError("An error occured, please try again");
 		}
-		// alert(
-		// 	`Logged in successfully welcome ${res.profileObj.name} 😍. \n See console for full profile object.`
-		// );
 	};
 
-	console.log({ googleData });
-
 	const onFailure = res => {
-		console.log("Login failed: res:", res);
-		// setError("An error occured, please try again")
+		setGoogleError("An error occured, please try again");
 	};
 
 	const { signIn } = useGoogleLogin({
 		onSuccess,
 		onFailure,
 		clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
-		// isSignedIn: true,
 		accessType: "offline",
-		// responseType: 'code',
 		prompt: "consent",
 	});
 
@@ -103,8 +102,17 @@ const Login = ({ ...props }) => {
 					name="password"
 					placeholder="Password"
 					type="password"
+					helpText={error}
+					error={error}
 					required
 				/>
+				{googleError && (
+					<FormControl error={true}>
+						<FormHelperText id="standard-weight-helper-text">
+							{googleError}
+						</FormHelperText>
+					</FormControl>
+				)}
 				<HR />
 				<FormButton type="submit">Login</FormButton>
 				<GoogleButton type="button" onClick={signIn}>
