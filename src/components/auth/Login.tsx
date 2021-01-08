@@ -106,11 +106,11 @@ const Login = ({ ...props }) => {
 					required
 				/>
 				<HR />
+				<FormButton type="submit">Login</FormButton>
 				<GoogleButton type="button" onClick={signIn}>
 					<Image src="/google-g-2015.svg" width="25" height="25" />
 					Sign in with Google
 				</GoogleButton>
-				<FormButton type="submit">Login</FormButton>
 				<p>Forgot your Password?</p>
 			</Form>
 		</LoginComponent>

@@ -121,11 +121,11 @@ const Register = ({ ...props }) => {
 					required
 				/>
 				<HR />
+				<FormButton type="submit">Register</FormButton>
 				<GoogleButton type="button" onClick={signIn}>
 					<Image src="/google-g-2015.svg" width="25" height="25" />
 					Sign in with Google
 				</GoogleButton>
-				<FormButton type="submit">Register</FormButton>
 			</Form>
 		</RegisterComponent>
 	);
