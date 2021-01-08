@@ -68,6 +68,7 @@ export const HeaderRight = styled.div`
 	color: white;
 	gap: 0.5rem;
 	position: relative;
+	cursor: pointer;
 	a {
 		/* cursor: pointer; */
 		margin: 0 0.5rem;
