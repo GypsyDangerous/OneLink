@@ -106,9 +106,6 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 				</AddLinkBody>
 			</ContentSection>
 			<ContentSection>
-				<h1 style={{ color: "white" }}>Contact Info</h1>
-			</ContentSection>
-			<ContentSection>
 				<h1 style={{ color: "white" }}>Links</h1>
 				<Reorder
 					reorderId="my-list" // Unique ID that is used internally to track this list (required)
