@@ -161,7 +161,7 @@ const Link = ({
 				}}
 			>
 				{!!image?.length && (
-					<Image alt={`${name} icon`} width="40" height="40" src={image}/>
+					<img alt={`${name} icon`} width="40" height="40" src={image}/>
 				)}
 				{name}
 			</Anchor>
