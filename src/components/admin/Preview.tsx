@@ -58,7 +58,10 @@ const Preview = ({ save: outerSave, initial, modified, user, links: propsLinks =
 								outerSave()
 								save({
 									variables: {
-										links,
+										links: links?.map(link => ({
+											...link,
+											__typename: undefined
+										})),
 										theme: {
 											linkColor: settings.linkColor,
 											backgroundColor: settings.backgroundColor,
