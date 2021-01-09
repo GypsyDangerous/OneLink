@@ -32,7 +32,7 @@ const LinkComponent = styled.li`
 	/* background: ; */
 	transform: translate(0, 0);
 	text-align: center;
-	border: 2px solid ${({ backgroundColor }: LinkProps) => backgroundColor || "#212121"};
+	border: 3px solid ${({ backgroundColor }: LinkProps) => backgroundColor || "#212121"};
 	display: block;
 	position: relative;
 	cursor: pointer;
