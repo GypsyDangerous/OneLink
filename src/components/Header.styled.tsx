@@ -80,6 +80,14 @@ export const HeaderLeft = styled.div`
 	height: 100%;
 	align-items: center;
 	width: 15%;
+	color: white;
+	a:nth-child(2){
+		display: inline-block;
+		margin-left: 2rem;
+		&:hover{
+			text-decoration: underline;
+		}
+	}
 `;
 
 export const HeaderLink = styled.span`

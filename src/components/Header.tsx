@@ -24,6 +24,7 @@ import {
 	HeaderLeft,
 	Chevron,
 } from "./Header.styled";
+import _ from "lodash"
 
 import { Underline } from "./shared/styles";
 
@@ -65,6 +66,8 @@ const Header = () => {
 		}
 	}, []);
 
+	console.log(user)
+
 	return (
 		<HeaderComponent
 		// variants={headerVariants}
@@ -78,6 +81,9 @@ const Header = () => {
 							<Logo />
 						</a>
 					</Link>
+					{user && !_.isEmpty(user) && <Link href="/admin">
+						<a>Your Page</a>
+					</Link>}
 				</HeaderLeft>
 				<HeaderRight>
 					{!token ? (
