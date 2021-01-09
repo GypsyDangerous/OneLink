@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useMediaQuery } from "@material-ui/core";
+import { Tooltip, useMediaQuery } from "@material-ui/core";
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -166,14 +166,16 @@ const AdminComponent = () => {
 										/{encodeURIComponent(user.username)}
 									</a>
 								</Link>
-								<CopyToClipboard
-									text={`${process.env.NEXT_PUBLIC_CLIENT_URL}/${user.username}`}
-									onCopy={() => setCopied(true)}
-								>
-									<CopyIcon>
-										<FileCopyIcon />
-									</CopyIcon>
-								</CopyToClipboard>
+								<Tooltip title={<div style={{fontSize: ".75rem"}}>Copy Link</div>}>
+									<CopyToClipboard
+										text={`${process.env.NEXT_PUBLIC_CLIENT_URL}/${user.username}`}
+										onCopy={() => setCopied(true)}
+									>
+										<CopyIcon>
+											<FileCopyIcon />
+										</CopyIcon>
+									</CopyToClipboard>
+								</Tooltip>
 							</SectionHeader>
 							<Preview
 								save={() => {
