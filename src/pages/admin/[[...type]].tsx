@@ -163,7 +163,7 @@ const AdminComponent = () => {
 											/https?:\/\//,
 											""
 										)}
-										/{user.username}
+										/{encodeURIComponent(user.username)}
 									</a>
 								</Link>
 								<CopyToClipboard
