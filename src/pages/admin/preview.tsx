@@ -1,5 +1,4 @@
 import { SettingsContextProvider } from "../../contexts/settingsContext";
-import useUser from "../../hooks/useUser";
 import Preview from "../../components/admin/Preview";
 import { PaddingPage } from "../../components/shared/Page.styled";
 import useUserContext from "../../hooks/useUserContext";

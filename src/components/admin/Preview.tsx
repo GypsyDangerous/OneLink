@@ -8,7 +8,6 @@ import { getTextColor } from "../../util/functions";
 import LinkList from "../../components/shared/LinkList";
 import LinkComponent from "../../components/Link";
 import PersonIcon from "@material-ui/icons/Person";
-import { Person } from "@material-ui/icons";
 
 interface NameProps {
 	backgroundColor?: string;
