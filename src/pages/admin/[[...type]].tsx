@@ -177,6 +177,10 @@ const AdminComponent = () => {
 								</CopyToClipboard>
 							</SectionHeader>
 							<Preview
+								save={() => {
+									initalSettings.current = settings;
+									setSettingsModified(false);
+								}}
 								initial={initalSettings.current}
 								modified={settingsModified}
 								user={user}

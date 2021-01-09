@@ -1,5 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { AvatarContainer, PreviewBody, PreviewSection, SaveContainer } from "../../components/admin/index.styled";
+import {
+	AvatarContainer,
+	PreviewBody,
+	PreviewSection,
+	SaveContainer,
+} from "../../components/admin/index.styled";
 import { LargeAvatar } from "../../components/shared/styles";
 import { settingsContext } from "../../contexts/settingsContext";
 import { Link } from "../../util/types/Settings";
@@ -8,6 +13,8 @@ import { getTextColor } from "../../util/functions";
 import LinkList from "../../components/shared/LinkList";
 import LinkComponent from "../../components/Link";
 import PersonIcon from "@material-ui/icons/Person";
+import { useMutation } from "@apollo/client";
+import { updatePage } from "../../graphql/pageMutation";
 
 interface NameProps {
 	backgroundColor?: string;
@@ -22,10 +29,11 @@ interface Props {
 	user: any;
 	links?: any[];
 	modified: boolean;
-	initial?: any
+	initial?: any;
+	save?: () => void
 }
 
-const Preview = ({ initial, modified, user, links: propsLinks = [] }: Props) => {
+const Preview = ({ save: outerSave, initial, modified, user, links: propsLinks = [] }: Props) => {
 	const [allLinks, setAllLinks] = useState<Link[]>([]);
 	const { settings, update, reset } = useContext(settingsContext) || {};
 
@@ -34,8 +42,10 @@ const Preview = ({ initial, modified, user, links: propsLinks = [] }: Props) => 
 	useEffect(() => {
 		if (propsLinks?.length) setAllLinks([...propsLinks]);
 		else if (links?.length) setAllLinks([...links]);
-		else setAllLinks([])
+		else setAllLinks([]);
 	}, [links]);
+
+	const [save] = useMutation(updatePage);
 
 	return (
 		<PreviewSection>
@@ -43,7 +53,24 @@ const Preview = ({ initial, modified, user, links: propsLinks = [] }: Props) => 
 				<SaveContainer>
 					<div>Your Page has unsaved changes</div>
 					<div>
-						<button >Save</button>
+						<button
+							onClick={() => {
+								outerSave()
+								save({
+									variables: {
+										links,
+										theme: {
+											linkColor: settings.linkColor,
+											backgroundColor: settings.backgroundColor,
+											animationType: settings.animationType,
+											linkStyle: settings.linkStyle,
+										},
+									},
+								});
+							}}
+						>
+							Save
+						</button>
 						<button onClick={() => reset(initial)}>Reset</button>
 					</div>
 				</SaveContainer>
