@@ -24,6 +24,7 @@ import pageQuery from "../../graphql/pageQuery";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { useGoogleLogin } from "react-google-login";
 import { useRef } from "react";
+import { useBeforeunload } from "react-beforeunload";
 const Content = dynamic(() => import("../../components/admin/Content"));
 const Analytics = dynamic(() => import("../../components/admin/Analytics"));
 const Customize = dynamic(() => import("../../components/admin/Customize"));
@@ -82,6 +83,10 @@ const AdminComponent = () => {
 	useEffect(() => {
 		setSettingsModified(!isEqual(initalSettings.current, settings));
 	}, [settings]);
+
+	useBeforeunload(event => {
+		if (settingsModified) event.preventDefault();
+	});
 
 	return (
 		<AdminPage>
@@ -171,7 +176,11 @@ const AdminComponent = () => {
 									</CopyIcon>
 								</CopyToClipboard>
 							</SectionHeader>
-							<Preview initial={initalSettings.current} modified={settingsModified} user={user} />
+							<Preview
+								initial={initalSettings.current}
+								modified={settingsModified}
+								user={user}
+							/>
 						</AdminSection>
 					)}
 				</>

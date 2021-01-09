@@ -31,6 +31,7 @@
     "next": "^10.0.3",
     "nprogress": "^0.2.0",
     "react": "17.0.1",
+    "react-beforeunload": "^2.4.0",
     "react-color": "^2.19.3",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "17.0.1",
