@@ -65,7 +65,7 @@ const AdminComponent = () => {
 
 	const showPreview = useMediaQuery("(min-width: 64rem)");
 
-	const { data } = useQuery(pageQuery, { variables: { name: user.username } });
+	const { data } = useQuery(pageQuery, { variables: { name: user.username || "null" } });
 
 	useEffect(() => {
 		const page = data?.page;
