@@ -15,7 +15,7 @@ import {
 } from "../../components/admin/index.styled";
 import Snackbar from "@material-ui/core/Snackbar";
 import { Underline } from "../../components/shared/styles";
-import _ from "lodash";
+import _, { isEqual } from "lodash";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 import useUserContext from "../../hooks/useUserContext";
@@ -23,6 +23,7 @@ import { useQuery } from "@apollo/client";
 import pageQuery from "../../graphql/pageQuery";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { useGoogleLogin } from "react-google-login";
+import { useRef } from "react";
 const Content = dynamic(() => import("../../components/admin/Content"));
 const Analytics = dynamic(() => import("../../components/admin/Analytics"));
 const Customize = dynamic(() => import("../../components/admin/Customize"));
@@ -49,8 +50,10 @@ const sectionProps = {
 
 const AdminComponent = () => {
 	const [copied, setCopied] = useState(false);
+	const initalSettings = useRef<any>();
 
 	const { user, loading } = useUserContext();
+	const [settingsModified, setSettingsModified] = useState(false);
 	const { settings, update, reset } = useContext(settingsContext);
 	const {
 		query: { type },
@@ -67,6 +70,7 @@ const AdminComponent = () => {
 		const page = data?.page;
 		console.log(page);
 		if (page) {
+			initalSettings.current = { links: page.links, ...page.theme };
 			reset({ links: page.links, ...page.theme });
 		}
 	}, [data]);
@@ -75,11 +79,9 @@ const AdminComponent = () => {
 		update("links", prev => prev.filter(item => item.id !== id));
 	};
 
-	// useEffect(() => {
-	// 	update("links", [...(user?.Page?.links || [])]);
-	// }, [user]);
-
-
+	useEffect(() => {
+		setSettingsModified(!isEqual(initalSettings.current, settings));
+	}, [settings]);
 
 	return (
 		<AdminPage>
@@ -169,7 +171,7 @@ const AdminComponent = () => {
 									</CopyIcon>
 								</CopyToClipboard>
 							</SectionHeader>
-							<Preview user={user} />
+							<Preview initial={initalSettings.current} modified={settingsModified} user={user} />
 						</AdminSection>
 					)}
 				</>
