@@ -80,7 +80,6 @@ export default function Page(props) {
 
 	const [clickLink, data] = useMutation(clickMutation);
 
-	console.log(props);
 
 	return (
 		<UserPage backgroundColor={props.theme.backgroundColor}>
@@ -120,7 +119,6 @@ export default function Page(props) {
 						key={link.order}
 						{...link}
 						onClick={() => {
-							console.log({ linkId: link.id, userId: props.ownerData.id });
 							clickLink({
 								variables: { linkId: link.id, userId: props.ownerData.id },
 							}).catch(err => console.log(err.message));

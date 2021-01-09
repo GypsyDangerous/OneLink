@@ -60,7 +60,7 @@ const Header = () => {
 
 				// This is the visitor identifier:
 				const visitorId = result.visitorId;
-				console.log(visitorId);
+				// console.log(visitorId);
 			})();
 		}
 	}, []);

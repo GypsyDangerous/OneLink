@@ -69,7 +69,6 @@ const AdminComponent = () => {
 
 	useEffect(() => {
 		const page = data?.page;
-		console.log(page);
 		if (page) {
 			initalSettings.current = { links: page.links, ...page.theme };
 			reset({ links: page.links, ...page.theme });
