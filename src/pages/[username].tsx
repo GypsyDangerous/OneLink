@@ -10,6 +10,8 @@ const Link = dynamic(() => import("../components/Link"));
 const LinkList = dynamic(() => import("../components/shared/LinkList"));
 const Avatar = dynamic(() => import("@material-ui/core/Avatar"));
 
+import { getTextColor } from "../util/functions";
+
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		large: {
@@ -22,7 +24,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const UserPage = styled.div`
 	min-height: 100vh;
-	background: var(--clr-primary-300);
+	background: ${({ backgroundColor }: { backgroundColor: string }) =>
+		backgroundColor || "var(--clr-primary-300)"};
 	color: var(--clr-neutral-100);
 	display: flex;
 	/* justify-content: center; */
@@ -40,8 +43,13 @@ const LinkSet = styled(LinkList)`
 	max-width: 425px;
 `;
 
+interface NameProps {
+	backgroundColor?: string;
+}
+
 const Name = styled.div`
 	font-weight: bold;
+	color: ${({ backgroundColor }: NameProps) => getTextColor(backgroundColor, true)};
 `;
 
 interface link {
@@ -72,8 +80,10 @@ export default function Page(props) {
 
 	const [clickLink, data] = useMutation(clickMutation);
 
+	console.log(props);
+
 	return (
-		<UserPage>
+		<UserPage backgroundColor={props.theme.backgroundColor}>
 			<Head>
 				<title>@{props.ownerData.username} | Onelink</title>
 
@@ -102,10 +112,11 @@ export default function Page(props) {
 				src={`${process.env.NEXT_PUBLIC_API_URL}/public/images/${props.ownerData.photo}?width=100`}
 				className={classes.large}
 			/>
-			<Name>@{props.ownerData.username}</Name>
+			<Name backgroundColor={props.theme.backgroundColor}>@{props.ownerData.username}</Name>
 			<LinkSet>
 				{displayLinks.map((link: link) => (
 					<Link
+						{...props.theme}
 						key={link.order}
 						{...link}
 						onClick={() => {
