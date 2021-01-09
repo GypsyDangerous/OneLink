@@ -11,6 +11,7 @@ const LinkList = dynamic(() => import("../components/shared/LinkList"));
 const Avatar = dynamic(() => import("@material-ui/core/Avatar"));
 
 import { getTextColor } from "../util/functions";
+import { LargeAvatar } from "../components/shared/styles";
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -105,9 +106,9 @@ export default function Page(props) {
 					content="Users's Avatar"
 				/>
 			</Head>
-			<Avatar
+			<LargeAvatar
 				alt="Avatar"
-				imgProps={{ width: 100, height: 100 }}
+				imgProps={{ width: 100 }}
 				src={`${process.env.NEXT_PUBLIC_API_URL}/public/images/${props.ownerData.photo}?width=100`}
 				className={classes.large}
 			/>
