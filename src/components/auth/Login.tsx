@@ -67,8 +67,10 @@ const Login = ({ ...props }) => {
 			setGoogleError("An error occured, please try again");
 		}
 	};
-
+	
 	const onFailure = res => {
+		const {error} = res
+		if(error === "popup_closed_by_user") return
 		setGoogleError("An error occured, please try again");
 	};
 
