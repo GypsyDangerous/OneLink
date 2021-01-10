@@ -26,6 +26,22 @@ import Image from "next/image";
 import { ModalMeta } from "../../util/types/Settings";
 import styled from "styled-components";
 
+const QrImage = styled.img`
+	margin-top: 1rem;
+	border-radius: 0.25rem;
+`;
+
+const QrSection = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	gap: 1rem;
+	button {
+		padding: 0.5rem 1rem;
+	}
+`;
+
 const defaultLink = (): LinkType => ({
 	path: "",
 	embed: false,
@@ -42,7 +58,24 @@ const NoLinks = styled.div`
 	opacity: 0.5;
 `;
 
-const Content = ({ links, setLinks, remove, ...props }) => {
+function forceDownload(url: string, fileName: string) {
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", url, true);
+	xhr.responseType = "blob";
+	xhr.onload = function () {
+		var urlCreator = window.URL || window.webkitURL;
+		var imageUrl = urlCreator.createObjectURL(this.response);
+		var tag = document.createElement("a");
+		tag.href = imageUrl;
+		tag.download = fileName;
+		document.body.appendChild(tag);
+		tag.click();
+		document.body.removeChild(tag);
+	};
+	xhr.send();
+}
+
+const Content = ({ username, links, setLinks, remove, ...props }) => {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [currentLink, setCurrentLink] = useState<LinkType | null>(defaultLink);
 	const [metaData, setMetaData] = useState<ModalMeta>({ showUsername: false, name: "" });
@@ -168,6 +201,25 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 				) : (
 					<NoLinks>Nothing here, add links above</NoLinks>
 				)}
+			</ContentSection>
+			<ContentSection solid>
+				<h1 style={{ color: "white" }}>Share your page with a QR code</h1>
+				<QrSection>
+					<QrImage
+						src={`${process.env.NEXT_PUBLIC_API_URL}/v1/users/qr/${username}`}
+						alt=""
+					/>
+					<button
+						onClick={() =>
+							forceDownload(
+								`${process.env.NEXT_PUBLIC_API_URL}/v1/users/qr/${username}`,
+								`${username}.png`
+							)
+						}
+					>
+						Save Qr Code
+					</button>
+				</QrSection>
 			</ContentSection>
 		</SectionContainer>
 	);

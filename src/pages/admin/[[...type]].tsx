@@ -138,6 +138,7 @@ const AdminComponent = () => {
 							<AnimatePresence exitBeforeEnter>
 								{!section ? (
 									<Content
+									username={user.username}
 										remove={remove}
 										key="content"
 										{...sectionProps}
