@@ -31,7 +31,7 @@ const CTA = styled.div`
 
 const Cards = styled.div`
 	display: flex;
-	outline: solid;
+	/* outline: solid; */
 	width: 100%;
 	padding: 1rem 0;
 `
