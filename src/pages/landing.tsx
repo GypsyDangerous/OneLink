@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import { PaddingPage } from "../components/shared/Page.styled";
-import React, { useState } from "react";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import { FormControl, IconButton, InputLabel, OutlinedInput, TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 const Hero = styled.section`
 	/* background: blue; */
 	height: calc(100vh - 80px);
@@ -29,9 +28,7 @@ export default function Landing() {
 						variant="outlined"
 					/>
 				</div>
-				<div>
-					
-				</div>
+				<div></div>
 			</Hero>
 		</PaddingPage>
 	);

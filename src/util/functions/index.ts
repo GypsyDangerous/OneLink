@@ -20,6 +20,9 @@ export const splitByCaps = (string: string) => {
 };
 
 export const getTextColor = (color, invert?: boolean) => {
+	if(!color || !/#[a-zA-Z0-9]{6}\b/.test(color)){
+		return getTextColor("#000000", invert)
+	}
 	const isBright = chroma(color).luminance() > 0.20;
 	const brightIndex = isBright ? 1 : 0;
 	const colors = ["black", "white"];

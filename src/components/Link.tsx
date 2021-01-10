@@ -2,7 +2,10 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { getTextColor } from "../util/functions";
-import Anchor from "./shared/Anchor";
+import dynamic from "next/dynamic";
+import Image from "next/image"
+
+const Anchor = dynamic(() => import("./shared/Anchor"))
 
 interface LinkProps {
 	backgroundColor?: string;
@@ -29,7 +32,7 @@ const LinkComponent = styled.li`
 	/* background: ; */
 	transform: translate(0, 0);
 	text-align: center;
-	border: 2px solid ${({ backgroundColor }: LinkProps) => backgroundColor || "#212121"};
+	border: 3px solid ${({ backgroundColor }: LinkProps) => backgroundColor || "#212121"};
 	display: block;
 	position: relative;
 	cursor: pointer;
@@ -158,7 +161,7 @@ const Link = ({
 				}}
 			>
 				{!!image?.length && (
-					<img alt={`${name} icon`} width="40" height="40" src={image}></img>
+					<img alt={`${name} icon`} width="40" height="40" src={image}/>
 				)}
 				{name}
 			</Anchor>

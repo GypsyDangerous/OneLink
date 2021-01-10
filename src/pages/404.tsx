@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Image from "next/image"
 import Link from "next/link";
 
 const NotFoundContainer = styled.div`
@@ -79,7 +80,7 @@ function CustomError() {
 			<NotFoundHeader>
 				<h1>404 Not Found</h1>
 			</NotFoundHeader>
-			<img src="/Scarecrow.png" alt="" />
+			<Image width="1079" height="895" src="/Scarecrow.png" alt="" />
 			<NotFoundText>
 				<h1>I have bad news for you</h1>
 				<p>

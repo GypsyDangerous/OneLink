@@ -43,6 +43,7 @@ interface Props {
 	className?: string;
 	icon?: string;
 	helpText?: string;
+	error?: string | null
 }
 
 const CustomInput: FC<Props> = (props: Props) => {
@@ -53,6 +54,8 @@ const CustomInput: FC<Props> = (props: Props) => {
 	});
 	const [labelSize, setLabelSize] = useState(0);
 	const [showPassword, setShowPassword] = useState(false);
+
+	const invalid = (inputState.isTouched && !inputState.isValid) || !!props.error
 
 	const calculateLabelSize = node => {
 		setLabelSize(node?.offsetWidth);
@@ -101,7 +104,7 @@ const CustomInput: FC<Props> = (props: Props) => {
 		);
 
 	return (
-		<FormControl error={inputState.isTouched && !inputState.isValid} variant="outlined">
+		<FormControl error={invalid} variant="outlined">
 			<InputLabel ref={calculateLabelSize} htmlFor={props.id}>
 				{props.placeholder}
 			</InputLabel>
@@ -136,7 +139,7 @@ const CustomInput: FC<Props> = (props: Props) => {
 				}
 				labelWidth={labelSize}
 			/>
-			{inputState.isTouched && !inputState.isValid && (
+			{invalid && (
 				<FormHelperText id="standard-weight-helper-text">{props.helpText}</FormHelperText>
 			)}
 		</FormControl>

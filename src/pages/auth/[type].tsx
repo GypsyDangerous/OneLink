@@ -1,12 +1,9 @@
-import { useRouter } from "next/router";
 import Login from "../../components/auth/Login";
 import Register from "../../components/auth/Register";
-import Error from "next/error";
-import useUser from "../../hooks/useUser";
 import { motion, AnimatePresence } from "framer-motion";
 import styled from "styled-components";
 import Link from "next/link";
-import FormButton, { FormLink } from "../../components/auth/FormButton";
+import { FormLink } from "../../components/auth/FormButton";
 
 const AuthPage = styled.div`
 	min-height: 100vh;

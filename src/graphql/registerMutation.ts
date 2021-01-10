@@ -24,3 +24,28 @@ export default gql`
 		}
 	}
 `;
+
+export const googleRegister = gql`
+	mutation Register($token: String!) {
+		googleRegister(token: $token) {
+			user {
+				bio
+				email
+				photo
+				username
+				Page {
+					links {
+						path
+						image
+						name
+						order
+						color
+						active
+						id
+					}
+				}
+			}
+			token
+		}
+	}
+`;

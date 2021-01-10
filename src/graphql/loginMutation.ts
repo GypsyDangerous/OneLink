@@ -24,3 +24,28 @@ export default gql`
 		}
 	}
 `;
+
+export const googleLogin = gql`
+	mutation Login($token: String!) {
+		googleLogin(token: $token) {
+			user {
+				bio
+				email
+				photo
+				username
+				Page {
+					links {
+						path
+						image
+						name
+						order
+						color
+						active
+						id
+					}
+				}
+			}
+			token
+		}
+	}
+`;

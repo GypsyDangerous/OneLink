@@ -1,149 +1,38 @@
-import { AnimateSharedLayout, useViewportScroll, motion, AnimatePresence } from "framer-motion";
+import { AnimateSharedLayout, motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import styled from "styled-components";
 import { useRouter } from "next/router";
 import { useWindowScroll } from "react-use";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getAccessToken, setAccessToken } from "../util/auth/accessToken";
 import { useMutation } from "@apollo/client";
 import logoutMutation from "../graphql/logoutMutation";
 import Router from "next/router";
-import { Avatar } from "@material-ui/core";
 import { userContext } from "../contexts/userContext";
-import PersonIcon from "@material-ui/icons/Person";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import chroma from "chroma-js";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import dynamic from "next/dynamic";
+import Skeleton from "@material-ui/lab/Skeleton";
+import Image from "next/image";
+import {
+	HeaderComponent,
+	ProfileItem,
+	ProfileSection,
+	HeaderContent,
+	HeaderLink,
+	Logo,
+	headerVariants,
+	HeaderRight,
+	HeaderLeft,
+	Chevron,
+} from "./Header.styled";
+import _ from "lodash";
 
+import { Underline } from "./shared/styles";
 
-const HeaderComponent = styled(motion.header)`
-	height: 80px;
-	/* outline: solid; */
-	position: fixed;
-	top: 0;
-	right: 0;
-	left: 0;
-	z-index: 10000;
-	background: #212121;
-`;
-
-const HeaderContent = styled.div`
-	width: 100%;
-	height: 100%;
-	padding: 0 1rem;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-`;
-
-const Logo = styled.div`
-	width: 50px;
-	height: 50px;
-	outline: solid;
-	color: white;
-`;
-
-const Buttons = styled.div`
-	display: flex;
-	align-items: center;
-	color: white;
-	gap: 0.5rem;
-	position: relative;
-	a {
-		/* cursor: pointer; */
-		margin: 0 0.5rem;
-	}
-`;
-
-const HeaderLink = styled.span`
-	a {
-		position: relative;
-		cursor: pointer;
-	}
-`;
-
-const Underline = styled(motion.div)`
-	position: absolute;
-	border-bottom: 3px solid;
-	width: 100%;
-	left: 0;
-`;
-
-const ProfileSection = styled(motion.div)`
-	position: absolute;
-	top: 100%;
-	right: 0;
-	width: 200px;
-	z-index: 10000;
-	background: #121212;
-	a {
-		outline: none;
-		margin: 0;
-		display: block;
-	}
-`;
-
-const headerVariants = {
-	top: {
-		background: "rgba(0, 0, 0, 0)",
-		color: "rgb(255, 255, 255)",
-	},
-	scrolled: {
-		color: "rgb(255, 255, 255)",
-		background: "rgba(0, 0, 0, 1)",
-	},
-};
-
-const userTransition = {
-	duration: 0.5,
-};
-
-const userVariants = {
-	open: {
-		opacity: 1,
-		y: -100,
-		transition: {
-			...userTransition,
-			when: "beforeChildren",
-			staggerChildren: 0.1,
-		},
-	},
-	closed: {
-		opacity: 0,
-		y: 0,
-	},
-};
-
-const ProfileItem = styled(motion.div)`
-	color: ${({ warn }: { warn?: boolean }): any =>
-		warn ? chroma("#bb3535").brighten().saturate(2) : "white"};
-	padding: 0.5rem;
-	display: flex;
-	align-items: center;
-	cursor: pointer;
-	position: relative;
-	z-index: 100;
-	gap: 0.5rem;
-	&:hover::before {
-		opacity: 1;
-	}
-	&::before {
-		transition: opacity 0.25s;
-		z-index: -1;
-		position: absolute;
-		content: "";
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		opacity: 0;
-		background: rgba(226, 226, 226, 0.055);
-	}
-`;
-
-const profileVariants = {};
+const ClickAwayListener = dynamic(() => import("@material-ui/core/ClickAwayListener"));
+const Avatar = dynamic(() => import("@material-ui/core/Avatar"));
+const KeyboardArrowDownIcon = dynamic(() => import("@material-ui/icons/KeyboardArrowDown"));
+const ExitToAppIcon = dynamic(() => import("@material-ui/icons/ExitToApp"));
+const PersonIcon = dynamic(() => import("@material-ui/icons/Person"));
 
 const Header = () => {
 	const router = useRouter();
@@ -161,20 +50,18 @@ const Header = () => {
 	}, [token, router.pathname]);
 
 	useEffect(() => {
-		console.log({window})
-		if(window){
-
+		if (window) {
 			(async () => {
 				// We recommend to call `load` at application startup.
 				const fp = await FingerprintJS.load();
-	
+
 				// The FingerprintJS agent is ready.
 				// Get a visitor identifier when you'd like to.
 				const result = await fp.get();
-	
+
 				// This is the visitor identifier:
 				const visitorId = result.visitorId;
-				console.log(visitorId);
+				// console.log(visitorId);
 			})();
 		}
 	}, []);
@@ -183,15 +70,24 @@ const Header = () => {
 		<HeaderComponent
 		// variants={headerVariants}
 		// transition={{ duration: 0.5, ease: "easeInOut" }}
-		// animate={y > 100 ? "scrolled" : "top"}
+		// animate={y > 80 ? "scrolled" : "top"}
 		>
 			<HeaderContent>
-				<Link href="/">
-					<a aria-label="logo">
-						<Logo />
-					</a>
-				</Link>
-				<Buttons>
+				<HeaderLeft>
+					<Link href={router.pathname.includes("admin") ? "/admin" : "/"}>
+						<a aria-label="logo">
+							<Logo>
+								<Image alt="onelink logo" src="/circle-cropped.png" width="100" height="100" />
+							</Logo>
+						</a>
+					</Link>
+					{user && !_.isEmpty(user) && (
+						<Link href="/admin">
+							<a>Your Page</a>
+						</Link>
+					)}
+				</HeaderLeft>
+				<HeaderRight>
 					{!token ? (
 						<AnimateSharedLayout>
 							<HeaderLink>
@@ -217,14 +113,6 @@ const Header = () => {
 						</AnimateSharedLayout>
 					) : (
 						<>
-							{/* <button
-							onClick={() => {
-								setAccessToken("");
-								logout();
-								Router.push("/auth/login");
-								// setState(Math.random());
-							}}
-						></button> */}
 							<div
 								style={{ display: "flex", alignItems: "center", gap: "1rem" }}
 								onClick={() => setProfileOpen(prev => !prev)}
@@ -233,18 +121,17 @@ const Header = () => {
 									imgProps={{ width: 40, height: 40 }}
 									alt="Avatar"
 									src={`${process.env.NEXT_PUBLIC_API_URL}/public/images/${user?.photo}?width=40&height=40`}
-								/>
-								<div>{user?.username}</div>
-								<motion.div
-									style={{
-										transformOrigin: "center",
-										height: "24px",
-										width: "24px",
-									}}
-									animate={profileOpen ? { rotate: 180 } : { rotate: 0 }}
 								>
+									<PersonIcon />
+								</Avatar>
+								<div>
+									{user?.username || (
+										<Skeleton variant="text" width={50} height={20} />
+									)}
+								</div>
+								<Chevron animate={profileOpen ? { rotate: 180 } : { rotate: 0 }}>
 									<KeyboardArrowDownIcon />
-								</motion.div>
+								</Chevron>
 							</div>
 							<AnimatePresence>
 								{profileOpen && (
@@ -285,7 +172,7 @@ const Header = () => {
 							</AnimatePresence>
 						</>
 					)}
-				</Buttons>
+				</HeaderRight>
 			</HeaderContent>
 		</HeaderComponent>
 	);

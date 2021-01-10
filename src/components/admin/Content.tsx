@@ -21,8 +21,26 @@ import {
 import { Link as LinkType } from "../../util/types/Settings";
 import { defaultImages, usernameLinks, defaultLinks } from "../../util/constants";
 import LinkModal from "../../components/admin/LinkModal";
+import Image from "next/image";
 
 import { ModalMeta } from "../../util/types/Settings";
+import styled from "styled-components";
+
+const QrImage = styled.img`
+	margin-top: 1rem;
+	border-radius: 0.25rem;
+`;
+
+const QrSection = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	gap: 1rem;
+	button {
+		padding: 0.5rem 1rem;
+	}
+`;
 
 const defaultLink = (): LinkType => ({
 	path: "",
@@ -35,7 +53,29 @@ const defaultLink = (): LinkType => ({
 	id: "",
 });
 
-const Content = ({ links, setLinks, remove, ...props }) => {
+const NoLinks = styled.div`
+	font-size: 1.25rem;
+	opacity: 0.5;
+`;
+
+function forceDownload(url: string, fileName: string) {
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", url, true);
+	xhr.responseType = "blob";
+	xhr.onload = function () {
+		var urlCreator = window.URL || window.webkitURL;
+		var imageUrl = urlCreator.createObjectURL(this.response);
+		var tag = document.createElement("a");
+		tag.href = imageUrl;
+		tag.download = fileName;
+		document.body.appendChild(tag);
+		tag.click();
+		document.body.removeChild(tag);
+	};
+	xhr.send();
+}
+
+const Content = ({ username, links, setLinks, remove, ...props }) => {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [currentLink, setCurrentLink] = useState<LinkType | null>(defaultLink);
 	const [metaData, setMetaData] = useState<ModalMeta>({ showUsername: false, name: "" });
@@ -53,7 +93,7 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 			setMetaData({ name, showUsername: usernameLinks.includes(name) });
 		} else {
 			setMetaData({});
-			setCurrentLink(defaultLink())
+			setCurrentLink(defaultLink());
 		}
 	};
 
@@ -94,7 +134,12 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 							</LinkItem>
 							{defaultLinks.map(linkName => (
 								<LinkItem onClick={e => handleOpen(linkName)} key={linkName}>
-									<img width="22" height="22" src={defaultImages[linkName]} alt={`${linkName} icon`} />
+									<Image
+										width="22"
+										height="22"
+										src={defaultImages[linkName]}
+										alt={`${linkName} icon`}
+									/>
 								</LinkItem>
 							))}
 						</div>
@@ -105,56 +150,76 @@ const Content = ({ links, setLinks, remove, ...props }) => {
 				</AddLinkBody>
 			</ContentSection>
 			<ContentSection>
-				<h1 style={{ color: "white" }}>Contact Info</h1>
-			</ContentSection>
-			<ContentSection>
 				<h1 style={{ color: "white" }}>Links</h1>
-				<Reorder
-					reorderId="my-list" // Unique ID that is used internally to track this list (required)
-					reorderGroup="reorder-group" // A group ID that allows items to be dragged between lists of the same group (optional)
-					component="ul" // Tag name or Component to be used for the wrapping element (optional), defaults to 'div'
-					placeholderClassName="placeholder" // Class name to be applied to placeholder elements (optional), defaults to 'placeholder'
-					draggedClassName="dragged" // Class name to be applied to dragged elements (optional), defaults to 'dragged'
-					// lock="horizontal" // Lock the dragging direction (optional): vertical, horizontal (do not use with groups)
-					holdTime={100} // Hold time before dragging begins with mouse (optional), defaults to holdTime
-					onReorder={(event, previousIndex, nextIndex) => {
-						setLinks(prev => {
-							return reorder(
-								[...prev].map(item => ({ ...item })),
-								previousIndex,
-								nextIndex
-							).map((item, index) => ({ ...item, order: index }));
-						});
-					}} // Callback when an item is dropped (you will need this to update your state)
-					placeholder={
-						<GrabLink back={true} /> // Custom placeholder element (optional), defaults to clone of dragged element
-					}
-				>
-					{links.map(link => (
-						<GrabLink key={link.order}>
-							<LinkButtons>
-								<AppsIcon />
-								<Avatar
-									imgProps={{ width: 24, height: 24 }}
-									alt={`edit ${link.name} icon`}
-									variant="square"
-									src={`${link.image}?width=24`}
-								>
-									<ImageIcon />
-								</Avatar>
-								<h2>{link.name}</h2>
-							</LinkButtons>
-							<LinkButtons>
-								<EditButton onClick={() => handleOpen(link.name, link)}>
-									<EditIcon /> Edit
-								</EditButton>
-								{/* <DeleteButton onClick={() => remove(link.id)}>
+				{links?.length ? (
+					<Reorder
+						reorderId="my-list" // Unique ID that is used internally to track this list (required)
+						reorderGroup="reorder-group" // A group ID that allows items to be dragged between lists of the same group (optional)
+						component="ul" // Tag name or Component to be used for the wrapping element (optional), defaults to 'div'
+						placeholderClassName="placeholder" // Class name to be applied to placeholder elements (optional), defaults to 'placeholder'
+						draggedClassName="dragged" // Class name to be applied to dragged elements (optional), defaults to 'dragged'
+						// lock="horizontal" // Lock the dragging direction (optional): vertical, horizontal (do not use with groups)
+						holdTime={100} // Hold time before dragging begins with mouse (optional), defaults to holdTime
+						onReorder={(event, previousIndex, nextIndex) => {
+							setLinks(prev => {
+								return reorder(
+									[...prev].map(item => ({ ...item })),
+									previousIndex,
+									nextIndex
+								).map((item, index) => ({ ...item, order: index }));
+							});
+						}} // Callback when an item is dropped (you will need this to update your state)
+						placeholder={
+							<GrabLink back={true} /> // Custom placeholder element (optional), defaults to clone of dragged element
+						}
+					>
+						{links.map(link => (
+							<GrabLink key={link.order}>
+								<LinkButtons>
+									<AppsIcon />
+									<Avatar
+										imgProps={{ width: 24, height: 24 }}
+										alt={`edit ${link.name} icon`}
+										variant="square"
+										src={`${link.image}?width=24`}
+									>
+										<ImageIcon />
+									</Avatar>
+									<h2>{link.name}</h2>
+								</LinkButtons>
+								<LinkButtons>
+									<EditButton onClick={() => handleOpen(link.name, link)}>
+										<EditIcon /> Edit
+									</EditButton>
+									{/* <DeleteButton onClick={() => remove(link.id)}>
 								<DeleteIcon /> Remove
 							</DeleteButton> */}
-							</LinkButtons>
-						</GrabLink>
-					))}
-				</Reorder>
+								</LinkButtons>
+							</GrabLink>
+						))}
+					</Reorder>
+				) : (
+					<NoLinks>Nothing here, add links above</NoLinks>
+				)}
+			</ContentSection>
+			<ContentSection solid>
+				<h1 style={{ color: "white" }}>Share your page with a QR code</h1>
+				<QrSection>
+					<QrImage
+						src={`${process.env.NEXT_PUBLIC_API_URL}/v1/users/qr/${username}`}
+						alt=""
+					/>
+					<button
+						onClick={() =>
+							forceDownload(
+								`${process.env.NEXT_PUBLIC_API_URL}/v1/users/qr/${username}`,
+								`${username}.png`
+							)
+						}
+					>
+						Save Qr Code
+					</button>
+				</QrSection>
 			</ContentSection>
 		</SectionContainer>
 	);

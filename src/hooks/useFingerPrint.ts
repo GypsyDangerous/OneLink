@@ -3,7 +3,6 @@ import { useEffect } from "react";
 
 const useFingerPrint = () => {
 	useEffect(() => {
-		console.log({ window });
 		if (window) {
 			(async () => {
 				// We recommend to call `load` at application startup.
@@ -15,7 +14,7 @@ const useFingerPrint = () => {
 
 				// This is the visitor identifier:
 				const visitorId = result.visitorId;
-				console.log(visitorId);
+				// console.log(visitorId);
 			})();
 		}
 	}, []);

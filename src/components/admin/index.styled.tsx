@@ -62,19 +62,26 @@ export const SectionHeader = styled.div`
 export const PreviewSection = styled.div`
 	display: flex;
 	height: calc(100% - 50px);
-	/* align-items: center; */
-	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	/* justify-content: center; */
 	width: 100%;
 `;
 
+interface BodyProps {
+	modified?: boolean;
+	backgroundColor?: string;
+}
+
 export const PreviewBody = styled.div`
-	background: ${({ backgroundColor }: { backgroundColor: string }) => backgroundColor};
+	background: ${({ backgroundColor }: BodyProps) => backgroundColor};
 	overflow: auto;
 	padding-bottom: 1rem;
 	width: 340px;
 	height: 650px;
 	position: sticky;
-	top: calc(50px + 80px + 5rem);
+	top: ${(props: BodyProps) => (props.modified ? "250px" : "150px")};
+	/* top: calc(50px + 80px + 5rem); */
 	border: 10px solid black;
 	/* background: #212121; */
 	border-radius: 2rem;
@@ -82,8 +89,8 @@ export const PreviewBody = styled.div`
 	flex-direction: column;
 	align-items: center;
 	gap: 2rem;
-	img{
-		border-radius: .25rem;
+	img {
+		border-radius: 0.25rem;
 	}
 	&::-webkit-scrollbar {
 		width: 4px;
@@ -102,6 +109,9 @@ export const PreviewBody = styled.div`
 
 export const AvatarContainer = styled.div`
 	margin-top: 4rem;
+	svg {
+		font-size: 4rem !important;
+	}
 `;
 
 export const ContentBody = styled.div`
@@ -116,7 +126,7 @@ export const ContentBody = styled.div`
 export const ContentSection = styled.div`
 	width: 100%;
 	background: ${(props: { solid?: boolean }) => (props.solid ? "rgba(60, 60, 60)" : "")};
-	border-radius: 1rem;
+	border-radius: 0.5rem;
 	margin-bottom: 1.5rem;
 	padding: 1rem;
 	${(props: { solid?: boolean }) => (!props.solid ? "padding-left: 0;" : "")}
@@ -133,7 +143,7 @@ export const AddLinkBody = styled.div`
 `;
 
 export const AddLinkSection = styled.div`
-	background: rgba(99, 99, 99);
+	background: rgba(99, 99, 99, 0.25);
 	flex: 1 1 50%;
 	&:first-child {
 		flex: 1 1 40%;
@@ -176,11 +186,12 @@ export const GrabLink = styled.li`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	color: black;
 	/* &.dragged{
 		transform: rotate(30deg);
 	} */
-	img{
-		border-radius: .25rem;
+	img {
+		border-radius: 0.25rem;
 	}
 	cursor: grab;
 	:active {
@@ -259,5 +270,36 @@ export const CustomizeLinksBody = styled.ul`
 	}
 	&.column {
 		flex-direction: column;
+	}
+`;
+
+export const SaveContainer = styled.div`
+	display: flex;
+	padding: 1rem;
+	background: #4556df;
+	box-shadow: 0px 0px 5px 0px #4556df;
+	align-items: center;
+	justify-content: space-between;
+	width: 60%;
+	position: sticky;
+	z-index: 100;
+	top: 150px;
+	border-radius: 0.5rem;
+	& div:last-child {
+		display: flex;
+		width: 37%;
+		justify-content: space-between;
+		button {
+			padding: 0.5rem 1.5rem;
+			border-radius: 0.25rem;
+			border: none;
+			outline: none;
+			background: #28bf7b;
+			font-weight: bold;
+			&:last-child{
+				background: #C7E8F3;
+				color: black;
+			}
+		}
 	}
 `;

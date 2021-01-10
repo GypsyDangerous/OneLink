@@ -1,18 +1,20 @@
-import { motion } from "framer-motion";
 import RegisterComponent from "./Container.styled";
 import Form from "../shared/Form";
-import TextField from "@material-ui/core/TextField";
 import FormButton from "./FormButton";
 import { H1, HR } from "../shared/Headers.styled";
 import GoogleButton from "./GoogleButton.styled";
 import { useForm } from "../../hooks/useForm";
 import Input from "../shared/Input";
-import RegisterMutation from "../../graphql/registerMutation";
+import RegisterMutation, { googleRegister } from "../../graphql/registerMutation";
 import { useMutation } from "@apollo/client";
-import { useEffect } from "react";
 import Router from "next/router";
 import { setAccessToken } from "../../util/auth/accessToken";
 import useUserContext from "../../hooks/useUserContext";
+import Image from "next/image";
+import { useGoogleLogin } from "react-google-login";
+import { useState } from "react";
+import React from "react";
+import { FormControl, FormHelperText } from "@material-ui/core";
 
 const Register = ({ ...props }) => {
 	const [formState, inputHandler, setFormData] = useForm(
@@ -33,24 +35,50 @@ const Register = ({ ...props }) => {
 		false
 	);
 
-	const {setUser} = useUserContext()
+	const { setUser } = useUserContext();
 
-	const [register, { data }] = useMutation(RegisterMutation);
+	const [register] = useMutation(RegisterMutation);
+	const [registerWithGoogle] = useMutation(googleRegister);
+	const [googleError, setGoogleError] = useState(null);
 
 	const handleSubmit = async e => {
-		// console.log(formState);
 		const variables = Object.fromEntries(
 			Object.entries(formState.inputs).map(([key, val]: any) => [key, val.value])
 		);
 		try {
 			const data = await register({ variables });
-			setUser(data.data.register.user)
+			setUser(data.data.register.user);
 			setAccessToken(data.data.register.token);
 			Router.push("/admin");
 		} catch (err) {
-			console.log(err.message);
+			console.log({ error: err.message });
 		}
 	};
+
+	const onSuccess = async res => {
+		setGoogleError(null);
+		try {
+			const data = await registerWithGoogle({ variables: { token: res.tokenObj.id_token } });
+			setUser(data.data.googleRegister.user);
+			setAccessToken(data.data.googleRegister.token);
+			Router.push("/admin");
+		} catch (err) {
+			console.log(err.message);
+			setGoogleError("An error occured, please try again");
+		}
+	};
+
+	const onFailure = res => {
+		setGoogleError("An error occured, please try again");
+	};
+
+	const { signIn } = useGoogleLogin({
+		onSuccess,
+		onFailure,
+		clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
+		accessType: "offline",
+		prompt: "consent",
+	});
 
 	return (
 		<RegisterComponent {...props}>
@@ -85,12 +113,19 @@ const Register = ({ ...props }) => {
 					type="password"
 					required
 				/>
+				{googleError && (
+					<FormControl error={true}>
+						<FormHelperText id="standard-weight-helper-text">
+							{googleError}
+						</FormHelperText>
+					</FormControl>
+				)}
 				<HR />
-				<GoogleButton type="button">
-					<img src="/google-g-2015.svg" width="25" />
+				<FormButton type="submit">Register</FormButton>
+				<GoogleButton type="button" onClick={signIn}>
+					<Image src="/google-g-2015.svg" width="25" height="25" />
 					Sign in with Google
 				</GoogleButton>
-				<FormButton type="submit">Register</FormButton>
 			</Form>
 		</RegisterComponent>
 	);

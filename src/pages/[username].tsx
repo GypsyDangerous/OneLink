@@ -2,12 +2,16 @@ import client from "../graphql/client";
 import { gql, useMutation } from "@apollo/client";
 import styled from "styled-components";
 import pageQuery from "../graphql/pageQuery";
-import Link from "../components/Link";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import Avatar from "@material-ui/core/Avatar";
 import Head from "next/head";
-import LinkList from "../components/shared/LinkList";
+import dynamic from "next/dynamic";
+const Link = dynamic(() => import("../components/Link"));
+const LinkList = dynamic(() => import("../components/shared/LinkList"));
+const Avatar = dynamic(() => import("@material-ui/core/Avatar"));
+
+import { getTextColor } from "../util/functions";
+import { LargeAvatar } from "../components/shared/styles";
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -21,7 +25,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const UserPage = styled.div`
 	min-height: 100vh;
-	background: var(--clr-primary-300);
+	background: ${({ backgroundColor }: { backgroundColor: string }) =>
+		backgroundColor || "var(--clr-primary-300)"};
 	color: var(--clr-neutral-100);
 	display: flex;
 	/* justify-content: center; */
@@ -39,8 +44,13 @@ const LinkSet = styled(LinkList)`
 	max-width: 425px;
 `;
 
+interface NameProps {
+	backgroundColor?: string;
+}
+
 const Name = styled.div`
 	font-weight: bold;
+	color: ${({ backgroundColor }: NameProps) => getTextColor(backgroundColor, true)};
 `;
 
 interface link {
@@ -71,8 +81,9 @@ export default function Page(props) {
 
 	const [clickLink, data] = useMutation(clickMutation);
 
+
 	return (
-		<UserPage>
+		<UserPage backgroundColor={props.theme.backgroundColor}>
 			<Head>
 				<title>@{props.ownerData.username} | Onelink</title>
 
@@ -95,23 +106,23 @@ export default function Page(props) {
 					content="Users's Avatar"
 				/>
 			</Head>
-			<Avatar
+			<LargeAvatar
 				alt="Avatar"
-				imgProps={{ width: 100, height: 100 }}
+				imgProps={{ width: 100 }}
 				src={`${process.env.NEXT_PUBLIC_API_URL}/public/images/${props.ownerData.photo}?width=100`}
 				className={classes.large}
 			/>
-			<Name>@{props.ownerData.username}</Name>
+			<Name backgroundColor={props.theme.backgroundColor}>@{props.ownerData.username}</Name>
 			<LinkSet>
 				{displayLinks.map((link: link) => (
 					<Link
+						{...props.theme}
 						key={link.order}
 						{...link}
 						onClick={() => {
-							console.log({ linkId: link.id, userId: props.ownerData.id})
-							clickLink({ variables: { linkId: link.id, userId: props.ownerData.id} }).catch(err =>
-								console.log(err.message)
-							);
+							clickLink({
+								variables: { linkId: link.id, userId: props.ownerData.id },
+							}).catch(err => console.log(err.message));
 						}}
 					/>
 				))}
