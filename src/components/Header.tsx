@@ -77,7 +77,7 @@ const Header = () => {
 					<Link href={router.pathname.includes("admin") ? "/admin" : "/"}>
 						<a aria-label="logo">
 							<Logo>
-								<Image src="/circle-cropped.png" width="100" height="100" />
+								<Image alt="onelink logo" src="/circle-cropped.png" width="100" height="100" />
 							</Logo>
 						</a>
 					</Link>
