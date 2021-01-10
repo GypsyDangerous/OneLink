@@ -9,26 +9,59 @@ const Hero = styled.section`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	flex-direction: column;
+	gap: 1rem;
 `;
+
+const HeroText = styled.h1`
+	font-size: 3rem;
+	font-weight: bold;
+`;
+
+const BoldHero = styled.span`
+	color: var(--clr-accent-300);
+`;
+
+const CTA = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	margin-top: 1rem;
+`
+
+const Cards = styled.div`
+	display: flex;
+	outline: solid;
+	width: 100%;
+	padding: 1rem 0;
+`
 
 export default function Landing() {
 	return (
 		<PaddingPage>
 			<Hero>
 				<div>
-					<TextField
-						// label="With normal TextField"
-						id="outlined-start-adornment"
-						InputProps={{
-							placeholder: "Your Name",
-							startAdornment: (
-								<InputAdornment position="start">onelinkapp.xyz/</InputAdornment>
-							),
-						}}
-						variant="outlined"
-					/>
+					<HeroText>
+						<BoldHero>One Link</BoldHero> to share them all
+					</HeroText>
+					<CTA>
+						create your link now
+						<TextField
+							// label="With normal TextField"
+							id="outlined-start-adornment"
+							InputProps={{
+								placeholder: "Your Name",
+								startAdornment: (
+									<InputAdornment position="start">
+										onelinkapp.xyz/
+									</InputAdornment>
+								),
+							}}
+							variant="outlined"
+						/>
+					</CTA>
 				</div>
-				<div></div>
+				<Cards></Cards>
 			</Hero>
 		</PaddingPage>
 	);
