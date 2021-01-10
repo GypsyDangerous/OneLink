@@ -11,7 +11,7 @@ import { userContext } from "../contexts/userContext";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import dynamic from "next/dynamic";
 import Skeleton from "@material-ui/lab/Skeleton";
-import Image from "next/image"
+import Image from "next/image";
 import {
 	HeaderComponent,
 	ProfileItem,
@@ -24,7 +24,7 @@ import {
 	HeaderLeft,
 	Chevron,
 } from "./Header.styled";
-import _ from "lodash"
+import _ from "lodash";
 
 import { Underline } from "./shared/styles";
 
@@ -66,8 +66,6 @@ const Header = () => {
 		}
 	}, []);
 
-	console.log(user)
-
 	return (
 		<HeaderComponent
 		// variants={headerVariants}
@@ -76,16 +74,18 @@ const Header = () => {
 		>
 			<HeaderContent>
 				<HeaderLeft>
-					<Link href="/">
+					<Link href={router.pathname.includes("admin") ? "/admin" : "/"}>
 						<a aria-label="logo">
-							<Logo >
-								<Image src="/circle-cropped.png" width="100" height="100"/>
+							<Logo>
+								<Image src="/circle-cropped.png" width="100" height="100" />
 							</Logo>
 						</a>
 					</Link>
-					{user && !_.isEmpty(user) && <Link href="/admin">
-						<a>Your Page</a>
-					</Link>}
+					{user && !_.isEmpty(user) && (
+						<Link href="/admin">
+							<a>Your Page</a>
+						</Link>
+					)}
 				</HeaderLeft>
 				<HeaderRight>
 					{!token ? (

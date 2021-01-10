@@ -59,6 +59,7 @@ export const Logo = styled.div`
 	width: 50px;
 	height: 50px;
 	/* outline: solid; */
+	outline: none !important;
 	color: white;
 `;
 
