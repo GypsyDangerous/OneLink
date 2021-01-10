@@ -11,7 +11,7 @@ import { userContext } from "../contexts/userContext";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import dynamic from "next/dynamic";
 import Skeleton from "@material-ui/lab/Skeleton";
-
+import Image from "next/image"
 import {
 	HeaderComponent,
 	ProfileItem,
@@ -78,7 +78,9 @@ const Header = () => {
 				<HeaderLeft>
 					<Link href="/">
 						<a aria-label="logo">
-							<Logo />
+							<Logo >
+								<Image src="/circle-cropped.png" width="100" height="100"/>
+							</Logo>
 						</a>
 					</Link>
 					{user && !_.isEmpty(user) && <Link href="/admin">

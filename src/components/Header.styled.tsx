@@ -58,7 +58,7 @@ export const Chevron = styled(motion.div)`
 export const Logo = styled.div`
 	width: 50px;
 	height: 50px;
-	outline: solid;
+	/* outline: solid; */
 	color: white;
 `;
 
