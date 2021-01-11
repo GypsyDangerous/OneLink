@@ -56,6 +56,10 @@ const GlobalStyle = createGlobalStyle`
 			z-index: 1000000 !important;
 		}
 	}
+
+	.MuiOutlinedInput-adornedStart {
+		overflow: hidden !important;
+	}
 `;
 
 export default GlobalStyle;

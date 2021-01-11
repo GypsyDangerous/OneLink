@@ -42,6 +42,20 @@ const LandingPage = styled(PaddingPage)`
 	align-items: center;
 `;
 
+const CtaSubmit = styled.button`
+	background: var(--clr-accent-300);
+	/* height: 100%; */
+	width: 100%;
+	padding: 18.5px 14px;
+	border: none;
+	font-weight: bold;
+	transform: translateX(1rem);
+`;
+
+const InputStart = styled.div`
+	margin-right: 0.25rem;
+`;
+
 export default function Landing() {
 	return (
 		<LandingPage>
@@ -56,11 +70,8 @@ export default function Landing() {
 							id="outlined-start-adornment"
 							InputProps={{
 								placeholder: "Your Name",
-								startAdornment: (
-									<InputAdornment position="start">
-										onelinkapp.xyz/
-									</InputAdornment>
-								),
+								startAdornment: <InputStart>onelinkapp.xyz/</InputStart>,
+								endAdornment: <CtaSubmit>Start Creating</CtaSubmit>,
 							}}
 							variant="outlined"
 						/>
