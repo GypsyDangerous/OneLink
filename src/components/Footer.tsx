@@ -36,10 +36,11 @@ const Footer = () => {
 						<GitHubIcon />
 					</Anchor>
 				</li>
-				<Anchor href="https://www.twitter.com/snyderling_" newTab aria-label="twitter">
-					<TwitterIcon />
-				</Anchor>
-				<li></li>
+				<li>
+					<Anchor href="https://www.twitter.com/snyderling_" newTab aria-label="twitter">
+						<TwitterIcon />
+					</Anchor>
+				</li>
 			</FooterItem>
 			<FooterItem>
 				<li>
@@ -72,11 +73,11 @@ const Footer = () => {
 					and{" "}
 					<Anchor
 						href="https://nextjs.org"
-                        newTab
+						newTab
 						style={{
 							marginLeft: ".25rem",
-                            marginRight: ".25rem",
-                            textDecoration: "underline"
+							marginRight: ".25rem",
+							textDecoration: "underline",
 						}}
 					>
 						Next.js

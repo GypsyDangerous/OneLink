@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { PaddingPage } from "../components/shared/Page.styled";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import { TextField } from "@material-ui/core";
+import { TextField, useMediaQuery } from "@material-ui/core";
 import Image from "next/image";
 const Hero = styled.section`
 	height: calc(100vh - 80px);
@@ -10,12 +10,21 @@ const Hero = styled.section`
 	align-items: center;
 	justify-content: center;
 	gap: 10rem;
+	width: 100%;
+	background: linear-gradient(45deg, rgba(65, 102, 208, 1) 0%, rgba(50, 154, 158, 1) 75%);
+	@media screen and (max-width: 800px) {
+		flex-direction: column-reverse;
+		gap: 1rem;
+	}
 `;
 
 const HeroText = styled.h1`
 	font-size: 3rem;
 	font-weight: bold;
 	text-transform: uppercase;
+	@media screen and (max-width: 800px) {
+		font-size: 2rem;
+	}
 `;
 
 const BoldHero = styled(HeroText)`
@@ -57,12 +66,20 @@ const InputStart = styled.div`
 `;
 
 export default function Landing() {
+	const isTabletWidth = useMediaQuery("(max-width: 800px)");
+
+	const title = (
+		<>
+			<BoldHero>One Link</BoldHero>
+			<HeroText>to share them all</HeroText>
+		</>
+	);
+
 	return (
 		<LandingPage>
 			<Hero>
 				<div>
-					<BoldHero>One Link</BoldHero>
-					<HeroText>to share them all</HeroText>
+					{!isTabletWidth && title}
 					<CTA>
 						create your link now
 						<TextField
@@ -78,8 +95,9 @@ export default function Landing() {
 					</CTA>
 				</div>
 				<div>
-					<Image width="400" height="700" src="/landing_post.svg" alt="" />
+					<Image width="400" height={isTabletWidth ? "500" : "700"} src="/landing_post.svg" alt="" />
 				</div>
+				{isTabletWidth && <div>{title}</div>}
 			</Hero>
 			<Cards></Cards>
 		</LandingPage>
