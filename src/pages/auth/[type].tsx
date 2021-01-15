@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import styled from "styled-components";
 import Link from "next/link";
 import { FormLink } from "../../components/auth/FormButton";
+import { useMediaQuery } from "@material-ui/core";
 
 const AuthPage = styled.div`
 	min-height: 100vh;
@@ -18,7 +19,7 @@ const AuthContainer = styled(motion.div)`
 	box-sizing: content-box;
 	background: var(--clr-primary-400);
 	padding: 3rem 0;
-	width: 50%;
+	width: 800px;
 	min-height: 400px;
 	box-shadow: 5px 5px 30px -7px rgba(0, 0, 0, 0.5);
 	max-width: 800px;
@@ -60,11 +61,16 @@ const AuthInfo = styled(motion.div)`
 
 const AuthForms = styled.div`
 	width: 100%;
+	height: 100%;
 	padding: 50px 0;
 	display: flex;
 	justify-content: space-between;
 	/* background: red; */
 	overflow: hidden;
+	@media screen and (max-width: 800px) {
+		padding: 0 0;
+		justify-content: center;
+	}
 `;
 
 const duration = 0.5;
@@ -86,65 +92,73 @@ const sidebar = {
 };
 
 const Auth = ({ type }) => {
+	const isSmallScreen = useMediaQuery("(max-width: 800px)");
+
 	return (
 		<AuthPage>
 			<AuthContainer>
-				<AuthInfo variants={sidebar} animate={type}>
-					<AnimatePresence>
-						{type === "login" ? (
-							<motion.div
-								exit={{ x: "-100%", opacity: 0 }}
-								initial={{ x: "-100%", opacity: 0 }}
-								animate={{ x: "0%", opacity: 1 }}
-								transition={transition}
-								key="register-info"
-							>
-								<h1>Hello, Friend!</h1>
-								<p>Enter your details and start your journey with us.</p>
-								<Link href="register">
-									<FormLink>Register</FormLink>
-								</Link>
-							</motion.div>
-						) : (
-							<motion.div
-								exit={{ x: "100%", opacity: 0 }}
-								initial={{ x: "100%", opacity: 0 }}
-								animate={{ x: "0%", opacity: 1 }}
-								key="login-info"
-								transition={transition}
-							>
-								<h1>Welcome Back!</h1>
-								<p>
-									If you already have an account with us please login with your
-									details.
-								</p>
-								<Link href="login">
-									<FormLink>Login</FormLink>
-								</Link>
-							</motion.div>
-						)}
-					</AnimatePresence>
-				</AuthInfo>
+				{!isSmallScreen && (
+					<AuthInfo variants={sidebar} animate={type}>
+						<AnimatePresence>
+							{type === "login" ? (
+								<motion.div
+									exit={{ x: "-100%", opacity: 0 }}
+									initial={{ x: "-100%", opacity: 0 }}
+									animate={{ x: "0%", opacity: 1 }}
+									transition={transition}
+									key="register-info"
+								>
+									<h1>Hello, Friend!</h1>
+									<p>Enter your details and start your journey with us.</p>
+									<Link href="register">
+										<FormLink>Register</FormLink>
+									</Link>
+								</motion.div>
+							) : (
+								<motion.div
+									exit={{ x: "100%", opacity: 0 }}
+									initial={{ x: "100%", opacity: 0 }}
+									animate={{ x: "0%", opacity: 1 }}
+									key="login-info"
+									transition={transition}
+								>
+									<h1>Welcome Back!</h1>
+									<p>
+										If you already have an account with us please login with
+										your details.
+									</p>
+									<Link href="login">
+										<FormLink>Login</FormLink>
+									</Link>
+								</motion.div>
+							)}
+						</AnimatePresence>
+					</AuthInfo>
+				)}
 				<AuthForms>
-					<AnimatePresence>
-						{type === "login" ? (
-							<Login
-								key="login"
-								transition={transition}
-								initial={{ x: "50%", opacity: 0 }}
-								animate={{ x: "100%", opacity: 1 }}
-								exit={{ x: "50%", opacity: 0 }}
-							/>
-						) : (
-							<Register
-								key="register"
-								transition={transition}
-								initial={{ x: "50%", opacity: 0 }}
-								animate={{ x: "0%", opacity: 1 }}
-								exit={{ x: "50%", opacity: 0 }}
-							/>
-						)}
-					</AnimatePresence>
+					{!isSmallScreen ? (
+						<AnimatePresence>
+							{type === "login" ? (
+								<Login
+									key="login"
+									transition={transition}
+									initial={{ x: "50%", opacity: 0 }}
+									animate={{ x: "100%", opacity: 1 }}
+									exit={{ x: "50%", opacity: 0 }}
+								/>
+							) : (
+								<Register
+									key="register"
+									transition={transition}
+									initial={{ x: "50%", opacity: 0 }}
+									animate={{ x: "0%", opacity: 1 }}
+									exit={{ x: "50%", opacity: 0 }}
+								/>
+							)}
+						</AnimatePresence>
+					) : (
+						<>{type === "login" ? <Login /> : <Register />}</>
+					)}
 				</AuthForms>
 			</AuthContainer>
 		</AuthPage>
