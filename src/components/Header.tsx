@@ -27,6 +27,7 @@ import {
 import _ from "lodash";
 
 import { Underline } from "./shared/styles";
+import { useMediaQuery } from "@material-ui/core";
 
 const ClickAwayListener = dynamic(() => import("@material-ui/core/ClickAwayListener"));
 const Avatar = dynamic(() => import("@material-ui/core/Avatar"));
@@ -39,6 +40,7 @@ const Header = () => {
 	const { type } = router.query;
 	const { y } = useWindowScroll();
 	const token = getAccessToken();
+	const isSmallScreen = useMediaQuery("(max-width: 425px)")
 
 	const { user } = useContext(userContext);
 	const [profileOpen, setProfileOpen] = useState(false);
@@ -124,11 +126,11 @@ const Header = () => {
 								>
 									<PersonIcon />
 								</Avatar>
-								<div>
+								{!isSmallScreen && <div>
 									{user?.username || (
 										<Skeleton variant="text" width={50} height={20} />
 									)}
-								</div>
+								</div>}
 								<Chevron animate={profileOpen ? { rotate: 180 } : { rotate: 0 }}>
 									<KeyboardArrowDownIcon />
 								</Chevron>
