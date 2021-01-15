@@ -19,7 +19,8 @@ const AccountTitle = styled.h1`
 `;
 
 const AccountSection = styled.div`
-	width: 25%;
+	/* width: 25%; */
+	min-width: 300px;
 `;
 
 const AccountSectionContent = styled.div`
