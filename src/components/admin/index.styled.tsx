@@ -274,6 +274,9 @@ export const CustomizeLinksBody = styled.ul`
 	&.column {
 		flex-direction: column;
 	}
+	@media screen and (max-width: 550px){
+		flex-direction: column;
+	}
 `;
 
 export const SaveContainer = styled.div`

@@ -80,7 +80,7 @@ export const HeaderLeft = styled.div`
 	display: flex;
 	height: 100%;
 	align-items: center;
-	width: 15%;
+	/* width: 15%; */
 	color: white;
 	a:nth-child(2){
 		display: inline-block;
