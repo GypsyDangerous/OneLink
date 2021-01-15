@@ -140,6 +140,9 @@ export const AddLinkBody = styled.div`
 	display: flex;
 	width: 100%;
 	gap: 1rem;
+	@media screen and (max-width: 550px){
+		flex-direction: column;
+	}
 `;
 
 export const AddLinkSection = styled.div`
