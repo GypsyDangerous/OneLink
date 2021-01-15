@@ -124,14 +124,14 @@ const AdminComponent = () => {
 										)}
 									</a>
 								</Link>
-								<Link href="/admin/preview">
+								{!showPreview && <Link href="/admin/preview">
 									<a>
 										Preview
 										{section === "preview" && (
 											<Underline layoutId="section-header" />
 										)}
 									</a>
-								</Link>
+								</Link>}
 							</AnimateSharedLayout>
 						</SectionHeader>
 						<ContentBody>
