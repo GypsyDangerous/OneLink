@@ -5,7 +5,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import Link from "next/link";
 import Anchor from "./shared/Anchor";
 const FooterComponent = styled.footer`
-	height: 80px;
+	min-height: 80px;
 	background: var(--clr-primary-300);
 	display: flex;
 	color: white;
@@ -25,6 +25,10 @@ const FooterItem = styled.ul`
 const Message = styled.li`
 	display: flex;
 	align-items: center;
+	white-space: pre;
+	@media screen and (max-width: 425px){
+		font-size: 80%;
+	}
 `;
 
 const Footer = () => {
