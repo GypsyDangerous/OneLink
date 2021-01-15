@@ -124,10 +124,10 @@ const AdminComponent = () => {
 										)}
 									</a>
 								</Link>
-								<Link href="/admin/analytics">
+								<Link href="/admin/preview">
 									<a>
-										Analytics
-										{section === "analytics" && (
+										Preview
+										{section === "preview" && (
 											<Underline layoutId="section-header" />
 										)}
 									</a>
