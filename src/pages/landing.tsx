@@ -10,7 +10,9 @@ const Hero = styled.section`
 	align-items: center;
 	justify-content: center;
 	gap: 10rem;
-	width: 100%;
+	width: calc(100% - 4rem);
+	padding: 2rem;
+	box-sizing: content-box;
 	background: linear-gradient(45deg, rgba(65, 102, 208, 1) 0%, rgba(50, 154, 158, 1) 75%);
 	@media screen and (max-width: 800px) {
 		flex-direction: column-reverse;
