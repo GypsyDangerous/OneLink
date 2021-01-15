@@ -49,7 +49,13 @@ const Cards = styled.div`
 	display: flex;
 	width: 100%;
 	padding: 1rem;
+	gap: 2rem;
 	justify-content: space-around;
+	@media screen and (max-width: 800px) {
+		align-items: space-around;
+		justify-content: center;
+		flex-direction: column;
+	}
 `;
 
 const LandingPage = styled(PaddingPage)`
