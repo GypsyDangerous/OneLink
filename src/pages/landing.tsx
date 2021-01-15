@@ -1,8 +1,13 @@
 import styled from "styled-components";
 import { PaddingPage } from "../components/shared/Page.styled";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import { TextField, useMediaQuery } from "@material-ui/core";
+import { Link, TextField, useMediaQuery } from "@material-ui/core";
 import Image from "next/image";
+import Card from "../components/shared/Card";
+import LinkIcon from "@material-ui/icons/Link";
+import ShareIcon from "@material-ui/icons/Share";
+import SettingsIcon from "@material-ui/icons/Settings";
+
 const Hero = styled.section`
 	height: calc(100vh - 80px);
 	/* width: 100vw; */
@@ -42,9 +47,9 @@ const CTA = styled.div`
 
 const Cards = styled.div`
 	display: flex;
-	/* outline: solid; */
 	width: 100%;
-	padding: 1rem 0;
+	padding: 1rem;
+	justify-content: space-around;
 `;
 
 const LandingPage = styled(PaddingPage)`
@@ -97,11 +102,20 @@ export default function Landing() {
 					</CTA>
 				</div>
 				<div>
-					<Image width="400" height={isTabletWidth ? "500" : "700"} src="/landing_post.svg" alt="" />
+					<Image
+						width="400"
+						height={isTabletWidth ? "500" : "700"}
+						src="/landing_post.svg"
+						alt=""
+					/>
 				</div>
 				{isTabletWidth && <div>{title}</div>}
 			</Hero>
-			<Cards></Cards>
+			<Cards>
+				<Card icon={ShareIcon} title="Use it anywhere"></Card>
+				<Card icon={LinkIcon} title="Link to everywhere"></Card>
+				<Card icon={SettingsIcon} title="Manage easily"></Card>
+			</Cards>
 		</LandingPage>
 	);
 }
