@@ -286,15 +286,16 @@ export const SaveContainer = styled(motion.div)`
 	box-shadow: 0px 0px 5px 0px #4556df;
 	align-items: center;
 	justify-content: space-between;
-	width: 60%;
+	width: 565px;
+	max-width: 80%;
+	/* width: 60%; */
 	position: sticky;
 	z-index: 100;
 	top: 150px;
 	border-radius: 0.5rem;
 	& div:last-child {
 		display: flex;
-		width: 37%;
-		justify-content: space-between;
+		gap: .5rem;
 		button {
 			padding: 0.5rem 1.5rem;
 			border-radius: 0.25rem;

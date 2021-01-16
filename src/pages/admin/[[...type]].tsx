@@ -58,7 +58,11 @@ const SmallSaveContainer = styled(SaveContainer)`
 	position: relative;
 	top: 0;
 	width: 100%;
+	max-width: 100%;
 	border-radius: 0;
+	@media screen and (max-width: 425px){
+		font-size: .75rem;
+	}
 `
 
 const AdminComponent = () => {
