@@ -32,3 +32,12 @@ export const publicUserQuery = gql`
 		}
 	}
 `;
+
+export const checkUniqueDetails = gql`
+	query checkUniqueDetails($email: String, $username: String){
+		checkUniqueDetails(email: $email, username: $username){
+			uniqueEmail
+    		uniqueUsername
+		}
+	}
+`;

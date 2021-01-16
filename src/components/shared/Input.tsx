@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState, useCallback, FC } from "react";
+import { useEffect, useReducer, useState, useCallback, FC, memo, useMemo } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -8,6 +8,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { validate, Validator } from "../../util/validators";
+import Input from "@material-ui/core/Input";
 
 const inputReducer = (state, action) => {
 	switch (action.type) {
@@ -30,7 +31,7 @@ const inputReducer = (state, action) => {
 };
 
 interface Props {
-	onInput: (id: string, value: string, isValid: boolean) => {};
+	onInput: (id: string, value: string, isValid: boolean) => void;
 	value: string | null;
 	id: string;
 	validators: Validator[];
@@ -43,7 +44,8 @@ interface Props {
 	className?: string;
 	icon?: string;
 	helpText?: string;
-	error?: string | null
+	error?: string | null;
+	variant?: "outlined" | "standard" | "filled" | null;
 }
 
 const CustomInput: FC<Props> = (props: Props) => {
@@ -55,7 +57,7 @@ const CustomInput: FC<Props> = (props: Props) => {
 	const [labelSize, setLabelSize] = useState(0);
 	const [showPassword, setShowPassword] = useState(false);
 
-	const invalid = (inputState.isTouched && !inputState.isValid) || !!props.error
+	const invalid = (inputState.isTouched && !inputState.isValid) || !!props.error;
 
 	const calculateLabelSize = node => {
 		setLabelSize(node?.offsetWidth);
@@ -76,69 +78,49 @@ const CustomInput: FC<Props> = (props: Props) => {
 		dispatch({ type: "TOUCH", val: e.target.value, validators: props.validators || [] });
 	};
 
-	const elt =
-		props.element === "input" || props.type ? (
-			<input
-				required={props.required}
-				min="0"
-				id={props.id}
-				type={props.type}
-				name={props.name}
-				placeholder={props.placeholder}
-				onChange={changeHandler}
-				value={inputState.value}
-				onBlur={touchHandler}
-				className={props.className}
-			></input>
-		) : (
-			<textarea
-				id={props.id}
-				rows={props.rows || 3}
-				placeholder={props.placeholder}
-				name={props.name}
-				onChange={changeHandler}
-				value={inputState.value}
-				onBlur={touchHandler}
-				className={props.className}
-			></textarea>
-		);
+	const { variant } = props;
+
+	const InputProps = {
+		variant: props.variant === null ? null : props.variant || "outlined",
+		required: props.required,
+		id: props.id,
+		onBlur: touchHandler,
+		name: props.name,
+		type: props.type === "password" ? (showPassword ? "text" : "password") : props.type,
+		value: inputState.value,
+		onChange: changeHandler,
+		startAdornment: props.icon,
+		endAdornment:
+			props.type === "password" ? (
+				<InputAdornment position="end">
+					<IconButton
+						aria-label="toggle password visibility"
+						onClick={() => {
+							setShowPassword(prev => !prev);
+						}}
+						onMouseDown={() => {
+							setShowPassword(prev => !prev);
+						}}
+						edge="end"
+					>
+						{showPassword ? <Visibility /> : <VisibilityOff />}
+					</IconButton>
+				</InputAdornment>
+			) : (
+				<></>
+			),
+		labelWidth: labelSize,
+	};
 
 	return (
-		<FormControl error={invalid} variant="outlined">
+		<FormControl
+			error={invalid}
+			variant={props.variant === null ? null : props.variant || "outlined"}
+		>
 			<InputLabel ref={calculateLabelSize} htmlFor={props.id}>
 				{props.placeholder}
 			</InputLabel>
-			<OutlinedInput
-				required={props.required}
-				id={props.id}
-				onBlur={touchHandler}
-				name={props.name}
-				type={props.type === "password" ? (showPassword ? "text" : "password") : props.type}
-				value={inputState.value}
-				onChange={changeHandler}
-				startAdornment={props.icon}
-				endAdornment={
-					props.type === "password" ? (
-						<InputAdornment position="end">
-							<IconButton
-								aria-label="toggle password visibility"
-								onClick={() => {
-									setShowPassword(prev => !prev);
-								}}
-								onMouseDown={() => {
-									setShowPassword(prev => !prev);
-								}}
-								edge="end"
-							>
-								{showPassword ? <Visibility /> : <VisibilityOff />}
-							</IconButton>
-						</InputAdornment>
-					) : (
-						<></>
-					)
-				}
-				labelWidth={labelSize}
-			/>
+			{variant === undefined || variant === "outlined" ? <OutlinedInput {...InputProps}/> : <Input {...InputProps}/>}
 			{invalid && (
 				<FormHelperText id="standard-weight-helper-text">{props.helpText}</FormHelperText>
 			)}

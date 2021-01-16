@@ -3,11 +3,14 @@ import Form from "../../components/shared/Form";
 import { PaddingPage } from "../../components/shared/Page.styled";
 import TextField from "@material-ui/core/TextField";
 import useUserContext from "../../hooks/useUserContext";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { isEqual } from "lodash";
 import { useBeforeunload } from "react-beforeunload";
 import { UpdateUser } from "../../graphql/userMutation";
-import { useMutation } from "@apollo/client";
+import { useMutation, useLazyQuery } from "@apollo/client";
+import { checkUniqueDetails } from "../../graphql/userQuery";
+import CustomInput from "../../components/shared/Input";
+import { VALIDATOR_EMAIL } from "../../util/validators";
 
 const AccountPage = styled(PaddingPage)`
 	display: flex;
@@ -55,6 +58,7 @@ const AccountSectionContent = styled.div`
 const account = () => {
 	const { user, loading } = useUserContext();
 	const [userData, setUserData] = useState(user);
+	const [validUserData, setValidUserData] = useState({ email: false, username: false });
 
 	const initialUserData = useRef(user);
 
@@ -76,6 +80,22 @@ const account = () => {
 	});
 
 	const [save] = useMutation(UpdateUser);
+	const [checkDetails, { data }] = useLazyQuery(checkUniqueDetails);
+
+	const onInput = useCallback(
+		(id, value) => setUserData(prev => ({ ...prev, email: value })),
+		[]
+	);
+
+	useEffect(() => {
+		if (data?.checkUniqueDetails) {
+			const { uniqueEmail, uniqueUsername } = data.checkUniqueDetails;
+			const email = uniqueEmail || uniqueEmail === null;
+			const username = uniqueUsername || uniqueUsername === null;
+			console.log({email, username})
+			setValidUserData({ email, username });
+		}
+	}, [data]);
 
 	return (
 		<AccountPage>
@@ -90,18 +110,30 @@ const account = () => {
 									<TextField
 										label="Name"
 										value={userData.username}
-										onChange={e =>
+										onChange={async e => {
 											setUserData(prev => ({
 												...prev,
 												username: e.target.value,
-											}))
-										}
+											}));
+											checkDetails({
+												variables: { username: e.target.value },
+											});
+										}}
 									/>
-									<TextField label="Email" value={userData.email} />
+									<CustomInput
+										variant={null}
+										id="email"
+										name="email"
+										validators={[VALIDATOR_EMAIL()]}
+										onInput={onInput}
+										placeholder="Email"
+										value={userData.email}
+									/>
 								</Form>
 							)}
 							{userDataModified && (
 								<Actionbutton
+									disabled={!validUserData.email || !validUserData.username}
 									onClick={() => {
 										save({ variables: { ...userData } });
 										initialUserData.current = userData;
