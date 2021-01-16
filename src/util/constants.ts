@@ -37,6 +37,11 @@ export const defaultLinks = [
 	"youtube",
 ];
 
+export const defaultEmbeds = [
+	"youtube",
+	"twitch"
+]
+
 export const defaultImages = {
 	twitter: "/twitter.svg",
 	tiktok: "/tiktok.webp",

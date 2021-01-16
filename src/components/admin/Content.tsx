@@ -19,7 +19,7 @@ import {
 	GrabLink,
 } from "./index.styled";
 import { Link as LinkType } from "../../util/types/Settings";
-import { defaultImages, usernameLinks, defaultLinks } from "../../util/constants";
+import { defaultImages, usernameLinks, defaultLinks, defaultEmbeds } from "../../util/constants";
 import LinkModal from "../../components/admin/LinkModal";
 import Image from "next/image";
 
@@ -146,6 +146,18 @@ const Content = ({ username, links, setLinks, remove, ...props }) => {
 					</AddLinkSection>
 					<AddLinkSection>
 						<h2>Embed</h2>
+						<div>
+							{defaultEmbeds.map(linkName => (
+								<LinkItem onClick={e => handleOpen(linkName)} key={linkName}>
+									<Image
+										width="22"
+										height="22"
+										src={defaultImages[linkName]}
+										alt={`${linkName} icon`}
+									/>
+								</LinkItem>
+							))}
+						</div>
 					</AddLinkSection>
 				</AddLinkBody>
 			</ContentSection>

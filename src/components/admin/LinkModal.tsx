@@ -27,8 +27,11 @@ import { LargeAvatar } from "../shared/styles";
 import ImageIcon from "@material-ui/icons/Image";
 
 const ModalComponent = styled.div`
-	width: 50%;
-	min-width: 500px;
+	width: 100%;
+	@media screen and (min-width: 500px) {
+		width: 50%;
+		min-width: 500px;
+	}
 	background: #c7e8f3;
 	padding: 1.5rem;
 	border-radius: 0.5rem;
@@ -40,6 +43,9 @@ const ModalComponent = styled.div`
 		grid-template-columns: repeat(2, 1fr);
 		grid-template-rows: auto 1fr;
 		gap: 0.5rem;
+		@media screen and (max-width: 500px) {
+			display: flex;
+		}
 	}
 	h2 {
 		text-transform: capitalize;
@@ -116,6 +122,8 @@ const LinkModal = forwardRef<HTMLDivElement, ModalProps>(
 				}),
 			[prefersDarkMode]
 		);
+
+		const isSmallScreen = useMediaQuery("(max-width: 500px)");
 
 		const [files, setFiles] = useState([]);
 		const [loading, setLoading] = useState(false);
@@ -206,7 +214,7 @@ const LinkModal = forwardRef<HTMLDivElement, ModalProps>(
 							Add a{"eaiou".includes(metaData?.name?.[0]) && "n"} {metaData?.name}{" "}
 							{metaData?.showUsername ? "username" : "Link"}
 						</h2>
-						<PreviewText>preview</PreviewText>
+						{!isSmallScreen && <PreviewText>preview</PreviewText>}
 						<div>
 							<ModalSection>
 								<InputContainer>
@@ -296,13 +304,17 @@ const LinkModal = forwardRef<HTMLDivElement, ModalProps>(
 								</InputContainer>
 							</ModalSection>
 						</div>
+						{isSmallScreen && <PreviewText>preview</PreviewText>}
 						<div>
 							<PreviewSection>
-								<Link {...currentLink} {...settings} backgroundColor="#ffffff" disabled></Link>
+								<Link
+									{...currentLink}
+									{...settings}
+									backgroundColor="#ffffff"
+									disabled
+								></Link>
 							</PreviewSection>
-							<Button className="save">
-								Save {metaData.name || "Link"}
-							</Button>
+							<Button className="save">Save {metaData.name || "Link"}</Button>
 						</div>
 					</Form>
 				</ModalComponent>
