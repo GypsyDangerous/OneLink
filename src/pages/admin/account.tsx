@@ -175,7 +175,7 @@ const account = () => {
 							)}
 						</AccountSectionContent>
 					</AccountSection>
-					<AccountSection>
+					{/* <AccountSection>
 						<h2>Account actions</h2>
 						<AccountSectionContent>
 							<Actionbutton>Change Password</Actionbutton>
@@ -186,7 +186,7 @@ const account = () => {
 						<AccountSectionContent>
 							<DangerButton>Delete Account</DangerButton>
 						</AccountSectionContent>
-					</AccountSection>
+					</AccountSection> */}
 				</>
 			)}
 		</AccountPage>
