@@ -111,7 +111,7 @@ const LinkModal = forwardRef<HTMLDivElement, ModalProps>(
 	({ metaData, currentLink, setCurrentLink, close }, ref) => {
 		const { settings, addLink } = useContext(settingsContext);
 
-		const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+		const prefersDarkMode = true;//useMediaQuery("(prefers-color-scheme: dark)");
 
 		const theme = useMemo(
 			() =>

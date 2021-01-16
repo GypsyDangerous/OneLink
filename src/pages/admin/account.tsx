@@ -3,7 +3,7 @@ import Form from "../../components/shared/Form";
 import { PaddingPage } from "../../components/shared/Page.styled";
 import TextField from "@material-ui/core/TextField";
 import useUserContext from "../../hooks/useUserContext";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { isEqual } from "lodash";
 import { useBeforeunload } from "react-beforeunload";
 import { UpdateUser } from "../../graphql/userMutation";
@@ -11,6 +11,10 @@ import { useMutation, useLazyQuery } from "@apollo/client";
 import { checkUniqueDetails } from "../../graphql/userQuery";
 import CustomInput from "../../components/shared/Input";
 import { VALIDATOR_EMAIL } from "../../util/validators";
+import { useDropzone } from "react-dropzone";
+import { LargeAvatar } from "../../components/shared/styles";
+import ImageIcon from "@material-ui/icons/Image";
+import Loading from "../../components/shared/Loading";
 
 const AccountPage = styled(PaddingPage)`
 	display: flex;
@@ -58,23 +62,104 @@ const AccountSectionContent = styled.div`
 	}
 `;
 
+const ImageUploadArea = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+`;
+
+const ErrorText = styled.p`
+	font-size: 80%;
+	color: #b33a3a;
+	white-space: pre-wrap;
+`;
+
 const account = () => {
 	const { user, loading } = useUserContext();
 	const [userData, setUserData] = useState(user);
 	const [validUserData, setValidUserData] = useState({ email: true, username: true });
 	const [dataLoaded, setDataLoaded] = useState(false);
 	const initialUserData = useRef(user);
+	const [files, setFiles] = useState([]);
+	const [fileLoading, setFileLoading] = useState(false);
+	const [error, setError] = useState(null);
+	const [uploadedUrl, setUploadedUrl] = useState(null);
+	const inputRef = useRef<HTMLInputElement>();
 
 	useEffect(() => {
 		setUserData({
 			email: user.email,
 			username: user.username,
 		});
+		setUploadedUrl(`${process.env.NEXT_PUBLIC_API_URL}/public/images/${user.photo}`);
 		initialUserData.current = {
 			email: user.email,
 			username: user.username,
 		};
 	}, [loading, user]);
+
+	const { getRootProps, getInputProps } = useDropzone({
+		accept: "image/*",
+		onDrop: useCallback(acceptedFiles => {
+			(async () => {
+				setError(null);
+				setFileLoading(true);
+				let url;
+				try {
+					const body = new FormData();
+					body.append("image", acceptedFiles[0]);
+
+					const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/upload`, {
+						method: "POST",
+						body,
+					});
+					// const clone = response.clone();
+					if (!response.ok) {
+						throw new Error("Please Try again, you may have an invalid image.");
+					}
+					try {
+						const json = await response.json();
+						save({
+							variables: { photo: json.data.imageUrl.replace("public\\images", "") },
+						});
+						url = `${process.env.NEXT_PUBLIC_API_URL}/${json.data.imageUrl}`.replace(
+							"\\",
+							"/"
+						);
+						// setCurrentLink(prev => ({ ...prev, image: url }));
+					} catch (err) {
+						setError("Please Try again, you may have an invalid image.");
+						setFileLoading(false);
+					}
+				} catch (err) {
+					setError(err.message);
+					setFileLoading(false);
+				}
+				setFileLoading(false);
+				if (!error) {
+					setUploadedUrl(url);
+				}
+			})();
+
+			acceptedFiles.forEach(file => {
+				const reader = new FileReader();
+
+				reader.onabort = () => console.log("file reading was aborted");
+				reader.onerror = () => console.log("file reading has failed");
+				reader.onload = () => {
+					// Do whatever you want with the file contents
+					const binaryStr = reader.result;
+					// console.log(binaryStr);
+				};
+				reader.readAsArrayBuffer(file);
+			});
+			setFiles(
+				acceptedFiles.map(file =>
+					Object.assign(file, { preview: URL.createObjectURL(file) })
+				)
+			);
+		}, []),
+	});
 
 	useEffect(() => {
 		if (!dataLoaded) {
@@ -128,6 +213,8 @@ const account = () => {
 		}
 	}, [data]);
 
+	const { ref: dragRef, ...inputProps }: any = getInputProps();
+
 	return (
 		<AccountPage>
 			{user && !loading && (
@@ -173,6 +260,40 @@ const account = () => {
 									Save
 								</Actionbutton>
 							)}
+						</AccountSectionContent>
+					</AccountSection>
+					<AccountSection>
+						<h2>Avatar</h2>
+						<AccountSectionContent>
+							{<Loading loading={fileLoading} />}
+							{dataLoaded && (
+								<ImageUploadArea>
+									<div className="drag-area" {...getRootProps()}>
+										<input
+											ref={node => {
+												inputRef.current = node;
+												dragRef.current = node;
+											}}
+											{...inputProps}
+										/>
+										<LargeAvatar
+											imgProps={{ width: 100 }}
+											src={`${uploadedUrl}`}
+										>
+											<ImageIcon />
+										</LargeAvatar>
+									</div>
+									<div>
+										<Actionbutton
+											type="button"
+											onClick={() => inputRef.current.click()}
+										>
+											{uploadedUrl?.length ? "Replace" : "Add Image"}
+										</Actionbutton>
+									</div>
+								</ImageUploadArea>
+							)}
+							<ErrorText>{error}</ErrorText>
 						</AccountSectionContent>
 					</AccountSection>
 					{/* <AccountSection>
