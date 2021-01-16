@@ -5,6 +5,9 @@ import TextField from "@material-ui/core/TextField";
 import useUserContext from "../../hooks/useUserContext";
 import { useEffect, useRef, useState } from "react";
 import { isEqual } from "lodash";
+import { useBeforeunload } from "react-beforeunload";
+import { UpdateUser } from "../../graphql/userMutation";
+import { useMutation } from "@apollo/client";
 
 const AccountPage = styled(PaddingPage)`
 	display: flex;
@@ -23,14 +26,6 @@ const AccountSection = styled.div`
 	min-width: 300px;
 `;
 
-const AccountSectionContent = styled.div`
-	background: #212121aa;
-	padding: 1rem;
-	width: 100%;
-	margin-top: 1rem;
-	border-radius: 0.25rem;
-`;
-
 const Actionbutton = styled.button`
 	padding: 0.5rem 1rem;
 	background: var(--clr-accent-300);
@@ -44,6 +39,17 @@ const Actionbutton = styled.button`
 const DangerButton = styled(Actionbutton)`
 	background: #b33a3a;
 	color: white;
+`;
+
+const AccountSectionContent = styled.div`
+	background: #212121aa;
+	padding: 1rem;
+	width: 100%;
+	margin-top: 1rem;
+	border-radius: 0.25rem;
+	&[data-type="account"] ${Actionbutton} {
+		margin-top: 1rem;
+	}
 `;
 
 const account = () => {
@@ -65,6 +71,12 @@ const account = () => {
 
 	const userDataModified = !isEqual(initialUserData.current, userData);
 
+	useBeforeunload(event => {
+		if (userDataModified) event.preventDefault();
+	});
+
+	const [save] = useMutation(UpdateUser);
+
 	return (
 		<AccountPage>
 			{user && !loading && (
@@ -72,7 +84,7 @@ const account = () => {
 					<AccountTitle>My Account</AccountTitle>
 					<AccountSection>
 						<h2>My information</h2>
-						<AccountSectionContent>
+						<AccountSectionContent data-type="account">
 							{userData.username && userData.email && (
 								<Form>
 									<TextField
@@ -88,7 +100,16 @@ const account = () => {
 									<TextField label="Email" value={userData.email} />
 								</Form>
 							)}
-							{userDataModified && <button>Save</button>}
+							{userDataModified && (
+								<Actionbutton
+									onClick={() => {
+										save({ variables: { ...userData } });
+										initialUserData.current = userData;
+									}}
+								>
+									Save
+								</Actionbutton>
+							)}
 						</AccountSectionContent>
 					</AccountSection>
 					<AccountSection>
