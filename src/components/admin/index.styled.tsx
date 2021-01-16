@@ -279,7 +279,7 @@ export const CustomizeLinksBody = styled.ul`
 	}
 `;
 
-export const SaveContainer = styled.div`
+export const SaveContainer = styled(motion.div)`
 	display: flex;
 	padding: 1rem;
 	background: #4556df;

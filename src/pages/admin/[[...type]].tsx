@@ -19,12 +19,17 @@ import _, { isEqual } from "lodash";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 import useUserContext from "../../hooks/useUserContext";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import pageQuery from "../../graphql/pageQuery";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { useGoogleLogin } from "react-google-login";
 import { useRef } from "react";
 import { useBeforeunload } from "react-beforeunload";
+import {
+
+	SaveContainer,
+} from "../../components/admin/index.styled";
+import { updatePage } from "../../graphql/pageMutation";
 const Content = dynamic(() => import("../../components/admin/Content"));
 const Analytics = dynamic(() => import("../../components/admin/Analytics"));
 const Customize = dynamic(() => import("../../components/admin/Customize"));
@@ -48,6 +53,13 @@ const sectionProps = {
 	animate: { x: 0, opacity: 1 },
 	initial: { x: -600, opactiy: 0 },
 };
+
+const SmallSaveContainer = styled(SaveContainer)`
+	position: relative;
+	top: 0;
+	width: 100%;
+	border-radius: 0;
+`
 
 const AdminComponent = () => {
 	const [copied, setCopied] = useState(false);
@@ -87,6 +99,13 @@ const AdminComponent = () => {
 		if (settingsModified) event.preventDefault();
 	});
 
+	const [save] = useMutation(updatePage);
+
+	const saveAndReset = () => {
+		initalSettings.current = settings;
+		setSettingsModified(false);
+	}
+
 	return (
 		<AdminPage>
 			<Head>
@@ -108,6 +127,33 @@ const AdminComponent = () => {
 						</Alert>
 					</Snackbar>
 					<AdminSection left>
+						{!showPreview && settingsModified && <SmallSaveContainer>
+							<div>Your Page has unsaved changes</div>
+							<div>
+								<button
+									onClick={() => {
+										saveAndReset()
+										save({
+											variables: {
+												links: links?.map(link => ({
+													...link,
+													__typename: undefined,
+												})),
+												theme: {
+													linkColor: settings.linkColor,
+													backgroundColor: settings.backgroundColor,
+													animationType: settings.animationType,
+													linkStyle: settings.linkStyle,
+												},
+											},
+										});
+									}}
+								>
+									Save
+								</button>
+								<button onClick={() => reset({...initalSettings.current})}>Reset</button>
+							</div>
+						</SmallSaveContainer>}
 						<SectionHeader>
 							<AnimateSharedLayout>
 								<Link href="/admin">
@@ -124,21 +170,23 @@ const AdminComponent = () => {
 										)}
 									</a>
 								</Link>
-								{!showPreview && <Link href="/admin/preview">
-									<a>
-										Preview
-										{section === "preview" && (
-											<Underline layoutId="section-header" />
-										)}
-									</a>
-								</Link>}
+								{!showPreview && (
+									<Link href="/admin/preview">
+										<a>
+											Preview
+											{section === "preview" && (
+												<Underline layoutId="section-header" />
+											)}
+										</a>
+									</Link>
+								)}
 							</AnimateSharedLayout>
 						</SectionHeader>
 						<ContentBody>
 							<AnimatePresence exitBeforeEnter>
 								{!section ? (
 									<Content
-									username={user.username}
+										username={user.username}
 										remove={remove}
 										key="content"
 										{...sectionProps}
@@ -167,7 +215,9 @@ const AdminComponent = () => {
 										/{encodeURIComponent(user.username)}
 									</a>
 								</Link>
-								<Tooltip title={<div style={{fontSize: ".75rem"}}>Copy Link</div>}>
+								<Tooltip
+									title={<div style={{ fontSize: ".75rem" }}>Copy Link</div>}
+								>
 									<CopyToClipboard
 										text={`${process.env.NEXT_PUBLIC_CLIENT_URL}/${user.username}`}
 										onCopy={() => setCopied(true)}
@@ -179,10 +229,7 @@ const AdminComponent = () => {
 								</Tooltip>
 							</SectionHeader>
 							<Preview
-								save={() => {
-									initalSettings.current = settings;
-									setSettingsModified(false);
-								}}
+								save={saveAndReset}
 								initial={initalSettings.current}
 								modified={settingsModified}
 								user={user}
