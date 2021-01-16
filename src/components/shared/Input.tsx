@@ -44,7 +44,7 @@ interface Props {
 	className?: string;
 	icon?: string;
 	helpText?: string;
-	error?: string | null;
+	error?: string | null | boolean;
 	variant?: "outlined" | "standard" | "filled" | null;
 }
 

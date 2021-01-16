@@ -37,6 +37,9 @@ const Actionbutton = styled.button`
 	border-radius: 0.5rem;
 	border: none;
 	outline: none;
+	&:disabled {
+		background: grey;
+	}
 `;
 
 const DangerButton = styled(Actionbutton)`
@@ -58,8 +61,8 @@ const AccountSectionContent = styled.div`
 const account = () => {
 	const { user, loading } = useUserContext();
 	const [userData, setUserData] = useState(user);
-	const [validUserData, setValidUserData] = useState({ email: false, username: false });
-
+	const [validUserData, setValidUserData] = useState({ email: true, username: true });
+	const [dataLoaded, setDataLoaded] = useState(false);
 	const initialUserData = useRef(user);
 
 	useEffect(() => {
@@ -73,6 +76,12 @@ const account = () => {
 		};
 	}, [loading, user]);
 
+	useEffect(() => {
+		if (!dataLoaded) {
+			setDataLoaded(!!(userData.email && userData.username));
+		}
+	}, [userData]);
+
 	const userDataModified = !isEqual(initialUserData.current, userData);
 
 	useBeforeunload(event => {
@@ -82,17 +91,39 @@ const account = () => {
 	const [save] = useMutation(UpdateUser);
 	const [checkDetails, { data }] = useLazyQuery(checkUniqueDetails);
 
-	const onInput = useCallback(
-		(id, value) => setUserData(prev => ({ ...prev, email: value })),
-		[]
-	);
+	const onInput = useCallback((id, value, isValid) => {
+		setUserData(prev => ({ ...prev, email: value }));
+		if (!isValid) {
+			setValidUserData(prev => ({ ...prev, email: isValid }));
+		} else {
+			checkDetails({
+				variables: { email: value },
+			});
+		}
+	}, []);
+
+	const UsernameInput = useCallback((id, value) => {
+		setUserData(prev => ({
+			...prev,
+			username: value,
+		}));
+		checkDetails({
+			variables: { username: value },
+		});
+	}, []);
 
 	useEffect(() => {
 		if (data?.checkUniqueDetails) {
 			const { uniqueEmail, uniqueUsername } = data.checkUniqueDetails;
-			const email = uniqueEmail || uniqueEmail === null;
-			const username = uniqueUsername || uniqueUsername === null;
-			console.log({email, username})
+			const email =
+				userData.email === initialUserData.current.email
+					? true
+					: uniqueEmail || uniqueEmail === null;
+			const username =
+				userData.username === initialUserData.current.username
+					? true
+					: uniqueUsername || uniqueUsername === null;
+
 			setValidUserData({ email, username });
 		}
 	}, [data]);
@@ -105,25 +136,25 @@ const account = () => {
 					<AccountSection>
 						<h2>My information</h2>
 						<AccountSectionContent data-type="account">
-							{userData.username && userData.email && (
+							{dataLoaded && (
 								<Form>
-									<TextField
-										label="Name"
+									<CustomInput
+										variant={null}
+										id="username"
+										name="username"
+										placeholder="Name"
+										validators={[]}
 										value={userData.username}
-										onChange={async e => {
-											setUserData(prev => ({
-												...prev,
-												username: e.target.value,
-											}));
-											checkDetails({
-												variables: { username: e.target.value },
-											});
-										}}
+										error={!validUserData.username}
+										helpText="Username is invalid or taken"
+										onInput={UsernameInput}
 									/>
 									<CustomInput
+										error={!validUserData.email}
 										variant={null}
 										id="email"
 										name="email"
+										helpText="Email is invalid or taken"
 										validators={[VALIDATOR_EMAIL()]}
 										onInput={onInput}
 										placeholder="Email"
