@@ -12,25 +12,39 @@ const CardComponent = styled.div`
 	color: black;
 	align-items: center;
 	justify-content: space-around;
+	max-width: 280px;
 `;
 
 const CardTitle = styled.h3`
 	font-style: normal;
 	font-weight: bold;
-	font-size: 16px;
-	line-height: 39px;
+	font-size: 1.25rem;
+	line-height: 2.25rem;
+`;
+
+const CardBody = styled.p`
+	text-align: center;
+`;
+
+const CardIcon = styled.div`
+	margin: 2rem 0;
+	transform: scale(1.5);
 `;
 
 interface CardProps {
 	title: string;
 	icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
+	text: string;
 }
 
 const Card = (props: CardProps) => {
 	return (
 		<CardComponent>
-			<props.icon/>
+			<CardIcon>
+				<props.icon />
+			</CardIcon>
 			<CardTitle>{props.title}</CardTitle>
+			<CardBody>{props.text}</CardBody>
 		</CardComponent>
 	);
 };
