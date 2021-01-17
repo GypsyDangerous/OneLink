@@ -31,9 +31,12 @@ interface Props {
 	modified: boolean;
 	initial?: any;
 	save?: () => void
+	key?: string,
+	exit?: any,
+	animate?: any,
 }
 
-const Preview = ({ save: outerSave, initial, modified, user, links: propsLinks = [] }: Props) => {
+const Preview = ({ save: outerSave, initial, modified, user, links: propsLinks = [], key, exit, animate }: Props) => {
 	const [allLinks, setAllLinks] = useState<Link[]>([]);
 	const { settings, update, reset } = useContext(settingsContext) || {};
 
@@ -48,7 +51,7 @@ const Preview = ({ save: outerSave, initial, modified, user, links: propsLinks =
 	const [save] = useMutation(updatePage);
 
 	return (
-		<PreviewSection>
+		<PreviewSection key={key} exit={exit} animate={animate} initial={initial}>
 			{modified && (
 				<SaveContainer>
 					<div>Your Page has unsaved changes</div>

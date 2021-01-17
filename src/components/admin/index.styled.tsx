@@ -59,7 +59,7 @@ export const SectionHeader = styled.div`
 	}
 `;
 
-export const PreviewSection = styled.div`
+export const PreviewSection = styled(motion.div)`
 	display: flex;
 	height: calc(100% - 50px);
 	flex-direction: column;
@@ -77,6 +77,7 @@ export const PreviewBody = styled.div`
 	background: ${({ backgroundColor }: BodyProps) => backgroundColor};
 	overflow: auto;
 	padding-bottom: 1rem;
+	max-width: 90%;
 	width: 340px;
 	height: 650px;
 	position: sticky;

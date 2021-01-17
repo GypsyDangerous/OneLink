@@ -80,13 +80,11 @@ const AdminComponent = () => {
 
 	const [fetchPage, { data }] = useLazyQuery(pageQuery);
 
-
 	useEffect(() => {
 		if (user.username) {
-			fetchPage({variables: {name: user.username}});
+			fetchPage({ variables: { name: user.username } });
 		}
 	}, [user]);
-
 
 	useEffect(() => {
 		const page = data?.page;
@@ -210,6 +208,15 @@ const AdminComponent = () => {
 									<Customize key={section} {...sectionProps} />
 								) : section === "analytics" ? (
 									<Analytics key={section} {...sectionProps} />
+								) : section === "preview" ? (
+									<Preview
+										{...sectionProps}
+										key="preview"
+										save={saveAndReset}
+										initial={initalSettings.current}
+										modified={false}
+										user={user}
+									/>
 								) : (
 									<></>
 								)}
