@@ -61,6 +61,7 @@ const useUser = ({ refresh }: userOptions = {}): globalUser => {
 					if (accessToken) {
 						const userData = await client.query({
 							query: userQuery,
+							fetchPolicy: "no-cache"
 						});
 						setUser(userData?.data?.me);
 						if (loggedInRedirect) {
