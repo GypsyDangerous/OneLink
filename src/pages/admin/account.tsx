@@ -15,6 +15,10 @@ import { useDropzone } from "react-dropzone";
 import { LargeAvatar } from "../../components/shared/styles";
 import ImageIcon from "@material-ui/icons/Image";
 import Loading from "../../components/shared/Loading";
+import dynamic from "next/dynamic";
+const PersonIcon = dynamic(() => import("@material-ui/icons/Person"));
+
+
 
 const AccountPage = styled(PaddingPage)`
 	display: flex;
@@ -75,7 +79,7 @@ const ErrorText = styled.p`
 `;
 
 const account = () => {
-	const { user, loading } = useUserContext();
+	const { user, loading, updateUser } = useUserContext();
 	const [userData, setUserData] = useState(user);
 	const [validUserData, setValidUserData] = useState({ email: true, username: true });
 	const [dataLoaded, setDataLoaded] = useState(false);
@@ -119,7 +123,7 @@ const account = () => {
 					}
 					try {
 						const json = await response.json();
-						save({
+						await save({
 							variables: { photo: json.data.imageUrl.replace("public\\images", "") },
 						});
 						url = `${process.env.NEXT_PUBLIC_API_URL}/${json.data.imageUrl}`.replace(
@@ -138,6 +142,8 @@ const account = () => {
 				setFileLoading(false);
 				if (!error) {
 					setUploadedUrl(url);
+					
+					updateUser()
 				}
 			})();
 
@@ -255,6 +261,7 @@ const account = () => {
 									onClick={() => {
 										save({ variables: { ...userData } });
 										initialUserData.current = userData;
+										updateUser()
 									}}
 								>
 									Save
@@ -280,7 +287,7 @@ const account = () => {
 											imgProps={{ width: 100 }}
 											src={`${uploadedUrl}`}
 										>
-											<ImageIcon />
+											<PersonIcon />
 										</LargeAvatar>
 									</div>
 									<div>
