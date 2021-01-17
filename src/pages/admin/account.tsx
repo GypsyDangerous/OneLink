@@ -18,8 +18,6 @@ import Loading from "../../components/shared/Loading";
 import dynamic from "next/dynamic";
 const PersonIcon = dynamic(() => import("@material-ui/icons/Person"));
 
-
-
 const AccountPage = styled(PaddingPage)`
 	display: flex;
 	flex-direction: column;
@@ -142,8 +140,8 @@ const account = () => {
 				setFileLoading(false);
 				if (!error) {
 					setUploadedUrl(url);
-					
-					updateUser()
+
+					updateUser();
 				}
 			})();
 
@@ -180,7 +178,7 @@ const account = () => {
 	});
 
 	const [save] = useMutation(UpdateUser);
-	const [checkDetails, { data }] = useLazyQuery(checkUniqueDetails);
+	const [checkDetails, { data }] = useLazyQuery(checkUniqueDetails, { fetchPolicy: "no-cache" });
 
 	const onInput = useCallback((id, value, isValid) => {
 		setUserData(prev => ({ ...prev, email: value }));
@@ -261,7 +259,7 @@ const account = () => {
 									onClick={() => {
 										save({ variables: { ...userData } });
 										initialUserData.current = userData;
-										updateUser()
+										updateUser();
 									}}
 								>
 									Save
