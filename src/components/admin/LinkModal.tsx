@@ -25,6 +25,7 @@ import { useDropzone } from "react-dropzone";
 import { ItemButton } from "./index.styled";
 import { LargeAvatar } from "../shared/styles";
 import ImageIcon from "@material-ui/icons/Image";
+import { uid } from "uid";
 
 const ModalComponent = styled.div`
 	width: 100%;
@@ -206,7 +207,7 @@ const LinkModal = forwardRef<HTMLDivElement, ModalProps>(
 				<ModalComponent ref={ref}>
 					<Form
 						onSubmit={() => {
-							addLink(currentLink);
+							addLink({...currentLink, id: uid()});
 							close();
 						}}
 					>

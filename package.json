@@ -40,7 +40,8 @@
     "react-loader": "^2.4.7",
     "react-reorder": "^3.0.0-alpha.7",
     "react-use": "^15.3.4",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "uid": "^2.0.0"
   },
   "devDependencies": {
     "@testing-library/react": "^11.2.2",
