@@ -19,16 +19,13 @@ import _, { isEqual } from "lodash";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 import useUserContext from "../../hooks/useUserContext";
-import { useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import pageQuery from "../../graphql/pageQuery";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { useGoogleLogin } from "react-google-login";
 import { useRef } from "react";
 import { useBeforeunload } from "react-beforeunload";
-import {
-
-	SaveContainer,
-} from "../../components/admin/index.styled";
+import { SaveContainer } from "../../components/admin/index.styled";
 import { updatePage } from "../../graphql/pageMutation";
 const Content = dynamic(() => import("../../components/admin/Content"));
 const Analytics = dynamic(() => import("../../components/admin/Analytics"));
@@ -60,10 +57,10 @@ const SmallSaveContainer = styled(SaveContainer)`
 	width: 100%;
 	max-width: 100%;
 	border-radius: 0;
-	@media screen and (max-width: 425px){
-		font-size: .75rem;
+	@media screen and (max-width: 425px) {
+		font-size: 0.75rem;
 	}
-`
+`;
 
 const AdminComponent = () => {
 	const [copied, setCopied] = useState(false);
@@ -81,7 +78,15 @@ const AdminComponent = () => {
 
 	const showPreview = useMediaQuery("(min-width: 64rem)");
 
-	const { data } = useQuery(pageQuery, { variables: { name: user.username || "null" } });
+	const [fetchPage, { data }] = useLazyQuery(pageQuery);
+
+
+	useEffect(() => {
+		if (user.username) {
+			fetchPage({variables: {name: user.username}});
+		}
+	}, [user]);
+
 
 	useEffect(() => {
 		const page = data?.page;
@@ -108,7 +113,7 @@ const AdminComponent = () => {
 	const saveAndReset = () => {
 		initalSettings.current = settings;
 		setSettingsModified(false);
-	}
+	};
 
 	return (
 		<AdminPage>
@@ -131,33 +136,37 @@ const AdminComponent = () => {
 						</Alert>
 					</Snackbar>
 					<AdminSection left>
-						{!showPreview && settingsModified && <SmallSaveContainer>
-							<div>Your Page has unsaved changes</div>
-							<div>
-								<button
-									onClick={() => {
-										saveAndReset()
-										save({
-											variables: {
-												links: links?.map(link => ({
-													...link,
-													__typename: undefined,
-												})),
-												theme: {
-													linkColor: settings.linkColor,
-													backgroundColor: settings.backgroundColor,
-													animationType: settings.animationType,
-													linkStyle: settings.linkStyle,
+						{!showPreview && settingsModified && (
+							<SmallSaveContainer>
+								<div>Your Page has unsaved changes</div>
+								<div>
+									<button
+										onClick={() => {
+											saveAndReset();
+											save({
+												variables: {
+													links: links?.map(link => ({
+														...link,
+														__typename: undefined,
+													})),
+													theme: {
+														linkColor: settings.linkColor,
+														backgroundColor: settings.backgroundColor,
+														animationType: settings.animationType,
+														linkStyle: settings.linkStyle,
+													},
 												},
-											},
-										});
-									}}
-								>
-									Save
-								</button>
-								<button onClick={() => reset({...initalSettings.current})}>Reset</button>
-							</div>
-						</SmallSaveContainer>}
+											});
+										}}
+									>
+										Save
+									</button>
+									<button onClick={() => reset({ ...initalSettings.current })}>
+										Reset
+									</button>
+								</div>
+							</SmallSaveContainer>
+						)}
 						<SectionHeader>
 							<AnimateSharedLayout>
 								<Link href="/admin">
